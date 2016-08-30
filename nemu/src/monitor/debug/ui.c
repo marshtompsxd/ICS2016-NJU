@@ -58,6 +58,7 @@ static int cmd_info(char *args){
     if(!strcmp(args,"-r"))
     {
         int i;
+        
         for(i=0;i<8;i++)
         {
             printf("%x",cpu.gpr[i]._32);
@@ -67,6 +68,17 @@ static int cmd_info(char *args){
     }
 
     return 0;
+}
+
+static int cmd_x(char *args){
+    char *cnum=strtok(args," ");
+    char *caddr=strtok(NULL," ");
+    int num=atoi(cnum);
+    int addr=atoi(caddr);
+    printf("%d\n",num);
+    printf("%x\n",addr);
+    return 0;
+    
 }
 
 static int cmd_help(char *args);
@@ -80,6 +92,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
     { "si","After N steps the programe will suspend",cmd_si },
     {"info","Print the statue of programme",cmd_info},
+    {"x","Scanf the memory",cmd_x},
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
