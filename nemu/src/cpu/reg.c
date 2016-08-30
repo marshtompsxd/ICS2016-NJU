@@ -1,7 +1,7 @@
 #include "nemu.h"
 #include <stdlib.h>
 #include <time.h>
-
+//#include "reg.h"
 CPU_state cpu;
 
 const char *regsl[] = {"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"};
