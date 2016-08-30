@@ -75,7 +75,7 @@ static int cmd_x(char *args){
     char *caddr=strtok(NULL," ");
     printf("%s",caddr);
     int num=atoi(cnum);
-    int addr=atoi(caddr);
+    int addr=atol(caddr);
     printf("%d\n",num);
     printf("%x\n",addr);
     return 0;
