@@ -73,6 +73,7 @@ static int cmd_info(char *args){
 static int cmd_x(char *args){
     char *cnum=strtok(args," ");
     char *caddr=strtok(NULL," ");
+    printf("%s",caddr);
     int num=atoi(cnum);
     int addr=atoi(caddr);
     printf("%d\n",num);
