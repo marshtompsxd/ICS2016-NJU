@@ -4,6 +4,7 @@
 #include "nemu.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -53,6 +54,21 @@ static int cmd_si(char *args){
     return 0;
 }
 
+static int cmd_info(char *args){
+    if(!strcmp(args,"-r"))
+    {
+        int i;
+        for(i=0;i<8;i++)
+        {
+            printf("%x",cpu.gpr[i]._32);
+            printf("\n");
+        }
+        
+    }
+
+    return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -63,6 +79,7 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
     { "si","After N steps the programe will suspend",cmd_si },
+    {"info","Print the statue of programme",cmd_info},
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
