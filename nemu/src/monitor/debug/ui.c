@@ -79,6 +79,7 @@ static int cmd_x(char *args){
     int addr=strtol(caddr,&str,16);
     printf("%d\n",num);
     printf("%x\n",addr);
+    printf("%d\n",addr);
     return 0;
     
 }
