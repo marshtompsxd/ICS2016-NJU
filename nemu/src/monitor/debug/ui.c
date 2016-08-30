@@ -83,6 +83,7 @@ static int cmd_x(char *args){
     printf("%d\n",addr);
     int *ptr;
     ptr=(int *)addr;
+    printf("%x\n",(unsigned int)ptr);
     int i;
     for(i=0;i<num;i++)
     {
