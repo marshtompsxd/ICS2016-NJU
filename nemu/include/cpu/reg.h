@@ -14,6 +14,13 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  * For more details about the register encoding scheme, see i386 manual.
  */
 
+
+/* the union is just the gprs in CPU
+ * you can visit the registers by gpr[index]._bytewidth
+ * or you can just visit eax or ebx or any other registers
+ */
+
+
 typedef union {
 	union {
 		uint32_t _32;
