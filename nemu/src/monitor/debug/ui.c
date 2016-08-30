@@ -4,6 +4,7 @@
 #include "nemu.h"
 
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -80,6 +81,14 @@ static int cmd_x(char *args){
     printf("%d\n",num);
     printf("%x\n",addr);
     printf("%d\n",addr);
+    int *ptr;
+    ptr=(int *)addr;
+    int i;
+    for(i=0;i<num;i++)
+    {
+        printf("%x\n",*ptr);
+        ptr++;
+    }
     return 0;
     
 }
