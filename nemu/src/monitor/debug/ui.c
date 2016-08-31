@@ -81,14 +81,15 @@ static int cmd_x(char *args){
     printf("%d\n",num);
     printf("%x\n",addr);
     printf("%d\n",addr);
-    int *ptr;
-    ptr=(int *)addr;
-    printf("%x\n",(unsigned int)ptr);
+    //int *ptr;
+    // ptr=(int *)addr;
+    //printf("%x\n",(unsigned int)ptr);
     int i;
     for(i=0;i<num;i++)
     {
-        printf("%x\n",*ptr);
-        ptr++;
+        uint32_t content=swaddr_read(addr,4);
+        printf("%x\n",content);
+        addr+=4;
     }
     return 0;
     
