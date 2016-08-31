@@ -64,40 +64,32 @@ static int cmd_info(char *args){
     {
         printf("%-20s","registername");
         printf("%-20s","registercontent");
-        
         printf("\n");
         printf("%-20s","eax");
         printf("%-20x",cpu.eax);
-        
         printf("\n");
         printf("%-20s","ecx");
         printf("%-20x",cpu.ecx);
-        
         printf("\n");
         printf("%-20s","edx");
         printf("%-20x",cpu.edx);
-        
         printf("\n");
         printf("%-20s","ebx");
         printf("%-20x",cpu.ebx);
-        
         printf("\n");
         printf("%-20s","esp");
         printf("%-20x",cpu.esp);
-        
         printf("\n");
         printf("%-20s","ebp");
         printf("%-20x",cpu.ebp);
-        
         printf("\n");
         printf("%-20s","esi");
         printf("%-20x",cpu.esi);
-        
         printf("\n");
         printf("%-20s","edi");
         printf("%-20x",cpu.edi);
-        
         printf("\n");
+
         /*
         int i;
         for(i=0;i<8;i++)
@@ -126,10 +118,14 @@ static int cmd_x(char *args){
     // ptr=(int *)addr;
     //printf("%x\n",(unsigned int)ptr);
     int i;
+    printf("%-20s","memoryaddress");
+    printf("%-20s","memorycontent");
+    printf("\n");
     for(i=0;i<num;i++)
     {
         uint32_t content=swaddr_read(addr,4);
-        printf("%x\n",content);
+        printf("%-20x",addr);
+        printf("%-20x\n",content);
         addr+=4;
     }
     return 0;
