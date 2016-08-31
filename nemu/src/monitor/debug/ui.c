@@ -49,7 +49,11 @@ static int cmd_si(char *args){
         stepNum=atoi(args);
         if(stepNum)
         {
-            cpu_exec(stepNum);
+            int i;
+            for(i=0;i<stepNum;i++)
+            {
+                cpu_exec(1);
+            }
         }
     }
     return 0;
@@ -78,9 +82,9 @@ static int cmd_x(char *args){
     //printf("%s",caddr);
     int num=atoi(cnum);
     int addr=strtol(caddr,&str,16);
-    printf("%d\n",num);
-    printf("%x\n",addr);
-    printf("%d\n",addr);
+    //printf("%d\n",num);
+    //printf("%x\n",addr);
+    //printf("%d\n",addr);
     //int *ptr;
     // ptr=(int *)addr;
     //printf("%x\n",(unsigned int)ptr);
