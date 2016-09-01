@@ -175,6 +175,7 @@ static int cmd_x(char *args){
 static int cmd_w(char *args){
     WP* wp=new_wp();
     printf("%s\n",args);
+    /*
     int i;
     int len=strlen(args);
     for(i=0;i<len;i++){
@@ -182,6 +183,7 @@ static int cmd_w(char *args){
     }
     wp->expr[len]='\0';
     printf("%s\n",wp->expr);
+    */
     bool success=true;
     int val=expr(args,&success);
     if(!success){
