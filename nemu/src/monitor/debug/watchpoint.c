@@ -28,7 +28,7 @@ WP* new_wp(char *args){
     free_=free_->next;
     wptr->next=head;
     head=wptr;
-    wptr->expr=args;
+    strcpy(wptr->expr,args);
     return wptr;
 }
 
