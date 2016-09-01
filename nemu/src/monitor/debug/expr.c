@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 enum {
-	NOTYPE = 256,EQ,NEQ,AND,OR,NOT,DEREF
+	NOTYPE = 256,EQ,NEQ,AND,OR,NOT,DEREF,NEG
 
 	/* TODO: Add more token types */
 
@@ -272,20 +272,36 @@ int eval(int p,int q){
             int addr=eval(index+1,q);
             return swaddr_read(addr,4);
         }
-        int val1=eval(p,index-1);
-        int val2=eval(index+1,q);
-        switch(op_type){
-            case '+':printf("val is %d\n",val1+val2);return val1+val2;
-            case '-':printf("val is %d\n",val1-val2);return val1-val2;
-            case '*':printf("val is %d\n",val1*val2);return val1*val2;
-            case '/':printf("val is %d\n",val1/val2);return val1/val2;
-            case EQ:return val1==val2;
-            case NEQ:return val1!=val2;
-            case OR:return val1||val2;
-            case AND:return val1&&val2;
-            default:assert(0);
+        else if(op_type==NEG){
+            int val=-1*eval(index+1,q);
+            return val;
+        }
+        else{
+            int val1=eval(p,index-1);
+            int val2=eval(index+1,q);
+            switch(op_type){
+                case '+':printf("val is %d\n",val1+val2);return val1+val2;
+                case '-':printf("val is %d\n",val1-val2);return val1-val2;
+                case '*':printf("val is %d\n",val1*val2);return val1*val2;
+                case '/':printf("val is %d\n",val1/val2);return val1/val2;
+                case EQ:return val1==val2;
+                case NEQ:return val1!=val2;
+                case OR:return val1||val2;
+                case AND:return val1&&val2;
+                default:assert(0);
+
+            }
         }
     }
+}
+
+
+static bool is_operator(int index){
+    int type=tokens[index].type;
+    if(type=='+'||type=='-'||type=='*'||type=='/'||type==EQ||type==NEQ||type==OR||type==AND||type==NOT||type==DEREF||type==NEG){
+        return true;
+    }
+    else return false;
 }
 
 uint32_t expr(char *e, bool *success) {
@@ -296,8 +312,15 @@ uint32_t expr(char *e, bool *success) {
 
     int i;
     for(i=0;i<nr_token;i++){
-        if(tokens[i].type=='*'&&(i==0||tokens[i-1].type=='d'||tokens[i-1].type=='h'||tokens[i-1].type=='r')){
+        if(tokens[i].type=='*'&&(i==0||is_operator(i-1))){
             tokens[i].type=DEREF;
+        }
+    }
+    
+
+    for(i=0;i<nr_token;i++){
+        if(tokens[i].type=='-'&&(i=0||is_operator(i-1))){
+            tokens[i].type=NEG;
         }
     }
 
