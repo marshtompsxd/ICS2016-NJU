@@ -21,13 +21,14 @@ void init_wp_pool() {
 /* TODO: Implement the functionality of watchpoint */
 
 
-WP* new_wp(){
+WP* new_wp(char *args){
     if(free_==NULL)panic("free is NULL");
     
     WP *wptr=free_;
     free_=free_->next;
     wptr->next=head;
     head=wptr;
+    wptr->expr=args;
     return wptr;
 }
 
@@ -47,11 +48,11 @@ void free_wp(WP *wp){
     free_=wp;
 
 }
-
+/*
 void write_wp(WP* wp,char *args){
     strcpy(wp->expr,args);
 }
-
+*/
 void print_wp(){
     printf("%-20s","wpNO");
     printf("%-20s","wpEXPR");
