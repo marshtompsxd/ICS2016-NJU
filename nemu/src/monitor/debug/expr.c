@@ -84,14 +84,7 @@ static bool make_token(char *e) {
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
-
-
-                if(rules[i].token_type!=256){
-                    tokens[nr_token].type=rules[i].token_type;
-                    strncpy(tokens[nr_token].str,substr_start,substr_len);
-                    nr_token++;
-                }
-
+                
 
 				switch(rules[i].token_type) {
                     case '+': tokens[nr_token].type='+';tokens[nr_token].str[0]='+';nr_token++;break;
@@ -239,7 +232,7 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-    printf("nr_token is %d",nr_token); 
+    printf("nr_token is %d\n",nr_token); 
 
     
 	/* TODO: Insert codes to evaluate the expression. */
