@@ -238,7 +238,8 @@ uint32_t expr(char *e, bool *success) {
     printf("nr_token is %d\n",nr_token); 
     int i;
     for(i=0;i<nr_token;i++){
-        printf("token[%d].type==%c\n",i,tokens[i].type);
+        printf("tokens[%d].type==%c\n",i,tokens[i].type);
+        printf("tokens[%d].str==%s\n",i,tokens[i].str);
     }
     
 	/* TODO: Insert codes to evaluate the expression. */
