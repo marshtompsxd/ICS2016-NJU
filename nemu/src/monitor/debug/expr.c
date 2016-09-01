@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 enum {
-	NOTYPE = 256,EQ,NEQ,AND,OR,NOT,EVADDR
+	NOTYPE = 256,EQ,NEQ,AND,OR,NOT,DEREF
 
 	/* TODO: Add more token types */
 
@@ -156,8 +156,8 @@ int find_dominant_operator(int p,int q){
     int qend;
     int qleft,qright;
     qleft=qright=0;
-    int plus_in,minus_in,mult_in,divide_in,equal_in,notequal_in,and_in,or_in,not_in,evaddr_in;
-    plus_in=minus_in=mult_in=divide_in=equal_in=notequal_in=and_in=or_in=not_in=evaddr_in=-1;
+    int plus_in,minus_in,mult_in,divide_in,equal_in,notequal_in,and_in,or_in,not_in,deref_in;
+    plus_in=minus_in=mult_in=divide_in=equal_in=notequal_in=and_in=or_in=not_in=deref_in=-1;
     
     qend=q;
     do{
@@ -183,7 +183,7 @@ int find_dominant_operator(int p,int q){
             else if(tokens[i].type==AND&&and_in==-1)and_in=i;
             else if(tokens[i].type==OR&&or_in==-1)or_in=i;
             else if(tokens[i].type==NOT&&not_in==-1)not_in=i;
-            else if(tokens[i].type==EVADDR&&evaddr_in==-1)evaddr_in=i;
+            else if(tokens[i].type==DEREF&&deref_in==-1)deref_in=i;
             else if(tokens[i].type==')')break;
         }
 
@@ -196,7 +196,7 @@ int find_dominant_operator(int p,int q){
     else if(equal_in!=-1||notequal_in!=-1)return (equal_in>notequal_in)?equal_in:notequal_in;
     else if(plus_in!=-1||minus_in!=-1)return (plus_in>minus_in)?plus_in:minus_in;
     else if(mult_in!=-1||divide_in!=-1)return (mult_in>divide_in)?mult_in:divide_in;
-    else if(not_in!=-1||evaddr_in!=-1)return (not_in>evaddr_in)?not_in:evaddr_in;
+    else if(not_in!=-1||deref_in!=-1)return (not_in>deref_in)?not_in:deref_in;
 
 
     /*
@@ -268,6 +268,10 @@ int eval(int p,int q){
         char* op=tokens[index].str;
         int op_type=tokens[index].type;
         printf("dominant op is %s\n",op);
+        if(op_type==DEREF){
+            int addr=eval(index+1,q);
+            return swaddr_read(addr,4);
+        }
         int val1=eval(p,index-1);
         int val2=eval(index+1,q);
         switch(op_type){
@@ -275,6 +279,10 @@ int eval(int p,int q){
             case '-':printf("val is %d\n",val1-val2);return val1-val2;
             case '*':printf("val is %d\n",val1*val2);return val1*val2;
             case '/':printf("val is %d\n",val1/val2);return val1/val2;
+            case EQ:return val1==val2;
+            case NEQ:return val1!=val2;
+            case OR:return val1||val2;
+            case AND:return val1&&val2;
             default:assert(0);
         }
     }
@@ -285,8 +293,16 @@ uint32_t expr(char *e, bool *success) {
 		*success = false;
 		return 0;
 	}
-    printf("nr_token is %d\n",nr_token); 
+
     int i;
+    for(i=0;i<nr_token;i++){
+        if(tokens[i].type=='*'&&(i==0||tokens[i-1].type=='d'||tokens[i-1].type=='h'||tokens[i-1].type=='r')){
+            tokens[i].type=DEREF;
+        }
+    }
+
+    printf("nr_token is %d\n",nr_token); 
+    
     for(i=0;i<nr_token;i++){
         printf("tokens[%d].type==%c\n",i,tokens[i].type);
         printf("tokens[%d].str==%s\n",i,tokens[i].str);
