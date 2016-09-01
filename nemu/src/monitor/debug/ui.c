@@ -177,6 +177,7 @@ static int cmd_w(char *args){
     if(wp==NULL){
         panic("wp is NULL\n");
     }
+    printf("%d\n",wp->NO);
     printf("%s\n",wp->expr);
     printf("%s\n",args);
     /*
