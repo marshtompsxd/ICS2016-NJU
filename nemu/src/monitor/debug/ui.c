@@ -60,7 +60,7 @@ static int cmd_si(char *args){
 }
 
 static int cmd_info(char *args){
-    if(!strcmp(args,"-r"))
+    if(!strcmp(args,"r"))
     {
         printf("%-20s","registername");
         printf("%-20s","registercontent");
@@ -100,12 +100,33 @@ static int cmd_info(char *args){
         */
         
     }
+    else if(!strcmp(args,"w")){
+        
+        print_wp();
+        
+        /*
+        printf("%-20s","watchpointNO");
+        printf("%-20s","watchpointEXPR");
+        printf("%-20s","watchpointVALUE");
+        printf("\n");
+        WP* wp;
+        bool success=true;
+        for(wp=head;wp!=NULL;wp=wp->next){
+            int val=expr(wp->expr,&success);
+            printf("%-20d",wp->NO);
+            printf("%-20s",wp->expr);
+            printf("%-20d",val);
+            printf("\n");
+        }
+        */
+
+    }
 
     return 0;
 }
 
 
-static int cmd_cal(char *args){
+static int cmd_p(char *args){
     bool success=true;
     int result=expr(args,&success);
     if(success){
@@ -119,30 +140,75 @@ static int cmd_cal(char *args){
 
 
 static int cmd_x(char *args){
+    
     char *cnum=strtok(args," ");
     char *caddr=strtok(NULL," ");
+    /*
     char *str;
-    //printf("%s",caddr);
+    
     int num=atoi(cnum);
     int addr=strtol(caddr,&str,16);
-    //printf("%d\n",num);
-    //printf("%x\n",addr);
-    //printf("%d\n",addr);
-    //int *ptr;
-    // ptr=(int *)addr;
-    //printf("%x\n",(unsigned int)ptr);
-    int i;
-    printf("%-20s","memoryaddress");
-    printf("%-20s","memorycontent");
-    printf("\n");
-    for(i=0;i<num;i++)
-    {
-        uint32_t content=swaddr_read(addr,4);
-        printf("%-20x",addr);
-        printf("%-20x\n",content);
-        addr+=4;
+    */
+    
+    int num=atoi(cnum);
+    bool success=true;
+    int addr=expr(caddr,&success);
+    if(!success){
+        printf("fail to make tokens\n");
+    }
+    else{
+        int i;
+        printf("%-20s","memoryaddress");
+        printf("%-20s","memorycontent");
+        printf("\n");
+        for(i=0;i<num;i++){
+            uint32_t content=swaddr_read(addr,4);
+            printf("%-20x",addr);
+            printf("%-20x\n",content);
+            addr+=4;
+        }
     }
     return 0;
+    
+}
+
+static int cmd_w(char *args){
+    WP* wp=new_wp();
+    wp->expr=args;
+    bool success=true;
+    int val=expr(args,&success);
+    if(!success){
+        printf("fail to make token\n");
+        free_wp(wp);
+    }
+    else{
+        wp->prevalue=val;
+    }
+    return 0;
+}
+
+static int cmd_d(char *args){
+    int NO;
+    if(!strcmp("0",args)){
+        NO=0;
+    }
+    else{
+        NO=atoi(args);
+        if(NO==0){
+            printf("args error");
+            return 0;
+        }
+    }
+    WP *wp=find_wp_byNO(NO);
+    if(wp==NULL){
+        printf("no such NO\n");
+        return 0;
+    }
+    else{
+        free_wp(wp);
+        return 0;
+    }
+
     
 }
 
@@ -156,9 +222,11 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
     { "si","After N steps the programe will suspend",cmd_si },
-    { "info","Print the statue of programme",cmd_info},
-    { "cal","Calculate a expression",cmd_cal },
-    { "x","Scanf the memory",cmd_x},
+    { "info","Print the statue of programme",cmd_info },
+    { "p","Calculate a expression",cmd_p },
+    { "x","Scanf the memory",cmd_x },
+    { "w","Set a watchpoint",cmd_w },
+    { "d","Delete a watchpoint",cmd_d },
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */

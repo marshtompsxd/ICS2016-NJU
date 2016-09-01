@@ -21,3 +21,60 @@ void init_wp_pool() {
 /* TODO: Implement the functionality of watchpoint */
 
 
+WP* new_wp(){
+    if(free_==NULL)panic("free is NULL");
+    
+    WP *wptr=free_;
+    free_=free_->next;
+    wptr->next=head;
+    head=wptr;
+    return wptr;
+}
+
+
+void free_wp(WP *wp){
+    if(wp==NULL)panic("wp is NULL");
+    WP* ip;
+    if(head->NO==wp->NO)head=head->next;
+    else{
+        for(ip=head;ip->next!=NULL;ip=ip->next){
+            if(ip->next->NO==wp->NO){
+                ip->next=ip->next->next;
+            }
+        }
+    }
+    wp->next=free_;
+    free_=wp;
+
+}
+
+
+
+void print_wp(){
+    printf("%-20s","wpNO");
+    printf("%-20s","wpEXPR");
+    printf("%-20s","wpVAL");
+    printf("\n");
+    WP* wp;
+    
+    for(wp=head;wp!=NULL;wp=wp->next){
+        bool success=true;
+        int val=expr(wp->expr,&success);
+        printf("%-20d",wp->NO);
+        printf("%-20s",wp->expr);
+        printf("%-20d",val);
+        printf("\n");
+    }
+}    
+
+
+
+WP* find_wp_byNO(int NO){
+    WP* wp;
+    for(wp=head;wp!=NULL;wp=wp->next){
+        if(wp->NO==NO){
+            return wp;
+        }
+    }
+    return NULL;
+}
