@@ -27,7 +27,7 @@ static struct rule {
 	{"==", EQ},						// equal
     {"!=",NEQ},                     // not equal
     {"&&",AND},                     // and
-    {"||",OR},                      // or
+    {"\\|\\|",OR},                  // or
     {"!",NOT},                      // not
     {"\\$[a-z]+", 'r'},             // register
 	{"\\+", '+'},					// plus
