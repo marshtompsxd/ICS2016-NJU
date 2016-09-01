@@ -265,11 +265,12 @@ int eval(int p,int q){
     else{
         int index=find_dominant_operator(p,q);
         if(index==-1)panic("fail to find the dominant operator");
-        char op=tokens[index].str[0];
-        printf("dominant op is %c\n",op);
+        char* op=tokens[index].str;
+        int op_type=tokens[index].type;
+        printf("dominant op is %s\n",op);
         int val1=eval(p,index-1);
         int val2=eval(index+1,q);
-        switch(op){
+        switch(op_type){
             case '+':printf("val is %d\n",val1+val2);return val1+val2;
             case '-':printf("val is %d\n",val1-val2);return val1-val2;
             case '*':printf("val is %d\n",val1*val2);return val1*val2;
