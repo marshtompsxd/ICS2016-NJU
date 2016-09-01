@@ -172,8 +172,11 @@ int find_dominant_operator(int p,int q){
             if(tokens[i].type=='*'||tokens[i].type=='/')return i;
             else if(tokens[i].type==')')break;
         }
-    }while(i>p);
 
+        qend=i;
+    }while(i>p);
+    
+    qleft=qright=0;
     qend=q;
     do{
 
@@ -233,7 +236,10 @@ uint32_t expr(char *e, bool *success) {
 		return 0;
 	}
     printf("nr_token is %d\n",nr_token); 
-
+    int i;
+    for(i=0;i<nr_token;i++){
+        printf("token[%d].type==%c\n",i,tokens[i].type);
+    }
     
 	/* TODO: Insert codes to evaluate the expression. */
 	//panic("please implement me");
