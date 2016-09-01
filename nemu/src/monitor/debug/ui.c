@@ -175,7 +175,7 @@ static int cmd_x(char *args){
 static int cmd_w(char *args){
     WP* wp=new_wp();
     printf("%s\n",args);
-    strcpy(wp->expr,args);
+    strncpy(wp->expr,args,32);
     printf("%s\n",wp->expr);
     bool success=true;
     int val=expr(args,&success);
