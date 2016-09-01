@@ -31,7 +31,8 @@ static struct rule {
     {"/", '/'},                     // divide
     {"\\(", '('},                   // left bracket
     {"\\)", ')'},                   // right bracket
-    {"[0-9]+", 'n'}                 // number
+    {"[0-9]+", 'd'},                 // decimal number
+    {"0x[0-9a-f]+",'h'}                 // hexadecimal number
 }; 
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -93,8 +94,14 @@ static bool make_token(char *e) {
                     case '/': tokens[nr_token].type='/';tokens[nr_token].str[0]='/';nr_token++;break;
                     case '(': tokens[nr_token].type='(';tokens[nr_token].str[0]='(';nr_token++;break;
                     case ')': tokens[nr_token].type=')';tokens[nr_token].str[0]=')';nr_token++;break;
-                    case 'n':{
-                        tokens[nr_token].type='n';
+                    case 'd':{
+                        tokens[nr_token].type='d';
+                        strncpy(tokens[nr_token].str,substr_start,substr_len);
+                        nr_token++;
+                        break;
+                    }
+                    case 'h':{
+                        tokens[nr_token].type='h';
                         strncpy(tokens[nr_token].str,substr_start,substr_len);
                         nr_token++;
                         break;
@@ -207,9 +214,15 @@ int eval(int p,int q){
         panic("tokens index error");
     }
     else if(p==q){
-        if(tokens[p].type=='n'){
+        if(tokens[p].type=='d'){
             int val=atoi(tokens[p].str);
             printf("val is %d\n",val);
+            return val;
+        }
+        else if(tokens[p].type=='h'){
+            char *str;
+            int val=strtol(tokens[p].str,&str,16);
+            printf("val is %x(or we can say %d)",val,val);
             return val;
         }
         else panic("this is not a number");
