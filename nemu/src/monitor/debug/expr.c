@@ -131,7 +131,7 @@ static bool make_token(char *e) {
 }
 
 
-bool check_parentheses(int p,int q){
+static bool check_parentheses(int p,int q){
     int i;
     if(tokens[p].type!='('||tokens[q].type!=')'){
         return false;
@@ -151,7 +151,7 @@ bool check_parentheses(int p,int q){
 }
 
 
-int find_dominant_operator(int p,int q){
+static int find_dominant_operator(int p,int q){
     int i;
     int qend;
     int qleft,qright;
@@ -230,7 +230,7 @@ int find_dominant_operator(int p,int q){
 }
 
 
-int eval(int p,int q){
+static int eval(int p,int q){
     if(p>q){
         panic("tokens index error");
     }
