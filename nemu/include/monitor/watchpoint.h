@@ -5,16 +5,16 @@
 
 typedef struct watchpoint {
 	int NO;
-	struct watchpoint *next;
     char* expr;
     int originvalue;
+	struct watchpoint *next;
 	/* TODO: Add more members if necessary */
 
 
 } WP;
 
 
-WP* new_wp();
+WP* new_wp(char*);
 
 void free_wp(WP*);
 
