@@ -104,6 +104,20 @@ static int cmd_info(char *args){
     return 0;
 }
 
+
+static int cmd_cal(char *args){
+    bool success=true;
+    int result=expr(args,&success);
+    if(success){
+        printf("The result is %d\n",result);
+    }
+    else{
+        printf("fail to make tokens\n");
+    }
+    return 0;
+}
+
+
 static int cmd_x(char *args){
     char *cnum=strtok(args," ");
     char *caddr=strtok(NULL," ");
@@ -142,8 +156,9 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
     { "si","After N steps the programe will suspend",cmd_si },
-    {"info","Print the statue of programme",cmd_info},
-    {"x","Scanf the memory",cmd_x},
+    { "info","Print the statue of programme",cmd_info},
+    { "cal","Calculate a expression",cmd_cal },
+    { "x","Scanf the memory",cmd_x},
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
@@ -154,7 +169,7 @@ static struct {
 
 static int cmd_help(char *args) {
 	/* extract the first argument */
-	char *arg = strtok(NULL, " ");
+    char *arg = strtok(NULL, " ");
 	int i;
 
 	if(arg == NULL) {
