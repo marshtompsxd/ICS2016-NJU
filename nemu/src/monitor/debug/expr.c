@@ -8,7 +8,7 @@
 #include <stdlib.h>
 
 enum {
-	NOTYPE = 256,EQ
+	NOTYPE = 256,EQ,NEQ,AND,OR,NOT,EVADDR
 
 	/* TODO: Add more token types */
 
@@ -25,6 +25,10 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
+    {"!=",NEQ},                     // not equal
+    {"&&",AND},                     // and
+    {"||",OR},                      // or
+    {"!",NOT},                      // not
     {"\\$[a-z]+", 'r'},             // register
 	{"\\+", '+'},					// plus
     {"-", '-'},                     // minus
@@ -89,34 +93,27 @@ static bool make_token(char *e) {
                 
 
 				switch(rules[i].token_type) {
-                    case '+': tokens[nr_token].type='+';tokens[nr_token].str[0]='+';nr_token++;break;
-                    case '-': tokens[nr_token].type='-';tokens[nr_token].str[0]='-';nr_token++;break;
-                    case '*': tokens[nr_token].type='*';tokens[nr_token].str[0]='*';nr_token++;break;
-                    case '/': tokens[nr_token].type='/';tokens[nr_token].str[0]='/';nr_token++;break;
-                    case '(': tokens[nr_token].type='(';tokens[nr_token].str[0]='(';nr_token++;break;
-                    case ')': tokens[nr_token].type=')';tokens[nr_token].str[0]=')';nr_token++;break;
-                    case 'd':{
-                        tokens[nr_token].type='d';
-                        if(substr_len>32)panic("over 32 number!!!");
-                        strncpy(tokens[nr_token].str,substr_start,substr_len);
-                        nr_token++;
-                        break;
-                    }
+                    case '+': 
+                    case '-': 
+                    case '*': 
+                    case '/': 
+                    case EQ: 
+                    case NEQ: 
+                    case OR: 
+                    case AND: 
+                    case NOT: 
+                    case '(': 
+                    case ')':
+                    case 'r':
+                    case 'd':
                     case 'h':{
-                        tokens[nr_token].type='h';
-                        if(substr_len>32)panic("over 32 number!!!");
-                        strncpy(tokens[nr_token].str,substr_start,substr_len);
-                        nr_token++;
-                        break;
-                    }
-                    case 'r':{
-                        tokens[nr_token].type='r';
+                        tokens[nr_token].type=rules[i].token_type;
+                        if(substr_len>32)panic("over 32 characters");
                         strncpy(tokens[nr_token].str,substr_start,substr_len);
                         nr_token++;
                         break;
                     }
                     case NOTYPE:break;
-                    case EQ:break;
 					default: panic("please implement me");
 				}
 
@@ -159,18 +156,9 @@ int find_dominant_operator(int p,int q){
     int qend;
     int qleft,qright;
     qleft=qright=0;
+    int plus_in,minus_in,mult_in,divide_in,equal_in,notequal_in,and_in,or_in,not_in,evaddr_in;
+    plus_in=minus_in=mult_in=divide_in=equal_in=notequal_in=and_in=or_in=not_in=evaddr_in=-1;
     
-    /*
-    for(i=p;i<=q;i++)
-    {
-        if(tokens[i].type=='(')pleft++;
-        else if(tokens[i].type==')')pright++;
-        
-        if(pleft==pright){
-             pend=(pleft==0)?i:i+1;
-        }
-    }
-    */
     qend=q;
     do{
 
@@ -186,13 +174,32 @@ int find_dominant_operator(int p,int q){
 
 
         for(i=qend;i>=p;i--){
-            if(tokens[i].type=='+'||tokens[i].type=='-')return i;
+            if(tokens[i].type=='+'&&plus_in==-1)plus_in=i;
+            else if(tokens[i].type=='-'&&minus_in==-1)minus_in=i;
+            else if(tokens[i].type=='*'&&mult_in==-1)mult_in=i;
+            else if(tokens[i].type=='/'&&divide_in==-1)divide_in=i;
+            else if(tokens[i].type==EQ&&equal_in==-1)equal_in=i;
+            else if(tokens[i].type==NEQ&&notequal_in==-1)notequal_in=i;
+            else if(tokens[i].type==AND&&and_in==-1)and_in=i;
+            else if(tokens[i].type==OR&&or_in==-1)or_in=i;
+            else if(tokens[i].type==NOT&&not_in==-1)not_in=i;
+            else if(tokens[i].type==EVADDR&&evaddr_in==-1)evaddr_in=i;
             else if(tokens[i].type==')')break;
         }
 
         qend=i;
     }while(i>p);
-    
+
+
+    if(or_in!=-1)return or_in;
+    else if(and_in!=-1)return and_in;
+    else if(equal_in!=-1||notequal_in!=-1)return (equal_in>notequal_in)?equal_in:notequal_in;
+    else if(plus_in!=-1||minus_in!=-1)return (plus_in>minus_in)?plus_in:minus_in;
+    else if(mult_in!=-1||divide_in!=-1)return (mult_in>divide_in)?mult_in:divide_in;
+    else if(not_in!=-1||evaddr_in!=-1)return (not_in>evaddr_in)?not_in:evaddr_in;
+
+
+    /*
     qleft=qright=0;
     qend=q;
     do{
@@ -213,7 +220,7 @@ int find_dominant_operator(int p,int q){
             else if(tokens[i].type==')')break;
         }
     }while(i>p);
-    
+    */
     return -1;
 }
 
@@ -245,6 +252,7 @@ int eval(int p,int q){
             else if(!strcmp("$esi",tokens[p].str))val=cpu.esi;
             else if(!strcmp("$edi",tokens[p].str))val=cpu.edi;
             else panic("register name error");
+            printf("val is %d\n",val);
             return val;
         }
         else panic("this is not a number");
