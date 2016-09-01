@@ -24,4 +24,6 @@ WP* find_wp_byNO(int);
 
 bool check_wp();
 
+void write_wp(WP*,char*);
+
 #endif

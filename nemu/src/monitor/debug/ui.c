@@ -174,6 +174,9 @@ static int cmd_x(char *args){
 
 static int cmd_w(char *args){
     WP* wp=new_wp();
+    if(wp==NULL){
+        panic("wp is NULL\n");
+    }
     printf("%s\n",args);
     /*
     int i;
@@ -184,6 +187,7 @@ static int cmd_w(char *args){
     wp->expr[len]='\0';
     printf("%s\n",wp->expr);
     */
+    write_wp(wp,args);
     bool success=true;
     int val=expr(args,&success);
     if(!success){

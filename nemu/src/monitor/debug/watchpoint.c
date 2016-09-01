@@ -48,7 +48,9 @@ void free_wp(WP *wp){
 
 }
 
-
+void write_wp(WP* wp,char *args){
+    strcpy(wp->expr,args);
+}
 
 void print_wp(){
     printf("%-20s","wpNO");
