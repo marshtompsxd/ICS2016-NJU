@@ -156,8 +156,8 @@ int find_dominant_operator(int p,int q){
     int qend;
     int qleft,qright;
     qleft=qright=0;
-    int plus_in,minus_in,mult_in,divide_in,equal_in,notequal_in,and_in,or_in,not_in,deref_in;
-    plus_in=minus_in=mult_in=divide_in=equal_in=notequal_in=and_in=or_in=not_in=deref_in=-1;
+    int plus_in,minus_in,mult_in,divide_in,equal_in,notequal_in,and_in,or_in,not_in,deref_in,neg_in;
+    plus_in=minus_in=mult_in=divide_in=equal_in=notequal_in=and_in=or_in=not_in=deref_in=neg_in=-1;
     
     qend=q;
     do{
@@ -184,6 +184,7 @@ int find_dominant_operator(int p,int q){
             else if(tokens[i].type==OR&&or_in==-1)or_in=i;
             else if(tokens[i].type==NOT&&not_in==-1)not_in=i;
             else if(tokens[i].type==DEREF&&deref_in==-1)deref_in=i;
+            else if(tokens[i].type==NEG&&neg_in==-1)neg_in=i;
             else if(tokens[i].type==')')break;
         }
 
@@ -196,7 +197,11 @@ int find_dominant_operator(int p,int q){
     else if(equal_in!=-1||notequal_in!=-1)return (equal_in>notequal_in)?equal_in:notequal_in;
     else if(plus_in!=-1||minus_in!=-1)return (plus_in>minus_in)?plus_in:minus_in;
     else if(mult_in!=-1||divide_in!=-1)return (mult_in>divide_in)?mult_in:divide_in;
-    else if(not_in!=-1||deref_in!=-1)return (not_in>deref_in)?not_in:deref_in;
+    else if(not_in!=-1||deref_in!=-1||neg_in!=-1){
+        if(not_in>deref_in&&not_in>neg_in)return not_in;
+        else if(deref_in>not_in&&deref_in>neg_in)return deref_in;
+        else return neg_in;
+    }
 
 
     /*
