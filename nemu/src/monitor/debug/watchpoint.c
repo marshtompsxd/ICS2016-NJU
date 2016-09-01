@@ -58,11 +58,11 @@ void print_wp(){
     WP* wp;
     
     for(wp=head;wp!=NULL;wp=wp->next){
-        bool success=true;
-        int val=expr(wp->expr,&success);
+        //bool success=true;
+        //int val=expr(wp->expr,&success);
         printf("%-20d",wp->NO);
         printf("%-20s",wp->expr);
-        printf("%-20d",val);
+        printf("%-20d",wp->originvalue);
         printf("\n");
     }
 }    
