@@ -25,6 +25,7 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
+    {"\\$[a-z]+", 'r'},             // register
 	{"\\+", '+'},					// plus
     {"-", '-'},                     // minus
     {"\\*", '*'},                   // multiply
@@ -96,12 +97,20 @@ static bool make_token(char *e) {
                     case ')': tokens[nr_token].type=')';tokens[nr_token].str[0]=')';nr_token++;break;
                     case 'd':{
                         tokens[nr_token].type='d';
+                        if(substr_len>32)panic("over 32 number!!!");
                         strncpy(tokens[nr_token].str,substr_start,substr_len);
                         nr_token++;
                         break;
                     }
                     case 'h':{
                         tokens[nr_token].type='h';
+                        if(substr_len>32)panic("over 32 number!!!");
+                        strncpy(tokens[nr_token].str,substr_start,substr_len);
+                        nr_token++;
+                        break;
+                    }
+                    case 'r':{
+                        tokens[nr_token].type='r';
                         strncpy(tokens[nr_token].str,substr_start,substr_len);
                         nr_token++;
                         break;
@@ -223,6 +232,19 @@ int eval(int p,int q){
             char *str;
             int val=strtol(tokens[p].str,&str,16);
             printf("val is %x(or we can say %d)",val,val);
+            return val;
+        }
+        else if(tokens[p].type=='r'){
+            int val;
+            if(!strcmp("$eax",tokens[p].str))val=cpu.eax;
+            else if(!strcmp("$ecx",tokens[p].str))val=cpu.ecx;
+            else if(!strcmp("$edx",tokens[p].str))val=cpu.edx;
+            else if(!strcmp("$ebx",tokens[p].str))val=cpu.ebx;
+            else if(!strcmp("$esp",tokens[p].str))val=cpu.esp;
+            else if(!strcmp("$ebp",tokens[p].str))val=cpu.ebp;
+            else if(!strcmp("$esi",tokens[p].str))val=cpu.esi;
+            else if(!strcmp("$edi",tokens[p].str))val=cpu.edi;
+            else panic("register name error");
             return val;
         }
         else panic("this is not a number");
