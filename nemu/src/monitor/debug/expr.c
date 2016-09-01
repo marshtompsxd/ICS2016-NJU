@@ -164,6 +164,7 @@ int find_dominant_operator(int p,int q){
         
             if(qleft==qright){
                 qend=(qleft==0)?i:i-1;
+                break;
             }
         }
 
@@ -186,6 +187,7 @@ int find_dominant_operator(int p,int q){
         
             if(qleft==qright){
                 qend=(qleft==0)?i:i-1;
+                break;
             }
         }
 
