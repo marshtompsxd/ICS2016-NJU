@@ -319,7 +319,7 @@ uint32_t expr(char *e, bool *success) {
     
 
     for(i=0;i<nr_token;i++){
-        if(tokens[i].type=='-'&&(i=0||is_operator(i-1))){
+        if(tokens[i].type=='-'&&(i==0||is_operator(i-1))){
             tokens[i].type=NEG;
         }
     }
