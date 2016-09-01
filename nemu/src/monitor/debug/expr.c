@@ -31,8 +31,8 @@ static struct rule {
     {"/", '/'},                     // divide
     {"\\(", '('},                   // left bracket
     {"\\)", ')'},                   // right bracket
-    {"[0-9]+", 'd'},                 // decimal number
-    {"0x[0-9a-f]+",'h'}                 // hexadecimal number
+    {"0x[0-9a-f]+",'h'},            // hexadecimal number
+    {"[0-9]+", 'd'}                 // decimal number
 }; 
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
