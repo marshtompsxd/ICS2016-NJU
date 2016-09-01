@@ -170,7 +170,7 @@ int find_dominant_operator(int p,int q){
 
 
         for(i=qend;i>=p;i--){
-            if(tokens[i].type=='*'||tokens[i].type=='/')return i;
+            if(tokens[i].type=='+'||tokens[i].type=='-')return i;
             else if(tokens[i].type==')')break;
         }
 
@@ -193,7 +193,7 @@ int find_dominant_operator(int p,int q){
 
 
         for(i=qend;i>=p;i--){
-            if(tokens[i].type=='+'||tokens[i].type=='-')return i;
+            if(tokens[i].type=='*'||tokens[i].type=='/')return i;
             else if(tokens[i].type==')')break;
         }
     }while(i>p);
