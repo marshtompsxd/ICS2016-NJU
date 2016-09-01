@@ -209,24 +209,28 @@ int eval(int p,int q){
     else if(p==q){
         if(tokens[p].type=='n'){
             int val=atoi(tokens[p].str);
+            printf("val is %d",val);
             return val;
         }
         else panic("this is not a number");
     }
     else if(check_parentheses(p,q)==true){
-        return eval(p+1,q-1);
+        int val=eval(p+1,q-1);
+        printf("val is %d",val);
+        return val;
     }
     else{
         int index=find_dominant_operator(p,q);
         if(index==-1)panic("fail to find the dominant operator");
         char op=tokens[index].str[0];
+        printf("dominant op is %c",op);
         int val1=eval(p,index-1);
         int val2=eval(index+1,q);
         switch(op){
-            case '+':return val1+val2;
-            case '-':return val1-val2;
-            case '*':return val1*val2;
-            case '/':return val1/val2;
+            case '+':printf("val is %d",val1+val2);return val1+val2;
+            case '-':printf("val is %d",val1-val2);return val1-val2;
+            case '*':printf("val is %d",val1*val2);return val1*val2;
+            case '/':printf("val is %d",val1/val2);return val1/val2;
             default:assert(0);
         }
     }
