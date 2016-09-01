@@ -182,7 +182,7 @@ static int cmd_w(char *args){
         free_wp(wp);
     }
     else{
-        wp->prevalue=val;
+        wp->originvalue=val;
     }
     return 0;
 }

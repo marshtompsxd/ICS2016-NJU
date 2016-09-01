@@ -78,3 +78,15 @@ WP* find_wp_byNO(int NO){
     }
     return NULL;
 }
+
+
+
+bool check_wp(){
+    WP* wp;
+    for(wp=head;wp!=NULL;wp=wp->next){
+        bool success=true;
+        int val=expr(wp->expr,&success);
+        if(val!=wp->originvalue)return false;
+    }
+    return true;
+}
