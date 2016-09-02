@@ -236,13 +236,13 @@ static int eval(int p,int q,bool* success){
     else if(p==q){
         if(tokens[p].type=='d'){
             int val=atoi(tokens[p].str);
-            printf("val is %d\n",val);
+            //printf("val is %d\n",val);
             return val;
         }
         else if(tokens[p].type=='h'){
             char *str;
             int val=strtol(tokens[p].str,&str,16);
-            printf("val is %x(or we can say %d)",val,val);
+            //printf("val is %x(or we can say %d)",val,val);
             return val;
         }
         else if(tokens[p].type=='r'){
@@ -256,7 +256,7 @@ static int eval(int p,int q,bool* success){
             else if(!strcmp("$esi",tokens[p].str))val=cpu.esi;
             else if(!strcmp("$edi",tokens[p].str))val=cpu.edi;
             else panic("register name error");
-            printf("val is %d\n",val);
+            //printf("val is %d\n",val);
             return val;
         }
         else {
@@ -270,7 +270,7 @@ static int eval(int p,int q,bool* success){
         if(!(*success)){
             return -1;
         }
-        printf("val is %d\n",val);
+        //printf("val is %d\n",val);
         return val;
     }
     else{
@@ -364,11 +364,13 @@ uint32_t expr(char *e, bool *success) {
 
     printf("nr_token is %d\n",nr_token); 
     
+    /*
     for(i=0;i<nr_token;i++){
         printf("tokens[%d].type==%c\n",i,tokens[i].type);
         printf("tokens[%d].str==%s\n",i,tokens[i].str);
     }
-    
+    */
+
 	/* TODO: Insert codes to evaluate the expression. */
 	//panic("please implement me");
     
