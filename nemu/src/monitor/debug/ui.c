@@ -167,12 +167,13 @@ static int cmd_d(char *args){
             return 0;
         }
     }
-    /*
+    
     WP *wp=find_wp_byNO(NO);
     if(wp==NULL){
         printf("no such NO\n");
         return 0;
     }
+    /*
     else{
         free_wp(wp);
         printf("delete watchpoint %d\n",NO);
