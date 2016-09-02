@@ -58,6 +58,7 @@ void free_wp(WP *wp){
     }
     else{
         for(ip=head;ip->next!=NULL;ip=ip->next){
+            printf("now ip is NO %d\n",ip->NO );
             if(ip->next->NO==wp->NO){
                 ip->next=ip->next->next;
             }
