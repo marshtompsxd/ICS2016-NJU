@@ -46,7 +46,11 @@ void free_wp(WP *wp){
     printf("free a wp\n");
     if(wp==NULL)panic("wp is NULL");
     WP* ip;
-    if(head->NO==wp->NO)head=head->next;
+    if(head->NO==wp->NO)
+    {
+        head=head->next;
+        printf("head change\n");
+    }
     else{
         for(ip=head;ip->next!=NULL;ip=ip->next){
             if(ip->next->NO==wp->NO){
