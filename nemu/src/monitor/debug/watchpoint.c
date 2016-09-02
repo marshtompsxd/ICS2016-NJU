@@ -69,6 +69,7 @@ void free_wp(WP *wp){
                     printf("wp->next is NULL\n");
                 }
                 ip->next=wp->next;
+                break;
             }
         }
     }
