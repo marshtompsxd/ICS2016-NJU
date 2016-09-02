@@ -270,7 +270,9 @@ static int eval(int p,int q,bool* success){
         if(!(*success)){
             return -1;
         }
+
         //printf("val is %d\n",val);
+
         return val;
     }
     else{
@@ -280,9 +282,11 @@ static int eval(int p,int q,bool* success){
             *success=false;
             return -1;
         }
-        char* op=tokens[index].str;
+        
         int op_type=tokens[index].type;
-        printf("dominant op is %s\n",op);
+        
+        //printf("dominant op is %s\n",op);
+        
         if(op_type==DEREF){
             int addr=eval(index+1,q,success);
             if(!(*success)){
