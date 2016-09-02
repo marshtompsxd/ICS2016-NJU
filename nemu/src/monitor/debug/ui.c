@@ -180,6 +180,7 @@ static int cmd_w(char *args){
     printf("%d\n",wp->NO);
     //printf("%s\n",wp->expr);
     printf("%s\n",args);
+    strcpy(wp->expr,args);
     /*
     int i;
     int len=strlen(args);
