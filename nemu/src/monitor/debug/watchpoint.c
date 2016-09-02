@@ -27,7 +27,12 @@ WP* new_wp(char *args){
     
     WP *wptr=free_;
     free_=free_->next;
-    wptr->next=head;
+    if(head){
+        wptr->next=head;
+    }
+    else{
+        wptr->next=NULL;
+    }
     head=wptr;
     strcpy(wptr->expr,args);
     bool success=true;
@@ -58,6 +63,7 @@ void free_wp(WP *wp){
             }
         }
     }
+    printf("find the wp\n");
     wp->next=free_;
     free_=wp;
     wp->in_use=false;
