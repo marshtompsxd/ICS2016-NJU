@@ -11,6 +11,7 @@ void init_wp_pool() {
 	for(i = 0; i < NR_WP; i ++) {
 		wp_pool[i].NO = i;
 		wp_pool[i].next = &wp_pool[i + 1];
+        wp_pool[i].in_use=false;
 	}
 	wp_pool[NR_WP - 1].next = NULL;
 
@@ -29,6 +30,14 @@ WP* new_wp(char *args){
     wptr->next=head;
     head=wptr;
     strcpy(wptr->expr,args);
+    bool success=true;
+    int val=expr(wptr->expr,&success);
+    if(!success){
+        free_wp(wptr);
+        return NULL;
+    }
+    wptr->originvalue=val;
+    wptr->in_use=true;
     return wptr;
 }
 
@@ -46,6 +55,7 @@ void free_wp(WP *wp){
     }
     wp->next=free_;
     free_=wp;
+    wp->in_use=false;
 
 }
 /*
@@ -58,15 +68,16 @@ void print_wp(){
     printf("%-20s","wpEXPR");
     printf("%-20s","wpVAL");
     printf("\n");
-    WP* wp;
+    int i;
     
-    for(wp=head;wp!=NULL;wp=wp->next){
-        //bool success=true;
-        //int val=expr(wp->expr,&success);
-        printf("%-20d",wp->NO);
-        printf("%-20s",wp->expr);
-        printf("%-20d",wp->originvalue);
-        printf("\n");
+    for(i=0;i<NR_WP;i++){
+        if(wp_pool[i].in_use){
+            printf("%-20d",wp_pool[i].NO);
+            printf("%-20s",wp_pool[i].expr);
+            printf("%-20d",wp_pool[i].originvalue);
+            printf("\n");
+            
+        }
     }
 }    
 

@@ -175,31 +175,11 @@ static int cmd_x(char *args){
 static int cmd_w(char *args){
     WP* wp=new_wp(args);
     if(wp==NULL){
-        panic("wp is NULL\n");
+        panic("fail to set watchpoint\n");
     }
-    printf("%d\n",wp->NO);
-    //printf("%s\n",wp->expr);
-    printf("%s\n",args);
-    strcpy(wp->expr,args);
-    /*
-    int i;
-    int len=strlen(args);
-    for(i=0;i<len;i++){
-        wp->expr[i]=args[i];
-    }
-    wp->expr[len]='\0';
-    printf("%s\n",wp->expr);
-    */
-    //write_wp(wp,args);
-    bool success=true;
-    int val=expr(args,&success);
-    if(!success){
-        printf("fail to make token\n");
-        free_wp(wp);
-    }
-    else{
-        wp->originvalue=val;
-    }
+    printf("watchpointNO is %d\n",wp->NO);
+    printf("watchpointEXPR is %s\n",wp->expr);
+    printf("watchpointVAL is %d\n",wp->originvalue);
     return 0;
 }
 
