@@ -301,6 +301,13 @@ static int eval(int p,int q,bool* success){
             }
             return val;
         }
+        else if(op_type==NOT){
+            int val=!eval(index+1,q,success);
+            if(!(*success)){
+                return -1;
+            }
+            return val;
+        }
         else{
             int val1=eval(p,index-1,success);
             int val2=eval(index+1,q,success);
