@@ -173,13 +173,13 @@ static int cmd_d(char *args){
         printf("no such NO\n");
         return 0;
     }
-    /*
+    
     else{
         free_wp(wp);
         printf("delete watchpoint %d\n",NO);
         return 0;
     }
-    */
+    
     return 0;
 }
 
