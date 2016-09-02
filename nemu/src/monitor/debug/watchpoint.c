@@ -43,6 +43,7 @@ WP* new_wp(char *args){
 
 
 void free_wp(WP *wp){
+    printf("free a wp\n");
     if(wp==NULL)panic("wp is NULL");
     WP* ip;
     if(head->NO==wp->NO)head=head->next;
