@@ -90,36 +90,13 @@ static int cmd_info(char *args){
         printf("%-20x",cpu.edi);
         printf("\n");
 
-        /*
-        int i;
-        for(i=0;i<8;i++)
-        {
-            printf("%x",cpu.gpr[i]._32);
-            printf("\n");
-        }
-        */
+        
         
     }
     else if(!strcmp(args,"w")){
         
         print_wp();
         
-        /*
-        printf("%-20s","watchpointNO");
-        printf("%-20s","watchpointEXPR");
-        printf("%-20s","watchpointVALUE");
-        printf("\n");
-        WP* wp;
-        bool success=true;
-        for(wp=head;wp!=NULL;wp=wp->next){
-            int val=expr(wp->expr,&success);
-            printf("%-20d",wp->NO);
-            printf("%-20s",wp->expr);
-            printf("%-20d",val);
-            printf("\n");
-        }
-        */
-
     }
 
     return 0;
@@ -133,7 +110,7 @@ static int cmd_p(char *args){
         printf("The result is %d\n",result);
     }
     else{
-        printf("fail to make tokens\n");
+        printf("fail to evaluate expression\n");
     }
     return 0;
 }
@@ -143,18 +120,13 @@ static int cmd_x(char *args){
     
     char *cnum=strtok(args," ");
     char *caddr=strtok(NULL," ");
-    /*
-    char *str;
     
-    int num=atoi(cnum);
-    int addr=strtol(caddr,&str,16);
-    */
     
     int num=atoi(cnum);
     bool success=true;
     int addr=expr(caddr,&success);
     if(!success){
-        printf("fail to make tokens\n");
+        printf("fail to evaluate expression\n");
     }
     else{
         int i;
@@ -202,6 +174,7 @@ static int cmd_d(char *args){
     }
     else{
         free_wp(wp);
+        printf("delete watchpoint %d\n",wp->NO);
         return 0;
     }
 

@@ -23,7 +23,7 @@ void print_wp();
 
 WP* find_wp_byNO(int);
 
-bool check_wp();
+WP* check_wp();
 
 void write_wp(WP*,char*);
 

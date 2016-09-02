@@ -58,11 +58,9 @@ void free_wp(WP *wp){
     wp->in_use=false;
 
 }
-/*
-void write_wp(WP* wp,char *args){
-    strcpy(wp->expr,args);
-}
-*/
+
+
+
 void print_wp(){
     printf("%-20s","wpNO");
     printf("%-20s","wpEXPR");
@@ -95,12 +93,12 @@ WP* find_wp_byNO(int NO){
 
 
 
-bool check_wp(){
+WP* check_wp(){
     WP* wp;
     for(wp=head;wp!=NULL;wp=wp->next){
         bool success=true;
         int val=expr(wp->expr,&success);
-        if(val!=wp->originvalue)return false;
+        if(val!=wp->originvalue)return wp;
     }
-    return true;
+    return NULL;
 }

@@ -74,10 +74,10 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-
-        if(!check_wp()){
+        WP* wp=check_wp();
+        if(wp){
             nemu_state=STOP;
-            printf("watchpoint activited\n");
+            printf("watchpoint %d activited\n",wp->NO);
             return;
         }
         
