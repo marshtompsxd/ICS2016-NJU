@@ -131,6 +131,21 @@ static bool make_token(char *e) {
 }
 
 
+static bool check_match(int p,int q){
+    int i;
+    int leftNum=0;
+    int rightNum=0;
+    for(i=p;i<=q;i++){
+
+        if(tokens[i].type=='(')leftNum++;
+        else if(tokens[i].type==')')rightNum++;
+
+        if(leftNum<rightNum)return false;
+    }
+    if(leftNum==rightNum)return true;
+    else return false;
+}
+
 static bool check_parentheses(int p,int q){
     int i;
     if(tokens[p].type!='('||tokens[q].type!=')'){
@@ -204,35 +219,19 @@ static int find_dominant_operator(int p,int q){
     }
 
 
-    /*
-    qleft=qright=0;
-    qend=q;
-    do{
-
-        for(i=qend;i>=p;i--){
-            if(tokens[i].type=='(')qleft++;
-            else if(tokens[i].type==')')qright++;
-        
-            if(qleft==qright){
-                qend=(qleft==0)?i:i-1;
-                break;
-            }
-        }
-
-
-        for(i=qend;i>=p;i--){
-            if(tokens[i].type=='*'||tokens[i].type=='/')return i;
-            else if(tokens[i].type==')')break;
-        }
-    }while(i>p);
-    */
+    
     return -1;
 }
 
 
-static int eval(int p,int q){
+static int eval(int p,int q,bool* success){
+    if(!(*success)){
+        return -1;
+    }
     if(p>q){
-        panic("tokens index error");
+        printf("tokens index error\n");
+        *success=false;
+        return -1;
     }
     else if(p==q){
         if(tokens[p].type=='d'){
@@ -260,35 +259,59 @@ static int eval(int p,int q){
             printf("val is %d\n",val);
             return val;
         }
-        else panic("this is not a number");
+        else {
+            printf("it is not a number\n");
+            *success=false;
+            return -1;
+        }
     }
     else if(check_parentheses(p,q)==true){
-        int val=eval(p+1,q-1);
+        int val=eval(p+1,q-1,success);
+        if(!(*success)){
+            return -1;
+        }
         printf("val is %d\n",val);
         return val;
     }
     else{
         int index=find_dominant_operator(p,q);
-        if(index==-1)panic("fail to find the dominant operator");
+        if(index==-1){
+            printf("fail to find the dominant operator\n");
+            *success=false;
+            return -1;
+        }
         char* op=tokens[index].str;
         int op_type=tokens[index].type;
         printf("dominant op is %s\n",op);
         if(op_type==DEREF){
-            int addr=eval(index+1,q);
+            int addr=eval(index+1,q,success);
+            if(!(*success)){
+                return -1;
+            }
             return swaddr_read(addr,4);
         }
         else if(op_type==NEG){
-            int val=-1*eval(index+1,q);
+            int val=-1*eval(index+1,q,success);
+            if(!(*success)){
+                return -1;
+            }
             return val;
         }
         else{
-            int val1=eval(p,index-1);
-            int val2=eval(index+1,q);
+            int val1=eval(p,index-1,success);
+            int val2=eval(index+1,q,success);
             switch(op_type){
-                case '+':printf("val is %d\n",val1+val2);return val1+val2;
-                case '-':printf("val is %d\n",val1-val2);return val1-val2;
-                case '*':printf("val is %d\n",val1*val2);return val1*val2;
-                case '/':printf("val is %d\n",val1/val2);return val1/val2;
+                case '+':return val1+val2;
+                case '-':return val1-val2;
+                case '*':return val1*val2;
+                case '/':{
+                    if(val2)return val1/val2;
+                    else{
+                        printf("val2 cannot be 0\n");
+                        *success=false;
+                        return-1;
+                    }
+                }
                 case EQ:return val1==val2;
                 case NEQ:return val1!=val2;
                 case OR:return val1||val2;
@@ -309,11 +332,15 @@ static bool is_operator(int index){
     else return false;
 }
 
+
+
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
 	}
+
+
 
     int i;
     for(i=0;i<nr_token;i++){
@@ -329,6 +356,12 @@ uint32_t expr(char *e, bool *success) {
         }
     }
 
+    if(!check_match(0,nr_token-1)){
+        printf("bracket match error\n");
+        *success=false;
+        return 0;
+    }
+
     printf("nr_token is %d\n",nr_token); 
     
     for(i=0;i<nr_token;i++){
@@ -339,6 +372,6 @@ uint32_t expr(char *e, bool *success) {
 	/* TODO: Insert codes to evaluate the expression. */
 	//panic("please implement me");
     
-    return eval(0,nr_token-1);
+    return eval(0,nr_token-1,success);
 }
 

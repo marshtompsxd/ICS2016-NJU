@@ -50,7 +50,7 @@ WP* new_wp(char *args){
 void free_wp(WP *wp){
     printf("free a wp\n");
     if(wp==NULL)panic("wp is NULL");
-    if(wp->next==NULL)printf("wp->next==NULL\n");
+    // if(wp->next==NULL)printf("wp->next==NULL\n");
     WP* ip;
     if(head->NO==wp->NO)
     {
@@ -62,18 +62,18 @@ void free_wp(WP *wp){
             printf("now ip is NO %d\n",ip->NO );
             if(ip->next->NO==wp->NO){
                 printf("ip->next is NO %d\n",ip->next->NO);
-                if(wp==ip->next){
-                    printf("wp==ip->next\n");
-                }
-                if(wp->next==NULL){
-                    printf("wp->next is NULL\n");
-                }
+                // if(wp==ip->next){
+                //     printf("wp==ip->next\n");
+                // }
+                // if(wp->next==NULL){
+                //     printf("wp->next is NULL\n");
+                // }
                 ip->next=wp->next;
                 break;
             }
         }
     }
-    printf("find the wp\n");
+    // printf("find the wp\n");
     wp->next=free_;
     free_=wp;
     wp->in_use=false;
