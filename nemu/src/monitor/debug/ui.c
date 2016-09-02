@@ -174,7 +174,7 @@ static int cmd_d(char *args){
     }
     else{
         free_wp(wp);
-        printf("delete watchpoint %d\n",wp->NO);
+        printf("delete watchpoint %d\n",NO);
         return 0;
     }
 
