@@ -100,4 +100,7 @@ void restart() {
 
 	/* Initialize DRAM. */
 	init_ddr3();
+
+	/*Initialize EFLAGS.*/
+	init_eflags();
 }
