@@ -24,6 +24,8 @@ static void do_execute(){
 
 	if(MSB(result)==1)cpu.eflags.SF=1;
 	else cpu.eflags.SF=0;
+
+	print_asm_template2();
 }
 
 
