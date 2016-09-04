@@ -39,7 +39,7 @@ static void do_execute(){
 	else
 		cpu.eflags.SF=0;
 
-	//print_asm_template2();
+	print_asm_template2();
 
 }
 
