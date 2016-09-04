@@ -21,7 +21,7 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  */
 
 
-typedef union {
+typedef struct {
 	union{
 		union {
 			uint32_t _32;
