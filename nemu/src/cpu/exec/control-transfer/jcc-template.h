@@ -22,7 +22,14 @@ make_instr_helper(i)
 #endif
 #undef instr
 
-
+#define instr jbe
+make_do_execute(cpu.eflags.CF==1||cpu.eflags.ZF==1)
+#if DATA_BYTE==1
+make_instr_helper(si)
+#elif DATA_BYTE==2||DATA_BYTE==4
+make_instr_helper(i)
+#endif
+#undef instr
 
 
 #include "cpu/exec/template-end.h"
