@@ -28,6 +28,8 @@
 
 #include "push/push.h"
 
+#include "pop/pop.h"
+
 #include "call/call.h"
 
 #include "test/test.h"
