@@ -1,16 +1,23 @@
 #include "cpu/exec/helper.h"
-#include "cpu/decode/modrm.h"
 
-make_helper(leave){
-	cpu.esp=cpu.ebp;
-	if(ops_decoded.is_operand_size_16){
-		cpu.ebp=(swaddr_read(cpu.esp,4)&0xffff)&(cpu.esp&0xffff0000);
-		cpu.esp+=2;
-	}
-	else{
-		cpu.ebp=swaddr_read(cpu.esp,4);
-		cpu.esp+=4;
-	}
-	print_asm("leave");
-	return 0;
+#define DATA_BYTE 2
+#include "leave-template.h"
+#undef DATA_BYTE
+
+#define DATA_BYTE 4
+#include "leave-template.h"
+#undef DATA_BYTE
+
+make_helper(leave_w)
+{
+	do_leave_w();
+	return 1;
 }
+
+make_helper(leave_l)
+{
+	do_leave_l();
+	return 1;
+}
+
+make_helper_v(leave)
