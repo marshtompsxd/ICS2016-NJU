@@ -32,6 +32,8 @@
 
 #include "call/call.h"
 
+#include "ret/ret.h"
+
 #include "test/test.h"
 
 #include "jcc/jcc.h"
