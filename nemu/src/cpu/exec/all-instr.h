@@ -36,3 +36,4 @@
 #include "control-transfer/call.h"
 #include "control-transfer/ret.h"
 #include "control-transfer/jcc.h"
+#include "control-transfer/jmp.h"
