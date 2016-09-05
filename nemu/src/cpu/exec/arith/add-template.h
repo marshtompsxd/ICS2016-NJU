@@ -7,7 +7,7 @@ static void do_execute() {
 	DATA_TYPE addend2=op_dest->val;
 	DATA_TYPE result=addend1+addend2;
 
-	if(result=0)
+	if(result==0)
 		cpu.eflags.ZF=1;
 	else 
 		cpu.eflags.ZF=0;
@@ -15,7 +15,7 @@ static void do_execute() {
 	if(addend1>result||addend2>result)
 		cpu.eflags.CF=1;
 	else
-		cpi.eflags.CF=0;
+		cpu.eflags.CF=0;
 
 	int i;
 	int temp=result;
@@ -34,11 +34,28 @@ static void do_execute() {
 		cpu.eflags.SF=1;
 	else
 		cpu.eflags.SF=0;
+
+	if(MSB(result)!=MSB(addend1)&&MSB(addend1)==MSB(addend2))
+		cpu.eflags.OF=1;
+	else
+		cpu.eflags.OF=0;
+
+	OPERAND_W(op_dest,result);
 	
 
 	print_asm_template2();
 }
 
-make_instr_helper(rm)
+
+make_instr_helper(i2a)
+make_instr_helper(i2rm)
+make_instr_helper(r2rm)
+make_instr_helper(rm2r)
+
+#if DATA_BYTE==2||DATA_BYTE==4
+make_instr_helper(si2rm)
+#endif
+
+#include "cpu/exec/template-end.h"
 
 #include "cpu/exec/template-end.h"
