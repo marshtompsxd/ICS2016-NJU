@@ -6,6 +6,8 @@ static void do_execute(){
 	DATA_TYPE subtrahend=op_src->val;
 	DATA_TYPE minuend=op_dest->val;
 	DATA_TYPE result=minuend-subtrahend;
+	OPERAND_W(op_dest,result);
+
 	if(minuend<subtrahend)
 		cpu.eflags.CF=1;
 	else 
@@ -39,7 +41,7 @@ static void do_execute(){
 	else
 		cpu.eflags.SF=0;
 
-	OPERAND_W(op_dest,result);
+	
 
 	print_asm_template2();
 
