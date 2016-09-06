@@ -2,7 +2,10 @@
 
 #define instr movsx
 static void do_execute(){
-	OPERAND_W(op_dest,(DATA_TYPE_S)op_src->val);
+	if(DATA_BYTE==2)
+		OPERAND_W(op_dest,((int16_t)op_src->val<<8)>>8);
+	else
+		OPERAND_W(op_dest,((int32_t)op_src->val<<24)>>24);
 	print_asm_template2();
 }
 
@@ -15,7 +18,7 @@ make_helper(concat(movsx_rm2r_,SUFFIX)){
 #define instr movsxv
 #if DATA_BYTE==4
 static void do_execute(){
-	OPERAND_W(op_dest,(DATA_TYPE_S)op_src->val);
+	OPERAND_W(op_dest,((int32_t)op_src->val<<16)>>16);
 	print_asm_template2();
 }
 
