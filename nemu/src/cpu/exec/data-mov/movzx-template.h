@@ -18,7 +18,7 @@ make_helper(concat(movzx_rm2r_,SUFFIX)){
 #define instr movzxv
 #if DATA_BYTE==4
 static void do_execute(){
-	OPERAND_W(op_dest,((uint32_t)op_src->val<<16)>>16);
+	OPERAND_W(op_dest,((uint32_t)op_src->val<<24)>>24);
 	print_asm_template2();
 }
 
