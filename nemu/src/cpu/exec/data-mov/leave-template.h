@@ -5,14 +5,14 @@
 static void do_execute(){
 	
 	cpu.esp=cpu.ebp;
-	if(DATA_BYTE==2){
+	if(DATA_BYTE==2)
 		reg_w(R_BP)=MEM_R(cpu.esp);
-		cpu.esp+=2;
-	}
-	else{
+	
+	else if(DATA_BYTE==4)
 		cpu.ebp=MEM_R(cpu.esp);
-		cpu.esp+=4;
-	}
+	
+
+	cpu.esp+=DATA_BYTE;
 	
 	print_asm_template1();
 }

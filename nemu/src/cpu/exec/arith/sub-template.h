@@ -18,7 +18,7 @@ static void do_execute(){
 	else
 		cpu.eflags.ZF=0;
 
-	if((MSB(subtrahend)==MSB(result))&&(MSB(subtrahend)!=MSB(minuend)))
+	if((MSB(minuend)!=MSB(result))&&(MSB(subtrahend)!=MSB(minuend)))
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;

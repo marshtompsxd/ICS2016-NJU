@@ -17,9 +17,7 @@ make_helper(ret){
 make_helper(ret_i_w){
 	cpu.eip=swaddr_read(cpu.esp,4);
 	cpu.esp+=4;
-	if(ops_decoded.is_operand_size_16){
-			cpu.eip=cpu.eip&0xffff;
-	}
+	
 	cpu.esp+=op_src->val;
 
 	print_asm("ret_i_w");

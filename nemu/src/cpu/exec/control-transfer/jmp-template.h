@@ -14,6 +14,7 @@ static void do_execute(){
 		else
 			cpu.eip=op_src->val-2;
 	}
+	print_asm_template1();
 }
 
 #if DATA_BYTE==1
