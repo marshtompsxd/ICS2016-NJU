@@ -7,7 +7,7 @@ make_helper(lods_b){
 		cpu.esi += 1;
 	else 
 		cpu.esi -= 1;
-	print_asm("stosb");
+	print_asm("lodsb");
 	return 1;
 }
 
@@ -17,7 +17,7 @@ make_helper(lods_w){
 		cpu.esi+=2;
 	else
 		cpu.esi-=2;
-	print_asm("stosw");
+	print_asm("lodsw");
 	return 1;
 }
 
@@ -27,7 +27,7 @@ make_helper(lods_l){
 		cpu.esi+=4;
 	else
 		cpu.esi-=4;
-	print_asm("stosl");
+	print_asm("lodsl");
 	return 1;
 }
 
