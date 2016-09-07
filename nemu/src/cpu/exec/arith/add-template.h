@@ -3,16 +3,15 @@
 #define instr add
 
 static void do_execute() {
-	DATA_TYPE addend1=op_src->val;
-	DATA_TYPE addend2=op_dest->val;
-	DATA_TYPE result=addend1+addend2;
+	
+	DATA_TYPE result=op_src->val+op_dest->val;
 
 	if(result==0)
 		cpu.eflags.ZF=1;
 	else 
 		cpu.eflags.ZF=0;
 
-	if(addend1>result||addend2>result)
+	if((op_src->val)>result||(op_dest->val)>result)
 		cpu.eflags.CF=1;
 	else
 		cpu.eflags.CF=0;
@@ -35,7 +34,7 @@ static void do_execute() {
 	else
 		cpu.eflags.SF=0;
 
-	if(MSB(result)!=MSB(addend1)&&MSB(addend1)==MSB(addend2))
+	if(MSB(result)!=MSB(op_dest->val)&&MSB(op_dest->val)==MSB(op_src->val))
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;
@@ -58,4 +57,4 @@ make_instr_helper(si2rm)
 
 #include "cpu/exec/template-end.h"
 
-#include "cpu/exec/template-end.h"
+
