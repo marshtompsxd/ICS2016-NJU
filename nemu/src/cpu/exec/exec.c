@@ -74,12 +74,12 @@ make_group(group3_v,
 
 /* 0xfe */
 make_group(group4,
-	inv, inv, inv, inv, 
+	inc_rm_b, inv, inv, inv, 
 	inv, inv, inv, inv)
 
 /* 0xff */
 make_group(group5,
-	inv, inv, inv, inv, 
+	inc_rm_v, inv, inv, inv, 
 	jmp_rm_v, inv, push_rm_v, inv)
 
 make_group(group6,
@@ -110,7 +110,7 @@ helper_fun opcode_table [256] = {
 /* 0x34 */	xor_i2a_b, xor_i2a_v, inv, inv,
 /* 0x38 */	cmp_r2rm_b, cmp_r2rm_v, cmp_rm2r_b, cmp_rm2r_v,
 /* 0x3c */	cmp_i2a_b, cmp_i2a_v, inv, inv,
-/* 0x40 */	inv, inv, inv, inv,
+/* 0x40 */	inc_r_v, inv, inv, inv,
 /* 0x44 */	inv, inv, inv, inv,
 /* 0x48 */	inv, inv, inv, inv,
 /* 0x4c */	inv, inv, inv, inv,
@@ -122,10 +122,10 @@ helper_fun opcode_table [256] = {
 /* 0x64 */	inv, inv, operand_size, inv,
 /* 0x68 */	push_i_v, inv, push_i_b, inv,
 /* 0x6c */	inv, inv, inv, inv,
-/* 0x70 */	inv, inv, inv, inv,
-/* 0x74 */	je_si_b, inv, jbe_si_b, inv,
-/* 0x78 */	inv, inv, inv, inv,
-/* 0x7c */	inv, inv, inv, inv,
+/* 0x70 */	jo_si_b, jno_si_b, jb_si_b, jae_si_b,
+/* 0x74 */	je_si_b, jne_si_b, jbe_si_b, ja_si_b,
+/* 0x78 */	js_si_b, jns_si_b, jp_si_b, jnp_si_b,
+/* 0x7c */	jl_si_b, jge_si_b, jle_si_b, jg_si_b,
 /* 0x80 */	group1_b, group1_v, inv, group1_sx_v, 
 /* 0x84 */	test_r2rm_b, test_r2rm_v, inv, inv,
 /* 0x88 */	mov_r2rm_b, mov_r2rm_v, mov_rm2r_b, mov_rm2r_v,
@@ -193,10 +193,10 @@ helper_fun _2byte_opcode_table [256] = {
 /* 0x74 */	inv, inv, inv, inv,
 /* 0x78 */	inv, inv, inv, inv, 
 /* 0x7c */	inv, inv, inv, inv, 
-/* 0x80 */	inv, inv, inv, inv,
-/* 0x84 */	je_i_v, inv, jbe_i_v, inv,
-/* 0x88 */	inv, inv, inv, inv, 
-/* 0x8c */	inv, inv, inv, inv, 
+/* 0x80 */	jo_i_v, jno_i_v, jb_i_v, jae_i_v,
+/* 0x84 */	je_i_v, jne_i_v, jbe_i_v, ja_i_v,
+/* 0x88 */	js_i_v, jns_i_v, jp_i_v, jnp_i_v, 
+/* 0x8c */	jl_i_v, jge_i_v, jle_i_v, jg_i_v, 
 /* 0x90 */	seto_rm_b, setno_rm_b, setb_rm_b, setae_rm_b,
 /* 0x94 */	sete_rm_b, setne_rm_b, setbe_rm_b, seta_rm_b,
 /* 0x98 */	sets_rm_b, setns_rm_b, setp_rm_b, setnp_rm_b, 

@@ -12,6 +12,11 @@ static void do_execute() {
 	else 
 		cpu.eflags.ZF=0;
 
+	if(MSB(result)!=MSB(addend2)&&MSB(addend1+cpu.eflags.CF)==MSB(addend2))
+		cpu.eflags.OF=1;
+	else
+		cpu.eflags.OF=0;
+	
 	if((addend1+cpu.eflags.CF)>result||(addend2+cpu.eflags.CF)>result)
 		cpu.eflags.CF=1;
 	else
@@ -35,10 +40,7 @@ static void do_execute() {
 	else
 		cpu.eflags.SF=0;
 
-	if(MSB(result)!=MSB(addend2)&&MSB(addend1+cpu.eflags.CF)==MSB(addend2))
-		cpu.eflags.OF=1;
-	else
-		cpu.eflags.OF=0;
+	
 
 	OPERAND_W(op_dest,result);
 	
