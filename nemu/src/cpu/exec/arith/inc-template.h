@@ -32,7 +32,7 @@ static void do_execute () {
 	else
 		cpu.eflags.SF=0;
 
-	if(MSB(result)!=MSB(op_src->val)&&MSB(op_src->val)==1)
+	if(MSB(result)!=MSB(op_src->val)&&MSB(op_src->val)==0)
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;
