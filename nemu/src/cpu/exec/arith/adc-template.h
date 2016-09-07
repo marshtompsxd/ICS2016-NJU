@@ -23,7 +23,7 @@ static void do_execute() {
 		cpu.eflags.CF=0;
 
 	int i;
-	int temp=result;
+	DATA_TYPE temp=result;
 	int count=0;
 	for(i=0;i<8;i++){
 		if((temp&0x1)==0x1)count++;
