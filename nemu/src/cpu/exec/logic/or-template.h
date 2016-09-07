@@ -16,7 +16,7 @@ static void do_execute () {
 	int temp=result;
 	int i;
 	for(i=0;i<8;i++){
-		if(temp&0x1)count++;
+		if((temp&0x1)==0x1)count++;
 		temp=temp>>1;
 	}
 
