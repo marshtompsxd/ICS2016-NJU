@@ -4,14 +4,16 @@
 
 static void do_execute() {
 	
-	DATA_TYPE result=op_src->val+op_dest->val;
-
+	
+	DATA_TYPE addend1=op_src->val;
+	DATA_TYPE addend2=op_dest->val;
+	DATA_TYPE result=addend1+addend2;
 	if(result==0)
 		cpu.eflags.ZF=1;
 	else 
 		cpu.eflags.ZF=0;
 
-	if((op_src->val)>result||(op_dest->val)>result)
+	if((addend1)>result||(addend2)>result)
 		cpu.eflags.CF=1;
 	else
 		cpu.eflags.CF=0;
@@ -34,7 +36,7 @@ static void do_execute() {
 	else
 		cpu.eflags.SF=0;
 
-	if(MSB(result)!=MSB(op_dest->val)&&MSB(op_dest->val)==MSB(op_src->val))
+	if(MSB(result)!=MSB(addend2)&&MSB(addend2)==MSB(addend1))
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;
