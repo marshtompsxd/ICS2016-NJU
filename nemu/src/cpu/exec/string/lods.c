@@ -2,7 +2,7 @@
 
 
 make_helper(lods_b){
-	cpu.eax=swaddr_read(cpu.esi,1);
+	cpu.gpr[0]._8[0]=swaddr_read(cpu.esi,1);
 	if (cpu.eflags.DF == 0)	
 		cpu.esi += 1;
 	else 
@@ -12,7 +12,7 @@ make_helper(lods_b){
 }
 
 make_helper(lods_w){
-	cpu.eax=swaddr_read(cpu.esi,2);
+	cpu.gpr[0]._16=swaddr_read(cpu.esi,2);
 	if(cpu.eflags.DF==0)
 		cpu.esi+=2;
 	else

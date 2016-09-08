@@ -26,7 +26,7 @@ make_helper(rep) {
 				);
 
 			/* TODO: Jump out of the while loop if necessary. */
-			//if(cpu.eflags.ZF==0)break;
+			if(cpu.eflags.ZF==0)break;
 
 		}
 		len = 1;
