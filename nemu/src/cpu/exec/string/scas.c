@@ -39,9 +39,9 @@
 
 
 make_helper(scas_b){
-	uint8_t minuend=cpu.eax&0xff;
-	uint8_t subtrahend=cpu.edi;
-	uint8_t result=minuend-subtrahend;
+	uint32_t minuend=cpu.eax;
+	uint32_t subtrahend=cpu.edi;
+	uint32_t result=minuend-subtrahend;
 
 	
 	
@@ -55,7 +55,7 @@ make_helper(scas_b){
 	else
 		cpu.eflags.ZF=0;
 
-	if(((minuend>>7)!=(result>>7))&&((subtrahend>>7)!=(minuend>>7)))
+	if(((minuend>>31)!=(result>>31))&&((subtrahend>>31)!=(minuend>>31)))
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;
@@ -88,9 +88,9 @@ make_helper(scas_b){
 }
 
 make_helper(scas_w){
-	uint16_t minuend=cpu.eax&0xffff;
-	uint16_t subtrahend=cpu.edi;
-	uint16_t result=minuend-subtrahend;
+	uint32_t minuend=cpu.eax;
+	uint32_t subtrahend=cpu.edi;
+	uint32_t result=minuend-subtrahend;
 	if(minuend<subtrahend)
 		cpu.eflags.CF=1;
 	else 
@@ -101,7 +101,7 @@ make_helper(scas_w){
 	else
 		cpu.eflags.ZF=0;
 
-	if(((minuend>>15)!=(result>>15))&&((subtrahend>>15)!=(minuend>>15)))
+	if(((minuend>>31)!=(result>>31))&&((subtrahend>>31)!=(minuend>>31)))
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;
@@ -123,11 +123,7 @@ make_helper(scas_w){
 		cpu.eflags.SF=1;
 	else
 		cpu.eflags.SF=0;
-
-
-
-
-
+	
 	if(cpu.eflags.DF==0)
 		cpu.edi+=2;
 	else
