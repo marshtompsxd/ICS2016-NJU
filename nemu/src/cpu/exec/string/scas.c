@@ -61,7 +61,7 @@ make_helper(scas_b){
 		cpu.eflags.OF=0;
 
 	int i;
-	int temp=result;
+	uint8_t temp=result;
 	int count=0;
 	for(i=0;i<8;i++){
 		if((temp&0x1)==0x1)count++;
@@ -107,7 +107,7 @@ make_helper(scas_w){
 		cpu.eflags.OF=0;
 
 	int i;
-	int temp=result;
+	uint16_t temp=result;
 	int count=0;
 	for(i=0;i<8;i++){
 		if((temp&0x1)==0x1)count++;
@@ -152,7 +152,7 @@ make_helper(scas_l){
 		cpu.eflags.OF=0;
 
 	int i;
-	int temp=result;
+	uint32_t temp=result;
 	int count=0;
 	for(i=0;i<8;i++){
 		if((temp&0x1)==0x1)count++;
