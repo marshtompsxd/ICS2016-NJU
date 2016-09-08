@@ -84,7 +84,7 @@ make_helper(scas_b){
 	else 
 		cpu.edi -= 1;
 	print_asm("scasb");
-	return 1;
+	return 0;
 }
 
 make_helper(scas_w){
@@ -129,7 +129,7 @@ make_helper(scas_w){
 	else
 		cpu.edi-=2;
 	print_asm("scasw");
-	return 1;
+	return 0;
 }
 
 make_helper(scas_l){
@@ -174,7 +174,7 @@ make_helper(scas_l){
 	else
 		cpu.edi-=4;
 	print_asm("scasl");
-	return 1;
+	return 0;
 }
 
 make_helper_v(scas)
