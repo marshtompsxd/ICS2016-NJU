@@ -40,7 +40,7 @@
 
 make_helper(scas_b){
 	uint8_t minuend=cpu.eax&0xff;
-	uint8_t subtrahend=swaddr_read(cpu.edi,1);
+	uint8_t subtrahend=cpu.edi;
 	uint8_t result=minuend-subtrahend;
 
 	
@@ -89,7 +89,7 @@ make_helper(scas_b){
 
 make_helper(scas_w){
 	uint16_t minuend=cpu.eax&0xffff;
-	uint16_t subtrahend=swaddr_read(cpu.edi,2);
+	uint16_t subtrahend=cpu.edi;
 	uint16_t result=minuend-subtrahend;
 	if(minuend<subtrahend)
 		cpu.eflags.CF=1;
@@ -138,7 +138,7 @@ make_helper(scas_w){
 
 make_helper(scas_l){
 	uint32_t minuend=cpu.eax;
-	uint32_t subtrahend=swaddr_read(cpu.edi,4);
+	uint32_t subtrahend=cpu.edi;
 	uint32_t result=minuend-subtrahend;
 	if(minuend<subtrahend)
 		cpu.eflags.CF=1;
