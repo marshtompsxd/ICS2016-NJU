@@ -1,8 +1,13 @@
 #include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
-	nemu_assert(0);
-	return 0;
+	//nemu_assert(0);
+	//return 0;
+	long long la=a;
+	long long lb=b;
+	long long lresult=la*lb;
+	FLOAT result=lresult>>16;
+	return result;
 }
 
 FLOAT F_div_F(FLOAT a, FLOAT b) {
@@ -24,8 +29,30 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 * out another way to perform the division.
 	 */
 
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	// return 0;
+
+	 int sign=1;
+	 if(a<0){
+	 	sign*=-1;
+	 	a=-a;
+	 }
+	 if(b<0){
+	 	sign*=-1;
+	 	b=-b;
+	 }
+	 int result=a/b;
+	 a=a%b;
+	 int i;
+	 for(i=0;i<16;i++){
+	 	a<<=1;
+	 	result<<=1;
+	 	if(a>=b){
+	 		a-=b;
+	 		result++:
+	 	}
+	 }
+	 return result*sign;
 }
 
 FLOAT f2F(float a) {
@@ -39,13 +66,26 @@ FLOAT f2F(float a) {
 	 * performing arithmetic operations on it directly?
 	 */
 
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	// return 0;
+
+
+	uint32_t af = *(uint32_t *)&a;
+    uint32_t sign = af >> 31;
+    int exp = (af >> 23) & 0xff;
+    uint32_t res = af & 0x7fffff;
+    if (exp != 0) res += 1 << 23;
+    exp -= 150;
+    if (exp < -16) res >>= -16 - exp;
+    if (exp > -16) res <<= exp + 16;
+    return sign == 0 ? res : -res;
+
 }
 
 FLOAT Fabs(FLOAT a) {
-	nemu_assert(0);
-	return 0;
+	// nemu_assert(0);
+	// return 0;
+	return (a>=0)?a:(-1*a);
 }
 
 /* Functions below are already implemented */
