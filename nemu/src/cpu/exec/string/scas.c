@@ -39,9 +39,9 @@
 
 
 make_helper(scas_b){
-	uint32_t minuend=cpu.eax;
-	uint32_t subtrahend=cpu.edi;
-	uint32_t result=minuend-subtrahend;
+	uint8_t minuend=cpu.eax;
+	uint8_t subtrahend=cpu.edi;
+	uint8_t result=minuend-subtrahend;
 
 	
 	
@@ -55,7 +55,7 @@ make_helper(scas_b){
 	else
 		cpu.eflags.ZF=0;
 
-	if(((minuend>>31)!=(result>>31))&&((subtrahend>>31)!=(minuend>>31)))
+	if(((minuend>>7)!=(result>>7))&&((subtrahend>>7)!=(minuend>>7)))
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;
@@ -84,13 +84,13 @@ make_helper(scas_b){
 	else 
 		cpu.edi -= 1;
 	print_asm("scasb");
-	return 2;
+	return 1;
 }
 
 make_helper(scas_w){
-	uint32_t minuend=cpu.eax;
-	uint32_t subtrahend=cpu.edi;
-	uint32_t result=minuend-subtrahend;
+	uint16_t minuend=cpu.eax;
+	uint16_t subtrahend=cpu.edi;
+	uint16_t result=minuend-subtrahend;
 	if(minuend<subtrahend)
 		cpu.eflags.CF=1;
 	else 
@@ -101,7 +101,7 @@ make_helper(scas_w){
 	else
 		cpu.eflags.ZF=0;
 
-	if(((minuend>>31)!=(result>>31))&&((subtrahend>>31)!=(minuend>>31)))
+	if(((minuend>>15)!=(result>>15))&&((subtrahend>>15)!=(minuend>>15)))
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;
@@ -129,7 +129,7 @@ make_helper(scas_w){
 	else
 		cpu.edi-=2;
 	print_asm("scasw");
-	return 2;
+	return 1;
 }
 
 make_helper(scas_l){
@@ -174,7 +174,7 @@ make_helper(scas_l){
 	else
 		cpu.edi-=4;
 	print_asm("scasl");
-	return 2;
+	return 1;
 }
 
 make_helper_v(scas)
