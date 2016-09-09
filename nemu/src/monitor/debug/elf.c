@@ -81,3 +81,16 @@ void load_elf_tables(int argc, char *argv[]) {
 	fclose(fp);
 }
 
+
+
+bool find_obj_in_elf(const char* objname,uint32_t *addr){
+	int i;
+	for(i=0;i<nr_symtab_entry;i++){
+		if(strcmp(objname,strtab+symtab[i].st_name)){
+			*addr=symtab[i].st_value;
+			return true;
+		}
+	}
+	
+	return false;
+}
