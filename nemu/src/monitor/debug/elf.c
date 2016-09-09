@@ -86,7 +86,7 @@ void load_elf_tables(int argc, char *argv[]) {
 bool find_obj_in_elf(const char* objname,uint32_t *addr){
 	int i;
 	for(i=0;i<nr_symtab_entry;i++){
-		if(strcmp(objname,strtab+symtab[i].st_name)){
+		if(strcmp(objname,strtab+symtab[i].st_name)==0){
 
 			*addr=symtab[i].st_value;
 			printf("find the obj which value is %d\n", *addr);
