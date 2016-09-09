@@ -7,8 +7,11 @@
 #include <regex.h>
 #include <stdlib.h>
 
+bool find_obj_in_elf(const char* , uint32_t * );
+
+
 enum {
-	NOTYPE = 256,EQ,NEQ,AND,OR,NOT,DEREF,NEG
+	NOTYPE = 256,EQ,NEQ,AND,OR,NOT,DEREF,NEG,ELFOBJ
 
 	/* TODO: Add more token types */
 
@@ -37,7 +40,8 @@ static struct rule {
     {"\\(", '('},                   // left bracket
     {"\\)", ')'},                   // right bracket
     {"0x[0-9a-f]+",'h'},            // hexadecimal number
-    {"[0-9]+", 'd'}                 // decimal number
+    {"[0-9]+", 'd'},                // decimal number
+    {"[_a-zA-Z0-9]+",ELFOBJ}        // object in elf
 }; 
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -101,7 +105,8 @@ static bool make_token(char *e) {
                     case NEQ: 
                     case OR: 
                     case AND: 
-                    case NOT: 
+                    case NOT:
+                    case ELFOBJ: 
                     case '(': 
                     case ')':
                     case 'r':
@@ -259,6 +264,17 @@ static int eval(int p,int q,bool* success){
             //printf("val is %d\n",val);
             return val;
         }
+        else if(tokens[p].type==ELFOBJ){
+            uint32_t addr;
+            bool findit=find_obj_in_elf(tokens[p].str,&addr);
+            if(findit)
+                return addr;
+            else{
+                printf("no such odj in elf\n");
+                *success=false;
+                return -1;
+            }
+        }
         else {
             printf("it is not a number\n");
             *success=false;
@@ -310,7 +326,13 @@ static int eval(int p,int q,bool* success){
         }
         else{
             int val1=eval(p,index-1,success);
+            if(!(*success)){
+                return -1;
+            }
             int val2=eval(index+1,q,success);
+            if(!(*success)){
+                return -1;
+            }
             switch(op_type){
                 case '+':return val1+val2;
                 case '-':return val1-val2;
