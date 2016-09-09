@@ -267,8 +267,10 @@ static int eval(int p,int q,bool* success){
         else if(tokens[p].type==ELFOBJ){
             uint32_t addr;
             bool findit=find_obj_in_elf(tokens[p].str,&addr);
-            if(findit)
+            if(findit){
+                printf("find the obj\n");
                 return addr;
+            }
             else{
                 printf("no such odj in elf\n");
                 *success=false;
