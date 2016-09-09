@@ -70,15 +70,16 @@ FLOAT f2F(float a) {
 	// return 0;
 
 
-	uint32_t af = *(uint32_t *)&a;
-    uint32_t sign = af >> 31;
-    int exp = (af >> 23) & 0xff;
-    uint32_t res = af & 0x7fffff;
-    if (exp != 0) res += 1 << 23;
-    exp -= 150;
-    if (exp < -16) res >>= -16 - exp;
-    if (exp > -16) res <<= exp + 16;
-    return sign == 0 ? res : -res;
+	
+	 uint32_t fta=*(uint32_t *)&a;
+	 uint32_t sign=fta>>31;
+	 int exp=(fta>>23)&0xff;
+	 uint32_t result=fta&0x7fffff;
+	 if(exp!=0)result+=1<<23;
+	 exp-=150;
+	 if(exp<-16)result>>=-16-exp;
+	 if(exp>-16)result<<=exp+16;
+	 return sign==0?result:-result;
 
 }
 

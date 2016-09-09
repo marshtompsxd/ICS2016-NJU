@@ -48,13 +48,6 @@ make_instr_helper(rm)
 #undef instr
 
 
-// #define instr setc
-// make_do_execute(cpu.eflags.CF==1)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
-
 #define instr seto
 make_do_execute(cpu.eflags.OF==1)
 #if DATA_BYTE==1
@@ -111,41 +104,7 @@ make_instr_helper(rm)
 #endif
 #undef instr
 
-// #define instr setnb
-// make_do_execute(cpu.eflags.CF==0)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
 
-// #define instr setnbe
-// make_do_execute(cpu.eflags.CF==0&&cpu.eflags.ZF==0)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
-
-// #define instr setna
-// make_do_execute(cpu.eflags.CF==1||cpu.eflags.ZF==1)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
-
-// #define instr setnae
-// make_do_execute(cpu.eflags.CF==1)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
-
-
-// #define instr setnc
-// make_do_execute(cpu.eflags.CF==0)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
 
 #define instr setno
 make_do_execute(cpu.eflags.OF==0)
@@ -168,33 +127,6 @@ make_instr_helper(rm)
 #endif
 #undef instr
 
-// #define instr setnl
-// make_do_execute(cpu.eflags.SF==cpu.eflags.OF)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
-
-// #define instr setnle
-// make_do_execute(cpu.eflags.SF!=cpu.eflags.OF&&cpu.eflags.ZF==1)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
-
-// #define instr setng
-// make_do_execute(cpu.eflags.SF!=cpu.eflags.OF||cpu.eflags.ZF==1)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
-
-// #define instr setnge
-// make_do_execute(cpu.eflags.SF!=cpu.eflags.OF)
-// #if DATA_BYTE==1
-// make_instr_helper(rm)
-// #endif
-// #undef instr
 
 
 #include "cpu/exec/template-end.h"
