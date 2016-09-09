@@ -89,7 +89,7 @@ bool find_obj_in_elf(const char* objname,uint32_t *addr){
 		if(strcmp(objname,strtab+symtab[i].st_name)){
 
 			*addr=symtab[i].st_value;
-			printf("find the obj which value is%d\n", *addr);
+			printf("find the obj which value is %d\n", *addr);
 			return true;
 		}
 	}
