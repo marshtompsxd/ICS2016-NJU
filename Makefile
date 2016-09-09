@@ -53,7 +53,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/start
+USERPROG := obj/testcase/min3
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
