@@ -10,6 +10,15 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
+bool find_func_in_elf(swaddr_t, char*);
+
+
+
+typedef struct {
+    swaddr_t prev_ebp;
+    swaddr_t ret_addr;
+    uint32_t args[4];
+} PartOfStackFrame;
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -183,6 +192,27 @@ static int cmd_d(char *args){
     return 0;
 }
 
+
+static int cmd_bt(char *args){
+    PartOfStackFrame st;
+    st.prev_ebp=cpu.ebp;
+    st.ret_addr=cpu.eip;
+    int count=0;
+    while(st.prev_ebp){
+        char *funcname=NULL;
+        bool findit=find_func_in_elf(st.ret_addr,funcname);
+        if(!findit){
+            strcmp(funcname,"???\0");
+        }
+        printf("%d:",count);
+        printf("%x in %s",st.ret_addr,funcname);
+
+        st.ret_addr=swaddr_read(st.prev_ebp+4,4);
+        st.prev_ebp=swaddr_read(st.prev_ebp,4);
+    }
+    return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -198,6 +228,7 @@ static struct {
     { "x","Scanf the memory",cmd_x },
     { "w","Set a watchpoint",cmd_w },
     { "d","Delete a watchpoint",cmd_d },
+    { "bt","Print the stack information" ,cmd_bt},
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
