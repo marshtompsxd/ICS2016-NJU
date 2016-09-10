@@ -96,3 +96,19 @@ bool find_obj_in_elf(const char* objname,uint32_t *addr){
 	
 	return false;
 }
+
+bool find_func_in_elf(swaddr_t addr, char* funcname){
+	int i;
+	int index=-1;
+	for(i=0;i<nr_symtab_entry;i++){
+		if(symtab[i].st_info&STT_FUNC){
+			if(index==-1||(addr>symtab[i].st_value&&symtab[i].st_value>symtab[index].st_value))
+				index=i;
+		}
+	}
+	if(index==-1)return false;
+	else{
+		strcpy(funcname,symtab[index].st_name+strtab);
+		return true;
+	}
+}

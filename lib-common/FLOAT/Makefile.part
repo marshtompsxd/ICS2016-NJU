@@ -10,7 +10,7 @@ $(FLOAT): $(FLOAT_A_OBJ)
 
 # TODO: complete the following rules
 
-LIB_COMMON_CFLAGS_EXTRA := -c -m32 -O2 -msoft-float -mno-sse -fno-builtin -fno-stack-protector -std=gnu11
+LIB_COMMON_CFLAGS_EXTRA := -m32 -O2 -fno-builtin
 
 
 $(FLOAT_O): % : $(LIB_COMMON_DIR)/FLOAT.c
