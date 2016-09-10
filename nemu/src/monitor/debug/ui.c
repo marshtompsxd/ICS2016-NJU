@@ -197,16 +197,20 @@ static int cmd_bt(char *args){
     PartOfStackFrame st;
     st.prev_ebp=cpu.ebp;
     st.ret_addr=cpu.eip;
-    int count=0;
+    int count=1;
     while(st.prev_ebp){
         char *funcname;
         funcname=find_func_in_elf(st.ret_addr);
         if(funcname==NULL){
             strcmp(funcname,"???");
         }
+        int i;
+        for(i=0;i<4;i++){
+            st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
+        }
         printf("%d:",count);
         printf("%x in %s",st.ret_addr,funcname);
-        printf("(0x%x,0x%x,0x%x,0x%x)\n",swaddr_read(st.prev_ebp+8,4),swaddr_read(st.prev_ebp+12,4),swaddr_read(st.prev_ebp+16,4),swaddr_read(st.prev_ebp+20,4));
+        printf("(0x%x,0x%x,0x%x,0x%x)\n",st.args[0],st.args[1],st.args[2],st.args[3]);
         st.ret_addr=swaddr_read(st.prev_ebp+4,4);
         st.prev_ebp=swaddr_read(st.prev_ebp,4);
         count++;
