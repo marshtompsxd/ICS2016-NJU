@@ -39,7 +39,7 @@ static struct rule {
     {"/", '/'},                     // divide
     {"\\(", '('},                   // left bracket
     {"\\)", ')'},                   // right bracket
-    {"0x[0-9a-f]+",'h'},            // hexadecimal number
+    {"0[xX][0-9a-fA-Z]+",'h'},      // hexadecimal number
     {"[0-9]+", 'd'},                // decimal number
     {"[_a-zA-Z0-9]+",ELFOBJ}        // object in elf
 }; 
@@ -261,7 +261,27 @@ static int eval(int p,int q,bool* success){
             else if(!strcmp("$ebp",tokens[p].str))val=cpu.ebp;
             else if(!strcmp("$esi",tokens[p].str))val=cpu.esi;
             else if(!strcmp("$edi",tokens[p].str))val=cpu.edi;
-            else panic("register name error");
+            else if(!strcmp("$ax",tokens[p].str))val=cpu.gpr[0]._16;
+            else if(!strcmp("$cx",tokens[p].str))val=cpu.gpr[1]._16;
+            else if(!strcmp("$dx",tokens[p].str))val=cpu.gpr[2]._16;
+            else if(!strcmp("$bx",tokens[p].str))val=cpu.gpr[3]._16;
+            else if(!strcmp("$sp",tokens[p].str))val=cpu.gpr[4]._16;
+            else if(!strcmp("$bp",tokens[p].str))val=cpu.gpr[5]._16;
+            else if(!strcmp("$si",tokens[p].str))val=cpu.gpr[6]._16;
+            else if(!strcmp("$di",tokens[p].str))val=cpu.gpr[7]._16;
+            else if(!strcmp("$al",tokens[p].str))val=cpu.gpr[0]._8[0];
+            else if(!strcmp("$ah",tokens[p].str))val=cpu.gpr[0]._8[1];
+            else if(!strcmp("$cl",tokens[p].str))val=cpu.gpr[1]._8[0];
+            else if(!strcmp("$ch",tokens[p].str))val=cpu.gpr[1]._8[1];
+            else if(!strcmp("$dl",tokens[p].str))val=cpu.gpr[2]._8[0];
+            else if(!strcmp("$dh",tokens[p].str))val=cpu.gpr[2]._8[1];
+            else if(!strcmp("$bl",tokens[p].str))val=cpu.gpr[3]._8[0];
+            else if(!strcmp("$bh",tokens[p].str))val=cpu.gpr[3]._8[1];
+            else if(!strcmp("$eip",tokens[p].str))val=cpu.eip;
+            else {
+                *success=false;
+                return -1;
+            }
             //printf("val is %d\n",val);
             return val;
         }

@@ -98,9 +98,10 @@ static int cmd_info(char *args){
         printf("%-20s","edi");
         printf("%-20x",cpu.edi);
         printf("\n");
-
-        
-        
+        printf("%-20s","eip");
+        printf("%-20x",cpu.eip);
+        printf("\n");
+       
     }
     else if(!strcmp(args,"w")){
         
@@ -209,7 +210,7 @@ static int cmd_bt(char *args){
             st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
         }
         printf("%d:",count);
-        printf("%x in %s",st.ret_addr,funcname);
+        printf("0x%x in %s",st.ret_addr,funcname);
         printf("(0x%x,0x%x,0x%x,0x%x)\n",st.args[0],st.args[1],st.args[2],st.args[3]);
         st.ret_addr=swaddr_read(st.prev_ebp+4,4);
         st.prev_ebp=swaddr_read(st.prev_ebp,4);
