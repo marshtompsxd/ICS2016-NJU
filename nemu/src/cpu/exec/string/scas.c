@@ -16,19 +16,19 @@
 make_helper(scas_b)
 {
 	do_scas_b();
-	return 0;
+	return 1;
 }
 
 make_helper(scas_w)
 {
 	do_scas_w();
-	return 0;
+	return 1;
 }
 
 make_helper(scas_l)
 {
 	do_scas_l();
-	return 0;
+	return 1;
 }
 
 make_helper_v(scas)
