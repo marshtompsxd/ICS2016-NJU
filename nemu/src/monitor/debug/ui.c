@@ -51,7 +51,7 @@ static int cmd_si(char *args){
     int stepNum;
     if(args==NULL)
     {
-        stepNum=1;
+        cpu_exec(1);
     }
     else
     {
@@ -206,9 +206,10 @@ static int cmd_bt(char *args){
         }
         printf("%d:",count);
         printf("%x in %s",st.ret_addr,funcname);
-
+        printf("(0x%x,0x%x,0x%x,0x%x)\n",swaddr_read(st.prev_ebp+8,4),swaddr_read(st.prev_ebp+12,4),swaddr_read(st.prev_ebp+16,4),swaddr_read(st.prev_ebp+20,4));
         st.ret_addr=swaddr_read(st.prev_ebp+4,4);
         st.prev_ebp=swaddr_read(st.prev_ebp,4);
+        count++;
     }
     return 0;
 }
