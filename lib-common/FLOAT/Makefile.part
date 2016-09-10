@@ -15,9 +15,9 @@ $(FLOAT): $(FLOAT_A_OBJ)
 
 $(FLOAT_O): % : $(LIB_COMMON_DIR)/FLOAT.c
 	@mkdir -p obj/$(LIB_COMMON_DIR)
-	$(call make_command, $(CC), $(FLOAT_CFLAGS), cc $<, $^)
+	$(call make_command, $(CC), $(LIB_COMMON_CFLAGS_EXTRA), cc $<, $^)
 
 $(FLOAT_VFPRINTF_O): % : $(LIB_COMMON_DIR)/FLOAT_vfprintf.c
 	@mkdir -p obj/$(LIB_COMMON_DIR)
-	$(call make_command, $(CC), $(FLOAT_CFLAGS), cc $<, $^)
+	$(call make_command, $(CC), $(LIB_COMMON_CFLAGS_EXTRA), cc $<, $^)
 
