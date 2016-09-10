@@ -13,7 +13,7 @@ static inline int F2int(FLOAT a) {
 	if(a>=0)
 		result=a>>16;
 	else 
-		result=-((-a)>>16);
+		result=-1*((-a)>>16);
 	return result;
 }
 
@@ -25,7 +25,7 @@ static inline FLOAT int2F(int a) {
 	if(a>=0)
 		result=a<<16;
 	else
-		result-((-a)<<16);
+		result=-1*((-a)<<16);
 	return result;
 }
 
