@@ -49,7 +49,7 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	 	result<<=1;
 	 	if(a>=b){
 	 		a-=b;
-	 		result++:
+	 		result++;
 	 	}
 	 }
 	 return result*sign;
