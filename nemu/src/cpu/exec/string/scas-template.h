@@ -4,20 +4,24 @@
 
 static void do_execute(){
 
+
+	DATA_TYPE result;
+	DATA_TYPE minuend;
+	DATA_TYPE subtrahend;
 	if(DATA_BYTE==1){
-		uint8_t minuend=cpu.gpr[0]._8[0];
-		uint8_t subtrahend=cpu.gpr[7]._8[0];
-		uint8_t result=minuend-subtrahend;
+		minuend=cpu.gpr[0]._8[0];
+		subtrahend=cpu.gpr[7]._8[0];
+		result=minuend-subtrahend;
 	}
 	else if(DATA_BYTE==2){
-		uint16_t minuend=cpu.gpr[0]._16;
-		uint16_t subtrahend=cpu.gpr[7]._16;
-		uint16_t result=minuend-subtrahend;
+		minuend=cpu.gpr[0]._16;
+		subtrahend=cpu.gpr[7]._16;
+		result=minuend-subtrahend;
 	}
 	else if(DATA_BYTE==4){
-		uint32_t minuend=cpu.eax;
-		uint32_t subtrahend=cpu.edi;
-		uint32_t result=minuend-subtrahend;
+		minuend=cpu.eax;
+		subtrahend=cpu.edi;
+		result=minuend-subtrahend;
 	}
 
 
