@@ -4,25 +4,43 @@
 
 static void do_execute(){
 
-	if(cpu.eax<cpu.edi)
+	if(DATA_BYTE==1){
+		uint8_t minuend=cpu.gpr[0]._8[0];
+		uint8_t subtrahend=cpu.gpr[7]._8[0];
+		uint8_t result=minuend-subtrahend;
+	}
+	else if(DATA_BYTE==2){
+		uint16_t minuend=cpu.gpr[0]._16;
+		uint16_t subtrahend=cpu.gpr[7]._16;
+		uint16_t result=minuend-subtrahend;
+	}
+	else if(DATA_BYTE==4){
+		uint32_t minuend=cpu.eax;
+		uint32_t subtrahend=cpu.edi;
+		uint32_t result=minuend-subtrahend;
+	}
+
+
+
+	if(minuend<subtrahend)
 		cpu.eflags.CF=1;
 	else
 		cpu.eflags.CF=0;
 
-	if((MSB(cpu.eax)^MSB(cpu.eax-cpu.edi))&&(MSB(cpu.edi)^MSB(cpu.eax)))
+	if((MSB(minuend)^MSB(result))&&(MSB(subtrahend)^MSB(minuend)))
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;
 	
-	cpu.eflags.SF=!!MSB(cpu.eax-cpu.edi);
+	cpu.eflags.SF=!!MSB(result);
 
-	if((cpu.eax-cpu.edi)==0)
+	if((result)==0)
 		cpu.eflags.ZF=1;
 	else
 		cpu.eflags.ZF=0;
 
 	int i;
-	DATA_TYPE temp=cpu.eax-cpu.edi;
+	DATA_TYPE temp=result;
 	int count=0;
 	for(i=0;i<8;i++){
 		if((temp&0x1)==0x1)count++;
