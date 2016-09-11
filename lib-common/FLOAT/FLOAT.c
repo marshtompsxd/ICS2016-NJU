@@ -1,5 +1,8 @@
 #include "FLOAT.h"
 
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
+
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	//nemu_assert(0);
 	//return 0;
