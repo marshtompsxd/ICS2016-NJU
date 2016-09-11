@@ -7,11 +7,6 @@ static void do_execute(){
 	DATA_TYPE minuend=op_dest->val;
 	DATA_TYPE result=minuend-subtrahend-cpu.eflags.CF;
 	OPERAND_W(op_dest,result);
-
-	if(minuend<subtrahend+cpu.eflags.CF)
-		cpu.eflags.CF=1;
-	else 
-		cpu.eflags.CF=0;
 	
 	if(result==0)
 		cpu.eflags.ZF=1;
@@ -22,6 +17,11 @@ static void do_execute(){
 		cpu.eflags.OF=1;
 	else
 		cpu.eflags.OF=0;
+
+	if(minuend<subtrahend+cpu.eflags.CF)
+		cpu.eflags.CF=1;
+	else 
+		cpu.eflags.CF=0;
 
 	int i;
 	DATA_TYPE temp=result;
