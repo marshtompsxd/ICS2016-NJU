@@ -12,7 +12,7 @@ $(FLOAT): $(FLOAT_A_OBJ)
 
 
 FLOAT_CFLAGS := -m32 -O2 -fno-builtin \
-	$(LIB_COMMON_DIR)
+	-I$(LIB_COMMON_DIR)
 
 
 $(FLOAT_O): % : $(LIB_COMMON_DIR)/FLOAT/FLOAT.c
