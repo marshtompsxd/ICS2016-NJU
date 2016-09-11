@@ -1,4 +1,4 @@
-#include "lib-common/FLOAT.h"
+#include "FLOAT.h"
 
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	//nemu_assert(0);
