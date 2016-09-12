@@ -74,7 +74,7 @@ FLOAT f2F(float a) {
 
 
 	
-	 uint32_t fta=*(uint32_t *)&a;
+	 uint32_t fta= *(uint32_t *)(&a);
 	 uint32_t sign=fta>>31;
 	 int exp=(fta>>23)&0xff;
 	 uint32_t result=fta&0x7fffff;
