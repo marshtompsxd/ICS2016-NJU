@@ -30,7 +30,7 @@ static void do_execute() {
 			
 		
 		else
-			cpu.eip=op_src->val;
+			cpu.eip=op_src->val-2;
 			
 
 	}
