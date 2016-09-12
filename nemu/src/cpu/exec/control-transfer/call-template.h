@@ -3,27 +3,23 @@
 #define instr call 
 
 static void do_execute(){
-	if(op_src->type==OP_TYPE_IMM)
-{
-	if(DATA_BYTE==2){
-		cpu.esp-=DATA_BYTE;
-		swaddr_write(cpu.esp,DATA_BYTE,(cpu.eip+DATA_BYTE+1)&0x0000ffff);	
-		cpu.eip=((cpu.eip+DATA_BYTE+1+op_src->val)&0x0000ffff)-DATA_BYTE-1;
+	if(op_src->type==OP_TYPE_IMM){
+		if(DATA_BYTE==2){
+			cpu.esp-=DATA_BYTE;
+			swaddr_write(cpu.esp,DATA_BYTE,(cpu.eip+DATA_BYTE+1)&0x0000ffff);	
+			cpu.eip=((cpu.eip+DATA_BYTE+1+op_src->val)&0x0000ffff)-DATA_BYTE-1;
+		}
+		else{
+
+			cpu.esp-=DATA_BYTE;
+			swaddr_write(cpu.esp,DATA_BYTE,cpu.eip+DATA_BYTE+1);
+			cpu.eip+=op_src->val;
+
+		}
+
+
 	}
-	else{
-
-		cpu.esp-=DATA_BYTE;
-	
-
-		swaddr_write(cpu.esp,DATA_BYTE,cpu.eip+DATA_BYTE+1);
-		cpu.eip+=op_src->val;
-
-	}
-
-
-}
-else if(op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM)
-{
+else if(op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM){
 	if(DATA_BYTE==2){
 		cpu.esp-=DATA_BYTE;
 
