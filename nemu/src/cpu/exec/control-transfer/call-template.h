@@ -8,7 +8,7 @@ static void do_execute(){
 	if(DATA_BYTE==2){
 		cpu.esp-=DATA_BYTE;
 		swaddr_write(cpu.esp,DATA_BYTE,(cpu.eip+DATA_BYTE+1)&0x0000ffff);	
-		cpu.eip=(cpu.eip+op_src->val)&0x0000ffff;
+		cpu.eip=((cpu.eip+DATA_BYTE+1+op_src->val)&0x0000ffff)-DATA_BYTE-1;
 	}
 	else{
 
