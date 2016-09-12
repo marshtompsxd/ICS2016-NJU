@@ -29,12 +29,12 @@ else if(op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM)
 
 		swaddr_write(cpu.esp,DATA_BYTE,(cpu.eip+DATA_BYTE+1)&0x0000ffff);
 
-		cpu.eip=((op_src->val)&0x0000ffff)-DATA_BYTE-1;
+		cpu.eip=(op_src->val)&0x0000ffff;
  	}
 	else{ 
 		cpu.esp-=DATA_BYTE;
 		swaddr_write(cpu.esp,DATA_BYTE,cpu.eip+DATA_BYTE+1);
-		cpu.eip=op_src->val-DATA_BYTE-1;
+		cpu.eip=op_src->val-DATA_BYTE-2;
  	}
 }
 	print_asm_template1();

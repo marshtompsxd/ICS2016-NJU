@@ -6,8 +6,9 @@ make_helper(ret){
 	cpu.eip=swaddr_read(cpu.esp,4);
 	cpu.esp+=4;
 	if(ops_decoded.is_operand_size_16){
-			cpu.eip=((cpu.eip+1)&0xffff)-1;
-			assert(0);
+			cpu.eip=cpu.eip&0xffff;
+
+			//assert(0);
 	}
 
 	print_asm("ret");
@@ -21,8 +22,9 @@ make_helper(ret_i_w){
 	cpu.eip=swaddr_read(cpu.esp,4);
 	cpu.esp+=4;
 	if(ops_decoded.is_operand_size_16){
-			cpu.eip=((cpu.eip+2+1)&0xffff)-3;
-			assert(0);
+			cpu.eip=cpu.eip&0xffff;
+
+			//assert(0);
 	}
 	cpu.esp+=op_src->val;
 

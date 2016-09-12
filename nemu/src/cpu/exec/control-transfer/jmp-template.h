@@ -29,7 +29,7 @@ static void do_execute() {
 			cpu.eip=op_src->val&0x0000ffff;
 		else
 			cpu.eip=op_src->val-2;
-//			cpu.eip=op_src->val;
+
 	}
 
 	print_asm_template1();
