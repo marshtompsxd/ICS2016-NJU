@@ -17,9 +17,9 @@ FLOAT_CFLAGS := -m32 -O2 -fno-builtin \
 
 $(FLOAT_O): % : $(LIB_COMMON_DIR)/FLOAT/FLOAT.c
 	@mkdir -p obj/$(LIB_COMMON_DIR)
-	$(call make_command, $(CC), $(FLOAT_CFLAGS), ld $@, $(CFLAGS) $(LIB_COMMON_DIR)/FLOAT/FLOAT.c)
+	$(call make_command, $(CC), $(FLOAT_CFLAGS), FLOAT, $(LIB_COMMON_DIR)/FLOAT/FLOAT.c)
 
 $(FLOAT_VFPRINTF_O): % : $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c
 	@mkdir -p obj/$(LIB_COMMON_DIR)
-	$(call make_command, $(CC), $(FLOAT_CFLAGS), ld $@, $(CFLAGS) $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c)
+	$(call make_command, $(CC), $(FLOAT_CFLAGS), FLOAT, $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c)
 
