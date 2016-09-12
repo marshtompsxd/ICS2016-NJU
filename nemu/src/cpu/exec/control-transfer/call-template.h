@@ -23,13 +23,13 @@ else if(op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM){
 	if(DATA_BYTE==2){
 		cpu.esp-=DATA_BYTE;
 
-		swaddr_write(cpu.esp,DATA_BYTE,(cpu.eip+DATA_BYTE+1)&0x0000ffff);
+		swaddr_write(cpu.esp,DATA_BYTE,(cpu.eip+2)&0x0000ffff);
 
 		cpu.eip=((op_src->val)&0x0000ffff)-2;
  	}
 	else{ 
 		cpu.esp-=DATA_BYTE;
-		swaddr_write(cpu.esp,DATA_BYTE,cpu.eip+DATA_BYTE+1);
+		swaddr_write(cpu.esp,DATA_BYTE,cpu.eip+2);
 		cpu.eip=op_src->val-DATA_BYTE-2;
  	}
 }
