@@ -2,6 +2,7 @@
 #include "cpu/decode/modrm.h"
 
 make_helper(ret){
+	printf("ret\n");
 	cpu.eip=swaddr_read(cpu.esp,4);
 	cpu.esp+=4;
 	if(ops_decoded.is_operand_size_16){
@@ -16,6 +17,7 @@ make_helper(ret){
 
 
 make_helper(ret_i_w){
+	printf("ret\n");
 	cpu.eip=swaddr_read(cpu.esp,4);
 	cpu.esp+=4;
 	if(ops_decoded.is_operand_size_16){
