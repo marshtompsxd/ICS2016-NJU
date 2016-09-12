@@ -21,7 +21,7 @@ static void do_execute() {
 	{
 		cpu.eip=cpu.eip+op_src->val;
 		if(DATA_BYTE==2)
-			cpu.eip=cpu.eip&0x0000ffff;
+			cpu.eip=((cpu.eip+DATA_BYTE+1)&0xffff)-DATA_BYTE-1;
 	}
 	else if(op_src->type==OP_TYPE_MEM||op_src->type==OP_TYPE_REG)
 	{ 
