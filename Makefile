@@ -53,7 +53,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/leap-year
+USERPROG := obj/testcase/sum
 ENTRY := $(USERPROG)
 #ENTRY := $(kernel_BIN)
 
