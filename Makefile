@@ -53,7 +53,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/gotbaha
+USERPROG := obj/testcase/movsx
 ENTRY := $(USERPROG)
 #ENTRY := $(kernel_BIN)
 
