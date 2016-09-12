@@ -27,11 +27,11 @@ static void do_execute() {
 	{ 
 		if(DATA_BYTE==2){
 			cpu.eip=op_src->val&0x0000ffff;
-			printf("jmp rm 16\n");
+			//printf("jmp rm 16\n");
 		}
 		else{
 			cpu.eip=op_src->val-2;
-			printf("jmp rm 32\n");
+			//printf("jmp rm 32\n");
 		}
 
 	}
