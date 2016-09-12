@@ -30,7 +30,7 @@ static void do_execute() {
 			//printf("jmp rm 16\n");
 		}
 		else{
-			cpu.eip=op_src->val-2;
+			cpu.eip=op_src->val;
 			//printf("jmp rm 32\n");
 		}
 
