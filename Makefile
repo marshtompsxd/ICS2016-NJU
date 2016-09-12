@@ -53,7 +53,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/to-lower-case
+USERPROG := obj/testcase/matrix-mul
 ENTRY := $(USERPROG)
 #ENTRY := $(kernel_BIN)
 
