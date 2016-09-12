@@ -2,6 +2,20 @@
 
 #define instr jmp
 
+// static void do_execute(){
+// 	if(op_src->type==OP_TYPE_IMM){
+// 		cpu.eip+=op_src->val;
+// 		if(DATA_BYTE==2)
+// 			cpu.eip=((cpu.eip+DATA_BYTE+1)&0xffff)-DATA_BYTE-1;
+// 	}
+// 	else if(op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM){
+// 		if(DATA_BYTE==2)
+// 			cpu.eip=(op_src->val&0xffff)-DATA_BYTE-1;
+// 		else
+// 			cpu.eip=op_src->val-DATA_BYTE-1;
+// 	}
+// 	print_asm_template1();
+// }
 static void do_execute() {
 	if(op_src->type==OP_TYPE_IMM)
 	{
