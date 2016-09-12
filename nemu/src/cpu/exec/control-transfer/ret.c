@@ -2,12 +2,12 @@
 #include "cpu/decode/modrm.h"
 
 make_helper(ret){
-	printf("ret\n");
+	//printf("ret\n");
 	cpu.eip=swaddr_read(cpu.esp,4);
 	cpu.esp+=4;
 	if(ops_decoded.is_operand_size_16){
-			cpu.eip=cpu.eip&0xffff;
-			printf("the operand size is 16 in ret\n");
+			cpu.eip=((cpu.eip+1)&0xffff)-1;
+			assert(0);
 	}
 
 	print_asm("ret");
@@ -17,12 +17,12 @@ make_helper(ret){
 
 
 make_helper(ret_i_w){
-	printf("ret\n");
+	//printf("ret\n");
 	cpu.eip=swaddr_read(cpu.esp,4);
 	cpu.esp+=4;
 	if(ops_decoded.is_operand_size_16){
 			cpu.eip=((cpu.eip+2+1)&0xffff)-3;
-			printf("the operand size is 16 in retiw\n");
+			assert(0);
 	}
 	cpu.esp+=op_src->val;
 
