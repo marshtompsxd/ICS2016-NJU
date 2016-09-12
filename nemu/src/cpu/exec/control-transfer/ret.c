@@ -6,6 +6,7 @@ make_helper(ret){
 	cpu.esp+=4;
 	if(ops_decoded.is_operand_size_16){
 			cpu.eip=cpu.eip&0xffff;
+			printf("the operand size is 16 in ret\n");
 	}
 
 	print_asm("ret");
@@ -17,7 +18,10 @@ make_helper(ret){
 make_helper(ret_i_w){
 	cpu.eip=swaddr_read(cpu.esp,4);
 	cpu.esp+=4;
-	
+	if(ops_decoded.is_operand_size_16){
+			cpu.eip=((cpu.eip+2+1)&0xffff)-3;
+			printf("the operand size is 16 in retiw\n");
+	}
 	cpu.esp+=op_src->val;
 
 	print_asm("ret_i_w");
