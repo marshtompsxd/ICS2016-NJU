@@ -97,7 +97,7 @@ FLOAT f2F(float a) {
 FLOAT Fabs(FLOAT a) {
 	// nemu_assert(0);
 	// return 0;
-	return (a>=0)?a:(-1*a);
+	return (a>=0)?a:-a;
 }
 
 /* Functions below are already implemented */
@@ -108,7 +108,7 @@ FLOAT sqrt(FLOAT x) {
 	do {
 		dt = F_div_int((F_div_F(x, t) - t), 2);
 		t += dt;
-	} while(Fabs(dt) > f2F(1e-2));
+	} while(Fabs(dt) > f2F(1e-4));
 
 	return t;
 }
