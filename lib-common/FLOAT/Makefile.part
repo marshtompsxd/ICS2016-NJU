@@ -11,7 +11,7 @@ $(FLOAT): $(FLOAT_A_OBJ)
 # TODO: complete the following rules
 
 
-FLOAT_CFLAGS := -m32 -fno-builtin \
+FLOAT_CFLAGS := -m32 -O2 -fno-builtin \
 	-I$(LIB_COMMON_DIR)
 
 
