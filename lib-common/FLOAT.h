@@ -9,24 +9,14 @@ static inline int F2int(FLOAT a) {
 	// nemu_assert(0);
 	// return 0;
 
-	int result;
-	if(a>=0)
-		result=a>>16;
-	else 
-		result=-1*((-a)>>16);
-	return result;
+	return a / (1 << 16);
 }
 
 static inline FLOAT int2F(int a) {
 	// nemu_assert(0);
 	// return 0;
 
-	FLOAT result;
-	if(a>=0)
-		result=a<<16;
-	else
-		result=-1*((-a)<<16);
-	return result;
+	return a * (1 << 16);
 }
 
 static inline FLOAT F_mul_int(FLOAT a, int b) {
