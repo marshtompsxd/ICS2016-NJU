@@ -58,11 +58,9 @@ static int cmd_si(char *args){
         stepNum=atoi(args);
         if(stepNum)
         {
-            int i;
-            for(i=0;i<stepNum;i++)
-            {
-                cpu_exec(1);
-            }
+        
+            cpu_exec(stepNum);
+            
         }
     }
     return 0;
