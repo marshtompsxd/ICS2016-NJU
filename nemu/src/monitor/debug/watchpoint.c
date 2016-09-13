@@ -119,7 +119,10 @@ WP* check_wp(){
     for(wp=head;wp!=NULL;wp=wp->next){
         bool success=true;
         int val=expr(wp->expr,&success);
-        if(val!=wp->originvalue)return wp;
+        if(val!=wp->originvalue){
+            wp->originvalue=val;
+            return wp;
+        }
     }
     return NULL;
 }
