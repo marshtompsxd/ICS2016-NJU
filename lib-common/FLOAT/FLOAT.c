@@ -73,9 +73,16 @@ FLOAT f2F(float a) {
 	// return 0;
 
 
-	 void *uff = &a;
-	 uint32_t fta = *(uint32_t *)uff;
+	 // void *uff = &a;
+	 // uint32_t fta = *(uint32_t *)uff;
+	 typedef union{
+	 	float fl;
+	 	uint32_t ut;
+	 }ua;
+	 ua uA;
 	 //uint32_t fta= *(uint32_t *)(&a);
+	 uA.fl=a;
+	 uint32_t fta=uA.ut;
 	 uint32_t sign=fta>>31;
 	 int exp=(fta>>23)&0xff;
 	 uint32_t result=fta&0x7fffff;
