@@ -108,7 +108,7 @@ FLOAT sqrt(FLOAT x) {
 	do {
 		dt = F_div_int((F_div_F(x, t) - t), 2);
 		t += dt;
-	} while(Fabs(dt) > f2F(1e-3));
+	} while(Fabs(dt) > f2F(1e-2));
 
 	return t;
 }
