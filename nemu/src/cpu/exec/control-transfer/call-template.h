@@ -13,10 +13,11 @@ static void do_execute(){
 
 			cpu.esp-=DATA_BYTE;
 			swaddr_write(cpu.esp,DATA_BYTE,cpu.eip+DATA_BYTE+1);
+			printf("%x\n",cpu.eip+DATA_BYTE+1 );
 			cpu.eip+=op_src->val;
 
 		}
-		printf("call \n");
+		//printf("call \n");
 
 	}
 else if(op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM){
