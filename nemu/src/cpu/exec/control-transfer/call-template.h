@@ -16,7 +16,7 @@ static void do_execute(){
 			cpu.eip+=op_src->val;
 
 		}
-
+		printf("call \n");
 
 	}
 else if(op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM){
