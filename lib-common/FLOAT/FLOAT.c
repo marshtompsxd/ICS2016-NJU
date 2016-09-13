@@ -35,47 +35,27 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	// nemu_assert(0);
 	// return 0;
 
-	 FLOAT temp1=a;
-	FLOAT temp2=b;
-	int flag1=0;
-	int flag2=0;
-
-	if(temp1<0)
-	{
-		flag1=1;
-		temp1=-a;
-	}
-	if(temp2<0)
-	{
-		flag2=1;
-		temp2=-b;
-	}
-
-	int f=flag1^flag2;
-	FLOAT result=temp1/temp2;
-	FLOAT temp=temp1-temp2*result;
-	FLOAT r=0;
-	int count=1;
-	do{
-		count++;
-		temp=temp<<1;
-		if(temp>=temp2)
-		{
-			if(count==1)
-				r=1;
-			else
-				r=(r<<1)+1;
-		
-			temp-=temp2;
-		}
-		else
-			r=0;
-	}while(temp>0&&count<=16);
-
-	if(f==1)
-		return -((result<<16)+(r<<(17-count)));
-	else
-		return (result<<16)+(r<<(17-count));
+	 int sign=1;
+	 if(a<0){
+	 	sign*=-1;
+	 	a=-a;
+	 }
+	 if(b<0){
+	 	sign*=-1;
+	 	b=-b;
+	 }
+	 int result=a/b;
+	 a=a%b;
+	 int i;
+	 for(i=0;i<16;i++){
+	 	a<<=1;
+	 	result<<=1;
+	 	if(a>=b){
+	 		a-=b;
+	 		result++;
+	 	}
+	 }
+	 return result*sign;
 }
 
 FLOAT f2F(float a) {
@@ -128,7 +108,7 @@ FLOAT sqrt(FLOAT x) {
 	do {
 		dt = F_div_int((F_div_F(x, t) - t), 2);
 		t += dt;
-	} while(Fabs(dt) > f2F(1e-4));
+	} while(Fabs(dt) > f2F(1));
 
 	return t;
 }
