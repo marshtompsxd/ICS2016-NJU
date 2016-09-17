@@ -204,8 +204,8 @@ static int find_dominant_operator(int p,int q){
             else if(tokens[i].type==AND&&and_in==-1)and_in=i;
             else if(tokens[i].type==OR&&or_in==-1)or_in=i;
             else if(tokens[i].type==NOT&&not_in==-1)not_in=i;
-            else if(tokens[i].type==DEREF&&deref_in==-1)deref_in=i;
-            else if(tokens[i].type==NEG&&neg_in==-1)neg_in=i;
+            else if(tokens[i].type==DEREF)deref_in=i;
+            else if(tokens[i].type==NEG)neg_in=i;
             else if(tokens[i].type==')')break;
         }
 
@@ -382,7 +382,7 @@ static int eval(int p,int q,bool* success){
 
 static bool is_operator(int index){
     int type=tokens[index].type;
-    if(type=='+'||type=='-'||type=='*'||type=='/'||type==EQ||type==NEQ||type==OR||type==AND||type==NOT||type==DEREF||type==NEG){
+    if(type=='+'||type=='-'||type=='*'||type=='/'||type==EQ||type==NEQ||type==OR||type==AND||type==NOT||type==DEREF||type==NEG||type=='('){
         return true;
     }
     else return false;
