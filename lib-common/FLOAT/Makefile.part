@@ -11,8 +11,8 @@ $(FLOAT): $(FLOAT_A_OBJ)
 # TODO: complete the following rules
 
 
-FLOAT_CFLAGS := -m32 -O2 -fno-builtin -c\
-	-I$(LIB_COMMON_DIR)
+FLOAT_CFLAGS := -m32 -O2 -fno-builtin -c -std=gnu11 -fno-stack-protector\
+	-I $(LIB_COMMON_DIR)
 
 
 $(FLOAT_O): $(LIB_COMMON_DIR)/FLOAT/FLOAT.c
