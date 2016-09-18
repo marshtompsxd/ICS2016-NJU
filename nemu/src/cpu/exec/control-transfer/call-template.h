@@ -3,39 +3,35 @@
 #define instr call 
 
 static void do_execute(){
-	uint32_t feip=cpu.eip;
-	uint32_t op=instr_fetch(feip,1);
+	uint32_t opeip=cpu.eip;
+	uint32_t op=instr_fetch(opeip,1);
 	while( op==0x66 )
 	{
-		feip++;
-		op=instr_fetch(feip,1);
+		opeip++;
+		op=instr_fetch(opeip,1);
 	}
 	if( op==0xe8 ){
-	DATA_TYPE_S off_set=op_src->val;
+	DATA_TYPE_S offs=op_src->val;
 #if DATA_BYTE==2
 	cpu.esp-=2;
 	swaddr_write(cpu.esp,2,(cpu.eip+DATA_BYTE+2)&0xffff);
-	cpu.eip=(cpu.eip+off_set)&0xffff;
+	cpu.eip=(cpu.eip+offs)&0xffff;
 #elif DATA_BYTE==4
 	cpu.esp-=4;
 	swaddr_write(cpu.esp,4,cpu.eip+DATA_BYTE+1);
-	cpu.eip+=off_set;
+	cpu.eip+=offs;
 #endif
 	}
 	else if( op==0xff ){
 #if DATA_BYTE==2
 	cpu.esp=cpu.esp-2;
-	//MEM_W(cpu.esp,(cpu.eip)&0XFFFF);
 	cpu.eip=( op_src->val )&0xffff;
 #elif DATA_BYTE==4
 	cpu.esp-=4;
-	//MEM_W(cpu.esp,cpu.eip+DATA_BYTE+1);
 	cpu.eip=op_src->val;
 #endif
-	int len=concat(decode_rm_,SUFFIX)(feip+1);
-	swaddr_write(cpu.esp,DATA_BYTE,feip+len+1);
-	//Log("%x\n",feip+len+1);
-	//do_int3();
+	int len=concat(decode_rm_,SUFFIX)(opeip+1);
+	swaddr_write(cpu.esp,DATA_BYTE,opeip+len+1);
 	}
 	else
 		panic("please implement call.");
