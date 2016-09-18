@@ -3,7 +3,7 @@
 
 make_helper( concat( scas_,SUFFIX ) ) {
 
-	int incdec=0;
+
 	DATA_TYPE minuend=cpu.eax;
 	DATA_TYPE subtrahend=swaddr_read( cpu.edi ,DATA_BYTE);
 	DATA_TYPE result=minuend-subtrahend;
@@ -43,24 +43,20 @@ make_helper( concat( scas_,SUFFIX ) ) {
 
 #if DATA_BYTE==1
 	if( cpu.eflags.DF==0 )
-		incdec=1;
+		cpu.edi+=1;
 	else
-		incdec=-1;
+		cpu.edi-=1;
 #elif DATA_BYTE==2
 	if( cpu.eflags.DF==0 )
-		incdec=2;
+		cpu.edi+=2;
 	else
-		incdec=-2;
+		cpu.edi-=2;
 #elif DATA_BYTE==4
 	if( cpu.eflags.DF==0 )
-		incdec=4;
+		cpu.edi+=4;
 	else
-		incdec=-4;
+		cpu.edi-=4;
 #endif
-
-	
-	cpu.edi=cpu.edi+incdec;
-
 
 
 	print_asm("scas");
