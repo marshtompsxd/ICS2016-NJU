@@ -185,4 +185,33 @@ void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
 	else { assert(0); }
 }
 
+#if DATA_BYTE==2 || DATA_BYTE==4
+make_helper(concat(decode_cfsi_,SUFFIX)){
+	op_src->type=OP_TYPE_IMM;
+	op_src->simm=(DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
+	op_src->val=op_src->simm;
+
+#ifdef DEBUG
+	snprintf(op_src->str,OP_STR_SIZE,"$0x%x",op_src->val);
+#endif
+
+#if DATA_BYTE==2
+	return -2;	//1 for opcode , 1 for prefix
+#elif DATA_BYTE==4
+	return -1;	//1 for opcode
+#endif
+}
+
+
+make_helper(concat(decode_cfrm_,SUFFIX)){
+	decode_rm_internal(eip,op_src,op_src2);
+#if DATA_BYTE==2
+	return -2;	//1 for opcode , 1 for prefix
+#elif DATA_BYTE==4
+	return -1;	//1 for opcode
+#endif 
+}
+
+#endif
+
 #include "cpu/exec/template-end.h"
