@@ -55,6 +55,13 @@ make_helper(decode_cfrm_w);
 make_helper(decode_cfsi_l);
 make_helper(decode_cfrm_l);
 
+make_helper(decode_rmsb2r_w);
+make_helper(decode_rmsb2r_l);
+make_helper(decode_rmzb2r_w);
+make_helper(decode_rmzb2r_l);
+make_helper(decode_rmsw2r_l);
+make_helper(decode_rmzw2r_l);
+
 void write_operand_b(Operand *, uint8_t);
 void write_operand_w(Operand *, uint16_t);
 void write_operand_l(Operand *, uint32_t);

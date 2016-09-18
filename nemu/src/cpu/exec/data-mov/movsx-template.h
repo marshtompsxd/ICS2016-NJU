@@ -1,32 +1,16 @@
 #include "cpu/exec/template-start.h"
 
 #define instr movsx
-static void do_execute(){
-	if(DATA_BYTE==2)
-		OPERAND_W(op_dest,((int16_t)op_src->val<<8)>>8);
-	else
-		OPERAND_W(op_dest,((int32_t)op_src->val<<24)>>24);
+
+static void do_execute () {
+	OPERAND_W(op_dest,op_src->val);
 	print_asm_template2();
 }
 
-make_helper(concat(movsx_rm2r_,SUFFIX)){
-	return idex(eip,decode_rm2r_b,concat(do_movsx_,SUFFIX));
-}
-#undef instr
+make_instr_helper(rmsb2r)
 
-
-#define instr movsxv
 #if DATA_BYTE==4
-static void do_execute(){
-	OPERAND_W(op_dest,((int32_t)op_src->val<<16)>>16);
-	print_asm_template2();
-}
-
-make_helper(movsxv_rm2r_l){
-	return idex(eip,decode_rm2r_w,do_movsxv_l);
-}
-
+make_instr_helper(rmsw2r)
 #endif
-#undef instr
 
 #include "cpu/exec/template-end.h"

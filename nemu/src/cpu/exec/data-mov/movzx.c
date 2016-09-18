@@ -1,8 +1,5 @@
 #include "cpu/exec/helper.h"
 
-#define DATA_BYTE 1
-#include "movzx-template.h"
-#undef DATA_BYTE
 
 #define DATA_BYTE 2
 #include "movzx-template.h"
@@ -12,4 +9,8 @@
 #include "movzx-template.h"
 #undef DATA_BYTE
 
-make_helper_v(movzx_rm2r)
+make_helper_v(movzx_rmzb2r)
+
+make_helper(movzx_rmzw2r_v){
+	return movzx_rmzw2r_l(eip);
+}
