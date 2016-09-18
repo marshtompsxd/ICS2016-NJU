@@ -1,47 +1,26 @@
 #include "cpu/exec/template-start.h"
 
-#define instr scas
 
-static void do_execute(){
+make_helper( concat( scas_,SUFFIX ) ) {
 
-
-	DATA_TYPE result;
-	DATA_TYPE minuend;
-	DATA_TYPE subtrahend;
-	if(DATA_BYTE==1){
-		minuend=cpu.gpr[0]._8[0];
-		subtrahend=cpu.gpr[7]._8[0];
-		result=minuend-subtrahend;
-	}
-	else if(DATA_BYTE==2){
-		minuend=cpu.gpr[0]._16;
-		subtrahend=cpu.gpr[7]._16;
-		result=minuend-subtrahend;
-	}
-	else if(DATA_BYTE==4){
-		minuend=cpu.eax;
-		subtrahend=cpu.edi;
-		result=minuend-subtrahend;
-	}
-
-
+	DATA_TYPE minuend=cpu.eax;
+	DATA_TYPE subtrahend=swaddr_read(cpu.edi ,DATA_BYTE);
+	DATA_TYPE result=minuend-subtrahend;
 
 	if(minuend<subtrahend)
 		cpu.eflags.CF=1;
-	else
+	else 
 		cpu.eflags.CF=0;
-
-	if((MSB(minuend)^MSB(result))&&(MSB(subtrahend)^MSB(minuend)))
-		cpu.eflags.OF=1;
-	else
-		cpu.eflags.OF=0;
 	
-	cpu.eflags.SF=!!MSB(result);
-
-	if((result)==0)
+	if(result==0)
 		cpu.eflags.ZF=1;
 	else
 		cpu.eflags.ZF=0;
+
+	if((MSB(minuend)!=MSB(result))&&(MSB(subtrahend)!=MSB(minuend)))
+		cpu.eflags.OF=1;
+	else
+		cpu.eflags.OF=0;
 
 	int i;
 	DATA_TYPE temp=result;
@@ -50,22 +29,38 @@ static void do_execute(){
 		if((temp&0x1)==0x1)count++;
 		temp=temp>>1;
 	}
+
 	if(count%2==0)
 		cpu.eflags.PF=1;
 	else
 		cpu.eflags.PF=0;
 
-	if(cpu.eflags.DF==0)
-	{
-		cpu.edi+=DATA_BYTE;
-	}
+	if(MSB(result)==1)
+		cpu.eflags.SF=1;
 	else
-	{
-		cpu.edi-=DATA_BYTE;
-	}
+		cpu.eflags.SF=0;
 
-	print_asm_template2();
 
+#if DATA_BYTE==1
+	if( cpu.eflags.DF==0 )
+		cpu.edi+=1;
+	else
+		cpu.edi-=1;
+#elif DATA_BYTE==2
+	if( cpu.eflags.DF==0 )
+		cpu.edi+=2;
+	else
+		cpu.edi-=2;
+#elif DATA_BYTE==4
+	if( cpu.eflags.DF==0 )
+		cpu.edi+=4;
+	else
+		cpu.edi-=4;
+#endif
+
+
+	print_asm("scas");
+	return 1;
 }
 
 #include "cpu/exec/template-end.h"

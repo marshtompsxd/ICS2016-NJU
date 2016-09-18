@@ -185,6 +185,10 @@ void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
 	else { assert(0); }
 }
 
+
+
+/* I write some new decode functions to deal with some special instructions . */
+
 #if DATA_BYTE==2 || DATA_BYTE==4
 make_helper(concat(decode_cfsi_,SUFFIX)){
 	op_src->type=OP_TYPE_IMM;
