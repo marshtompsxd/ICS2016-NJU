@@ -1,10 +1,12 @@
 #include "cpu/exec/helper.h"
 
-make_helper(cwtltd){
-	if(((cpu.eax>>31)&0x1)==0x1)
-		cpu.edx=0xffffffff;
-	else
-		cpu.edx=0;
-	print_asm("cwtltd");
-	return 1;
-}
+#define DATA_BYTE 2
+#include "cwtltd-template.h"
+#undef DATA_BYTE
+
+#define DATA_BYTE 4
+#include "cwtltd-template.h"
+#undef DATA_BYTE
+
+
+make_helper_v(cwtltd)
