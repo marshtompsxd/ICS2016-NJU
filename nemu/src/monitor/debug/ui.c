@@ -58,9 +58,9 @@ static int cmd_si(char *args){
         stepNum=atoi(args);
         if(stepNum)
         {
-        
+
             cpu_exec(stepNum);
-            
+
         }
     }
     return 0;
@@ -98,13 +98,33 @@ static int cmd_info(char *args){
         printf("\n");
         printf("%-20s","eip");
         printf("%-20x",cpu.eip);
+        printf("%-20s","CF");
+        printf("%-20x",cpu.eflags.CF);
         printf("\n");
-       
+        printf("%-20s","PF");
+        printf("%-20x",cpu.eflags.PF);
+        printf("\n");
+        printf("%-20s","ZF");
+        printf("%-20x",cpu.eflags.ZF);
+        printf("\n");
+        printf("%-20s","SF");
+        printf("%-20x",cpu.eflags.SF);
+        printf("\n");
+        printf("%-20s","IF");
+        printf("%-20x",cpu.eflags.IF);
+        printf("\n");
+        printf("%-20s","OF");
+        printf("%-20x",cpu.eflags.OF);
+        printf("\n");
+        printf("%-20s","DF");
+        printf("%-20x",cpu.eflags.DF);
+        printf("\n");
+
     }
     else if(!strcmp(args,"w")){
-        
+
         print_wp();
-        
+
     }
 
     return 0;
@@ -125,11 +145,11 @@ static int cmd_p(char *args){
 
 
 static int cmd_x(char *args){
-    
+
     char *cnum=strtok(args," ");
     char *caddr=strtok(NULL," ");
-    
-    
+
+
     int num=atoi(cnum);
     bool success=true;
     int addr=expr(caddr,&success);
@@ -149,7 +169,7 @@ static int cmd_x(char *args){
         }
     }
     return 0;
-    
+
 }
 
 static int cmd_w(char *args){
@@ -175,19 +195,19 @@ static int cmd_d(char *args){
             return 0;
         }
     }
-    
+
     WP *wp=find_wp_byNO(NO);
     if(wp==NULL){
         printf("no such NO\n");
         return 0;
     }
-    
+
     else{
         free_wp(wp);
         //printf("delete watchpoint %d\n",NO);
         return 0;
     }
-    
+
     return 0;
 }
 
