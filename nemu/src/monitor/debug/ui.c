@@ -98,6 +98,7 @@ static int cmd_info(char *args){
         printf("\n");
         printf("%-20s","eip");
         printf("%-20x",cpu.eip);
+        printf("\n");
         printf("%-20s","CF");
         printf("%-20x",cpu.eflags.CF);
         printf("\n");
