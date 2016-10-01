@@ -24,7 +24,7 @@ void init_wp_pool() {
 
 WP* new_wp(char *args){
     if(free_==NULL)panic("free is NULL");
-    
+
     WP *wptr=free_;
     free_=free_->next;
     if(head){
@@ -88,17 +88,17 @@ void print_wp(){
     printf("%-20s","wpVAL");
     printf("\n");
     int i;
-    
+
     for(i=0;i<NR_WP;i++){
         if(wp_pool[i].in_use){
             printf("%-20d",wp_pool[i].NO);
             printf("%-20s",wp_pool[i].expr);
             printf("%-20d",wp_pool[i].originvalue);
             printf("\n");
-            
+
         }
     }
-}    
+}
 
 
 
@@ -114,15 +114,18 @@ WP* find_wp_byNO(int NO){
 
 
 
-WP* check_wp(){
+bool check_wp(){
     WP* wp;
+		bool ischanged=false;
     for(wp=head;wp!=NULL;wp=wp->next){
         bool success=true;
         int val=expr(wp->expr,&success);
         if(val!=wp->originvalue){
+					  printf("watchpoint %d activited, value changes from %d to %d\n"
+					  ,wp->NO,wp->originvalue,val);
             wp->originvalue=val;
-            return wp;
+            ischanged=true;
         }
     }
-    return NULL;
+    return ischanged;
 }

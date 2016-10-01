@@ -26,14 +26,14 @@ static struct rule {
 	 * Pay attention to the precedence level of different rules.
 	 */
 
-	{" +",	NOTYPE},				// spaces
-	{"==", EQ},						// equal
+  	{" +",	NOTYPE},				// spaces
+	  {"==", EQ},						// equal
     {"!=",NEQ},                     // not equal
     {"&&",AND},                     // and
     {"\\|\\|",OR},                  // or
     {"!",NOT},                      // not
     {"\\$[a-z]+", 'r'},             // register
-	{"\\+", '+'},					// plus
+	  {"\\+", '+'},					// plus
     {"-", '-'},                     // minus
     {"\\*", '*'},                   // multiply
     {"/", '/'},                     // divide
@@ -42,7 +42,7 @@ static struct rule {
     {"0[xX][0-9a-fA-Z]+",'h'},      // hexadecimal number
     {"[0-9]+", 'd'},                // decimal number
     {"[_a-zA-Z0-9]+",ELFOBJ}        // object in elf
-}; 
+};
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
 
@@ -77,7 +77,7 @@ static bool make_token(char *e) {
 	int position = 0;
 	int i;
 	regmatch_t pmatch;
-	
+
 	nr_token = 0;
 
 	while(e[position] != '\0') {
@@ -94,20 +94,20 @@ static bool make_token(char *e) {
 				 * to record the token in the array `tokens'. For certain types
 				 * of tokens, some extra actions should be performed.
 				 */
-                
+
 
 				switch(rules[i].token_type) {
-                    case '+': 
-                    case '-': 
-                    case '*': 
-                    case '/': 
-                    case EQ: 
-                    case NEQ: 
-                    case OR: 
-                    case AND: 
+                    case '+':
+                    case '-':
+                    case '*':
+                    case '/':
+                    case EQ:
+                    case NEQ:
+                    case OR:
+                    case AND:
                     case NOT:
-                    case ELFOBJ: 
-                    case '(': 
+                    case ELFOBJ:
+                    case '(':
                     case ')':
                     case 'r':
                     case 'd':
@@ -133,7 +133,7 @@ static bool make_token(char *e) {
 		}
 	}
 
-	return true; 
+	return true;
 }
 
 
@@ -179,14 +179,14 @@ static int find_dominant_operator(int p,int q){
     qleft=qright=0;
     int plus_in,minus_in,mult_in,divide_in,equal_in,notequal_in,and_in,or_in,not_in,deref_in,neg_in;
     plus_in=minus_in=mult_in=divide_in=equal_in=notequal_in=and_in=or_in=not_in=deref_in=neg_in=-1;
-    
+
     qend=q;
     do{
 
         for(i=qend;i>=p;i--){
             if(tokens[i].type=='(')qleft++;
             else if(tokens[i].type==')')qright++;
-        
+
             if(qleft==qright){
                 qend=(qleft==0)?i:i-1;
                 break;
@@ -225,7 +225,7 @@ static int find_dominant_operator(int p,int q){
     }
 
 
-    
+
     return -1;
 }
 
@@ -279,6 +279,7 @@ static int eval(int p,int q,bool* success){
             else if(!strcmp("$bh",tokens[p].str))val=cpu.gpr[3]._8[1];
             else if(!strcmp("$eip",tokens[p].str))val=cpu.eip;
             else {
+							printf("register name error\n");
                 *success=false;
                 return -1;
             }
@@ -321,11 +322,11 @@ static int eval(int p,int q,bool* success){
             *success=false;
             return -1;
         }
-        
+
         int op_type=tokens[index].type;
-        
+
         //printf("dominant op is %s\n",op);
-        
+
         if(op_type==DEREF){
             int addr=eval(index+1,q,success);
             if(!(*success)){
@@ -404,7 +405,7 @@ uint32_t expr(char *e, bool *success) {
             tokens[i].type=DEREF;
         }
     }
-    
+
 
     for(i=0;i<nr_token;i++){
         if(tokens[i].type=='-'&&(i==0||is_operator(i-1))){
@@ -418,8 +419,8 @@ uint32_t expr(char *e, bool *success) {
         return 0;
     }
 
-    //printf("nr_token is %d\n",nr_token); 
-    
+    //printf("nr_token is %d\n",nr_token);
+
     /*
     for(i=0;i<nr_token;i++){
         printf("tokens[%d].type==%c\n",i,tokens[i].type);
@@ -429,7 +430,6 @@ uint32_t expr(char *e, bool *success) {
 
 	/* TODO: Insert codes to evaluate the expression. */
 	//panic("please implement me");
-    
+
     return eval(0,nr_token-1,success);
 }
-

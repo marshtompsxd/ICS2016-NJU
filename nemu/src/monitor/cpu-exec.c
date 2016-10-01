@@ -74,13 +74,11 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-        WP* wp=check_wp();
-        if(wp){
+        bool ischanged=check_wp();
+        if(ischanged){
             nemu_state=STOP;
-            printf("watchpoint %d activited\n",wp->NO);
-            return;
         }
-        
+
 
 #ifdef HAS_DEVICE
 		extern void device_update();
