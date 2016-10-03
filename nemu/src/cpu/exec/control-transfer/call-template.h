@@ -34,7 +34,7 @@ static void do_execute(){
 				}
 
 				int len=concat(decode_rm_,SUFFIX)(opeip+1);
-				swaddr_write(cpu.esp,DATA_BYTE,opeip+len+1);
+				MEM_W(cpu.esp,opeip+len+1);
 		}
 		else
 				panic("please implement call.");
