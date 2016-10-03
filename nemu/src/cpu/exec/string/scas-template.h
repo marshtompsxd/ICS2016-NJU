@@ -10,9 +10,9 @@ make_helper( concat( scas_,SUFFIX ) ) {
 
 	if(minuend<subtrahend)
 		cpu.eflags.CF=1;
-	else 
+	else
 		cpu.eflags.CF=0;
-	
+
 	if(result==0)
 		cpu.eflags.ZF=1;
 	else
@@ -41,23 +41,24 @@ make_helper( concat( scas_,SUFFIX ) ) {
 	else
 		cpu.eflags.SF=0;
 
-#if DATA_BYTE==1
-	if( cpu.eflags.DF==0 )
-		cpu.edi+=1;
-	else
-		cpu.edi-=1;
-#elif DATA_BYTE==2
-	if( cpu.eflags.DF==0 )
-		cpu.edi+=2;
-	else
-		cpu.edi-=2;
-#elif DATA_BYTE==4
-	if( cpu.eflags.DF==0 )
-		cpu.edi+=4;
-	else
-		cpu.edi-=4;
-#endif
-
+	if (DATA_BYTE==1){
+			if( cpu.eflags.DF==0 )
+					cpu.edi+=1;
+			else
+					cpu.edi-=1;
+	}
+	else if (DATA_BYTE==2){
+			if( cpu.eflags.DF==0 )
+					cpu.edi+=2;
+			else
+					cpu.edi-=2;
+	}
+	else if (DATA_BYTE==4){
+			if( cpu.eflags.DF==0 )
+					cpu.edi+=4;
+			else
+					cpu.edi-=4;
+	}
 
 	print_asm("scas");
 	return 1;

@@ -2,10 +2,10 @@
 
 
 make_helper( concat(movs_,SUFFIX) ) {
-	
-#if DATA_BYTE==1
-	DATA_TYPE data=swaddr_read(cpu.esi,DATA_BYTE);
-	swaddr_write(cpu.edi,DATA_BYTE,data);
+
+if (DATA_BYTE==1){
+	DATA_TYPE data=MEM_R(cpu.esi);
+	MEM_W(cpu.edi,data);
 	if( cpu.eflags.DF==0 ){
 		cpu.esi+=1;
 		cpu.edi+=1;
@@ -14,9 +14,10 @@ make_helper( concat(movs_,SUFFIX) ) {
 		cpu.esi-=1;
 		cpu.edi-=1;
 	}
-#elif DATA_BYTE==2
-	DATA_TYPE data=swaddr_read(cpu.esi,DATA_BYTE);
-	swaddr_write(cpu.edi,DATA_BYTE,data);
+}
+else if (DATA_BYTE==2){
+	DATA_TYPE data=MEM_R(cpu.esi);
+	MEM_W(cpu.edi,data);
 	if( cpu.eflags.DF==0 ){
 		cpu.esi+=2;
 		cpu.edi+=2;
@@ -25,9 +26,10 @@ make_helper( concat(movs_,SUFFIX) ) {
 		cpu.esi-=2;
 		cpu.edi-=2;
 	}
-#elif DATA_BYTE==4
-	DATA_TYPE data=swaddr_read(cpu.esi,DATA_BYTE);
-	swaddr_write(cpu.edi,DATA_BYTE,data);
+}
+else if (DATA_BYTE==4){
+	DATA_TYPE data=MEM_R(cpu.esi);
+	MEM_W(cpu.edi,data);
 	if( cpu.eflags.DF==0 ){
 		cpu.esi+=4;
 		cpu.edi+=4;
@@ -36,7 +38,7 @@ make_helper( concat(movs_,SUFFIX) ) {
 		cpu.esi-=4;
 		cpu.edi-=4;
 	}
-#endif
+}
 
 	print_asm("movs");
 
