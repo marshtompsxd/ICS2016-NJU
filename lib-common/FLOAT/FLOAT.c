@@ -86,11 +86,18 @@ FLOAT f2F(float a) {
 	 uint32_t sign=fta>>31;
 	 int exp=(fta>>23)&0xff;
 	 uint32_t result=fta&0x7fffff;
-	 if(exp!=0)result+=1<<23;
+	 if(exp!=0)
+	 		result+=1<<23;
 	 exp-=150;
-	 if(exp<-16)result>>=-16-exp;
-	 if(exp>-16)result<<=exp+16;
-	 return sign==0?result:-result;
+	 if(exp<-16)
+	 		result>>=-16-exp;
+	 if(exp>-16)
+	 		result<<=exp+16;
+	 //return sign==0?result:-result;
+	 if(sign==0)
+	 		 return result;
+	 else
+	 		 return -result;
 
 }
 
@@ -125,4 +132,3 @@ FLOAT pow(FLOAT x, FLOAT y) {
 
 	return t;
 }
-
