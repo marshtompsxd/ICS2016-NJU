@@ -87,13 +87,7 @@ FLOAT f2F(float a) {
 	 uint32_t result=fta&0x7fffff;
 	 if(exp!=0)
 	 		result+=(1<<23);
-			/*
-	 exp-=150;
-	 if(exp<-16)
-	 		result>>=-16-exp;
-	 if(exp>-16)
-	 		result<<=exp+16;
-			*/
+		
 	 exp-=127;
 	 if(exp<7)
 	 		result>>=(7-exp);
