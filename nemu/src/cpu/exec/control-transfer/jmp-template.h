@@ -12,25 +12,23 @@ static void do_execute() {
 			opeip=opeip+1;
 			op=instr_fetch(opeip,1);
 		}
-if( op==0xeb || op==0xe9 ){
-		DATA_TYPE_S offs=op_src->val;
-		cpu.eip=cpu.eip+offs;
-#if DATA_BYTE==2
-		cpu.eip=cpu.eip&0xffff;
-#endif
-}
-else if( op==0xff ){
-		DATA_TYPE dest=op_src->val;
-#if DATA_BYTE==2
-		cpu.eip=dest&0xffff;
-#else
-		cpu.eip=dest;
-#endif
-}
-else
-	panic("please implement jmp");
+		if( op==0xeb || op==0xe9 ){
+				DATA_TYPE_S offs=op_src->val;
+				cpu.eip=cpu.eip+offs;
+				if(DATA_BYTE==2)
+						cpu.eip=cpu.eip&0xffff;
+		}
+		else if( op==0xff ){
+				DATA_TYPE dest=op_src->val;
+				if(DATA_BYTE==2)
+						cpu.eip=dest&0xffff;
+				else
+						cpu.eip=dest;
+		}
+		else
+				panic("please implement jmp");
 
-	print_asm_template1();
+		print_asm_template1();
 }
 
 make_instr_helper(i)
