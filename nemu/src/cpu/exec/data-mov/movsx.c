@@ -8,8 +8,8 @@
 #include "movsx-template.h"
 #undef DATA_BYTE
 
-make_helper_v(movsx_rmsb2r)
+make_helper_v(movsx_msbrm2r)
 
-make_helper(movsx_rmsw2r_v){
-	return movsx_rmsw2r_l(eip);
+make_helper(movsx_mswrm2r_v){
+	return movsx_mswrm2r_l(eip);
 }

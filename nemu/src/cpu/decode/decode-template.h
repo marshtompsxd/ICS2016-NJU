@@ -119,8 +119,8 @@ make_helper(concat(decode_i2rm_, SUFFIX)) {
 	return len;
 }
 
-/* XX <- Ib 
- * eXX <- Iv 
+/* XX <- Ib
+ * eXX <- Iv
  */
 make_helper(concat(decode_i2r_, SUFFIX)) {
 	decode_r_internal(eip, op_dest);
@@ -213,7 +213,7 @@ make_helper(concat(decode_cfrm_,SUFFIX)){
 	return -2;	//1 for opcode , 1 for prefix
 #elif DATA_BYTE==4
 	return -1;	//1 for opcode
-#endif 
+#endif
 }
 
 #endif
@@ -221,7 +221,7 @@ make_helper(concat(decode_cfrm_,SUFFIX)){
 
 #if DATA_BYTE==2 || DATA_BYTE==4
 
-make_helper( concat(decode_rmsb2r_,SUFFIX) ){
+make_helper( concat(decode_msbrm2r_,SUFFIX) ){
 	op_src->size=1;
 	int len=read_ModR_M(eip,op_src,op_dest);
 	op_dest->val=REG(op_dest->reg);
@@ -232,7 +232,7 @@ make_helper( concat(decode_rmsb2r_,SUFFIX) ){
 	return len;
 }
 
-make_helper( concat(decode_rmzb2r_,SUFFIX) ){
+make_helper( concat(decode_mzbrm2r_,SUFFIX) ){
 	op_src->size=1;
 	int len=read_ModR_M(eip,op_src,op_dest);
 	op_dest->val=REG(op_dest->reg);
@@ -246,7 +246,7 @@ make_helper( concat(decode_rmzb2r_,SUFFIX) ){
 
 #if DATA_BYTE==4
 
-make_helper( concat(decode_rmsw2r_,SUFFIX) ){
+make_helper( concat(decode_mswrm2r_,SUFFIX) ){
 	op_src->size=2;
 	int len=read_ModR_M(eip,op_src,op_dest);
 	op_dest->val=REG(op_dest->reg);
@@ -257,7 +257,7 @@ make_helper( concat(decode_rmsw2r_,SUFFIX) ){
 	return len;
 }
 
-make_helper( concat(decode_rmzw2r_,SUFFIX) ){
+make_helper( concat(decode_mzwrm2r_,SUFFIX) ){
 	op_src->size=2;
 	int len=read_ModR_M(eip,op_src,op_dest);
 	op_dest->val=REG(op_dest->reg);

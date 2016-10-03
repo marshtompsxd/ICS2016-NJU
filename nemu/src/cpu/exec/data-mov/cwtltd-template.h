@@ -3,7 +3,7 @@
 
 make_helper( concat(cwtltd_,SUFFIX) ) {
 
-#if DATA_BYTE==2
+  #if DATA_BYTE==2
 	if( ( (DATA_TYPE_S)REG(R_AX) ) <  0 )
 		REG(R_DX)=0XFFFF;
 	else
@@ -17,7 +17,7 @@ make_helper( concat(cwtltd_,SUFFIX) ) {
 	print_asm("cltd");
 #endif
 
-	return 1;
+    return 1;
 }
 
 #include "cpu/exec/template-end.h"

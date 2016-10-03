@@ -7,10 +7,10 @@ static void do_execute () {
 	print_asm_template2();
 }
 
-make_instr_helper(rmzb2r)
+make_instr_helper(mzbrm2r)
 
 #if DATA_BYTE==4
-make_instr_helper(rmzw2r)
+make_instr_helper(mzwrm2r)
 #endif
 
 #include "cpu/exec/template-end.h"

@@ -9,8 +9,8 @@
 #include "movzx-template.h"
 #undef DATA_BYTE
 
-make_helper_v(movzx_rmzb2r)
+make_helper_v(movzx_mzbrm2r)
 
-make_helper(movzx_rmzw2r_v){
-	return movzx_rmzw2r_l(eip);
+make_helper(movzx_mzwrm2r_v){
+	return movzx_mzwrm2r_l(eip);
 }
