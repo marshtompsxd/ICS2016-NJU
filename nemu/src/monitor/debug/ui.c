@@ -222,7 +222,7 @@ static int cmd_bt(char *args){
         char *funcname;
         funcname=find_func_in_elf(st.ret_addr);
         if(funcname==NULL){
-            strcmp(funcname,"???");
+            strcpy(funcname,"???");
         }
         int i;
         for(i=0;i<4;i++){
