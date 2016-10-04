@@ -13,20 +13,20 @@ static void do_execute() {
 			op=instr_fetch(opeip,1);
 		}
 		if( op==0xeb || op==0xe9 ){
-				DATA_TYPE_S offs=op_src->val;
-				cpu.eip=cpu.eip+offs;
-				if(DATA_BYTE==2)
-						cpu.eip=cpu.eip&0xffff;
+			DATA_TYPE_S offs=op_src->val;
+			cpu.eip=cpu.eip+offs;
+			if(DATA_BYTE==2)
+				cpu.eip=cpu.eip&0xffff;
 		}
 		else if( op==0xff ){
-				DATA_TYPE dest=op_src->val;
-				if(DATA_BYTE==2)
-						cpu.eip=dest&0xffff;
-				else
-						cpu.eip=dest;
+			DATA_TYPE dest=op_src->val;
+			if(DATA_BYTE==2)
+				cpu.eip=dest&0xffff;
+			else
+				cpu.eip=dest;
 		}
 		else
-				panic("please implement jmp");
+			panic("please implement jmp");
 
 		print_asm_template1();
 }
