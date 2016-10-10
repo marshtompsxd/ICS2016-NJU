@@ -241,6 +241,9 @@ static int cmd_bt(char *args){
         printf("%d:",count);
         printf("0x%x in %s",st.ret_addr,funcname);
         printf("(0x%x,0x%x,0x%x,0x%x)\n",st.args[0],st.args[1],st.args[2],st.args[3]);
+
+        if(strcmp(funcname,"???Unknown\0")==0)break;
+        
         st.ret_addr=swaddr_read(st.prev_ebp+4,4);
         st.prev_ebp=swaddr_read(st.prev_ebp,4);
         count++;
