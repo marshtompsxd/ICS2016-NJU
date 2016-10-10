@@ -221,14 +221,22 @@ static int cmd_bt(char *args){
     while(st.prev_ebp){
         char *funcname;
         funcname=find_func_in_elf(st.ret_addr);
-        printf("check1\n" );
+        //printf("check1\n" );
         if(funcname==NULL){
-            funcname="Unknown\0";
+            funcname="???Unknown\0";
         }
-        printf("check2\n" );
-        int i;
-        for(i=0;i<4;i++){
-            st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
+        //printf("check2\n" );
+        if(strcmp(funcname,"???Unknown\0")==0){
+            int i;
+            for(i=0;i<4;i++){
+                st.args[i]=0;
+            }
+        }
+        else{
+            int i;
+            for(i=0;i<4;i++){
+                st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
+            }
         }
         printf("%d:",count);
         printf("0x%x in %s",st.ret_addr,funcname);
