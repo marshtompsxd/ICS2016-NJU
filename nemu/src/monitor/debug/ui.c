@@ -224,6 +224,7 @@ static int cmd_bt(char *args){
         if(funcname==NULL){
             strcpy(funcname,"Unknown");
         }
+        printf("check\n" );
         int i;
         for(i=0;i<4;i++){
             st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
