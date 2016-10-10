@@ -10,7 +10,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
-bool find_func_in_elf(char* ,swaddr_t);
+bool find_func_in_elf(char** ,swaddr_t);
 
 
 
@@ -222,7 +222,7 @@ static int cmd_bt(char *args){
     while(st.prev_ebp){
         bool find;
 
-        find=find_func_in_elf(funcname,st.ret_addr);
+        find=find_func_in_elf(&funcname,st.ret_addr);
 
         if(!find){
             funcname="???Unknown\0";
