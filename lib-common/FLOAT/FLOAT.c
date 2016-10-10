@@ -36,25 +36,39 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 	// return 0;
 
 	 int sign=1;
+	 int ta,tb;
+
+	 /*calculate the sign of result by checkout a and b . */
 	 if(a<0){
 	 	sign*=-1;
-	 	a=-a;
+	 	ta=-a;
 	 }
+	 else{
+	 	ta=a;
+	}
 	 if(b<0){
 	 	sign*=-1;
-	 	b=-b;
+	 	tb=-b;
 	 }
-	 int result=a/b;
-	 a=a%b;
+	 else{
+	 	tb=b;
+	}
+
+	/* calculate the integer part of result . */
+	 int result=ta/tb;
+	 int remainder=ta%tb;
+
+	 /* calculate the fraction part of result . */
 	 int i;
 	 for(i=0;i<16;i++){
-	 	a<<=1;
+	 	remainder<<=1;
 	 	result<<=1;
-	 	if(a>=b){
-	 		a-=b;
+	 	if(remainder>=tb){
+	 		remainder-=tb;
 	 		result++;
 	 	}
 	 }
+
 	 return result*sign;
 }
 
@@ -73,7 +87,7 @@ FLOAT f2F(float a) {
 	// return 0;
 
 
-
+	/*use union to transfer the float to uint32_t type, which is also FLOAT type. */
 	 typedef union{
 	 	float fl;
 	 	uint32_t ut;
@@ -82,23 +96,28 @@ FLOAT f2F(float a) {
 
 	 uA.fl=a;
 	 uint32_t fta=uA.ut;
+
+	 /*split and extract the sign , exp and tail part of the float . */
 	 uint32_t sign=fta>>31;
-	 int exp=(fta>>23)&0xff;
+	 int exponential=(fta>>23)&0xff;
 	 uint32_t result=fta&0x7fffff;
-	 if(exp!=0)
-	 		result+=(1<<23);
-		
-	 exp-=127;
-	 if(exp<7)
-	 		result>>=(7-exp);
-	 else if(exp>7)
-	 		result<<=(exp-7);
 
+	 /*supplement the 1 of integer part of result. */
+	 if(exponential!=0)
+	 	result+=(1<<23);
 
+	 /*move the radix point to the right place by checkout the exp part . */
+	 exponential-=127;
+	 if(exponential<7)
+	  	 result>>=(7-exponential);
+	 else if(exponential>7)
+	 	 result<<=(exponential-7);
+
+	 /*determine the sign of result by sign part . */
 	 if(sign==0)
-	 		 return result;
+	 	 return result;
 	 else
-	 		 return -result;
+	 	 return -result;
 
 }
 
