@@ -225,10 +225,6 @@ static int cmd_bt(char *args){
         find=find_func_in_elf(&funcname,st.ret_addr);
 
         if(!find){
-            funcname="???Unknown\0";
-        }
-
-        if(!find){
             int i;
             for(i=0;i<4;i++){
                 st.args[i]=0;

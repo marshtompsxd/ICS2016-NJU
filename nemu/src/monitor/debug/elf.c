@@ -117,7 +117,7 @@ bool find_func_in_elf(char** funcname,swaddr_t addr){
 	}
 	else{
 		*funcname=symtab[key].st_name+strtab;
-		printf("%s\n",*funcname );
+		//printf("%s\n",*funcname );
 		return true;
 	}
 }
