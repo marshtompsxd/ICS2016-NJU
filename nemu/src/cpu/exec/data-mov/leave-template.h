@@ -2,24 +2,21 @@
 
 #define instr leave
 
-static void do_execute(){
-	
+make_helper(concat(leave_,SUFFIX)){
+
 	cpu.esp=cpu.ebp;
 	if(DATA_BYTE==2)
 		reg_w(R_BP)=MEM_R(cpu.esp);
-	
+
 	else if(DATA_BYTE==4)
 		cpu.ebp=MEM_R(cpu.esp);
-	
+
 
 	cpu.esp+=DATA_BYTE;
-	
-	print_asm_template1();
+
+	print_asm("leave");
+
+	return 1;
 }
-
-make_instr_helper(r)
-
-
-
 
 #include "cpu/exec/template-end.h"
