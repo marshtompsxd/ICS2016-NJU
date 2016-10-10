@@ -219,7 +219,7 @@ static int cmd_bt(char *args){
     st.ret_addr=cpu.eip;
     int count=1;
     while(st.prev_ebp){
-        char *funcname=NULL;
+        char *funcname="Uninitialized\0";
         bool find;
         find=find_func_in_elf(funcname,st.ret_addr);
         if(!find){
