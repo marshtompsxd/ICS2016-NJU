@@ -225,7 +225,9 @@ static int cmd_bt(char *args){
         printf("find ok\n");
         if(!find){
             strcpy(funcname,"Unknown function");
+            printf("cpy ok\n");
         }
+        printf("cpy2 ok\n");
         int i;
         for(i=0;i<4;i++){
             st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
