@@ -223,7 +223,7 @@ static int cmd_bt(char *args){
         funcname=find_func_in_elf(st.ret_addr);
         printf("check1\n" );
         if(funcname==NULL){
-            strcpy(funcname,"Unknown");
+            funcname="Unknown\0";
         }
         printf("check2\n" );
         int i;
