@@ -100,7 +100,7 @@ bool find_obj_in_elf(const char* objname,uint32_t *addr){
 	return false;
 }
 
-char* find_func_in_elf(swaddr_t addr){
+bool find_func_in_elf(char* funcname,swaddr_t addr){
 	int i;
 	int key=-1;
 	for(i=0;i<nr_symtab_entry;i++){
@@ -111,8 +111,13 @@ char* find_func_in_elf(swaddr_t addr){
 			}
 		}
 	}
-	if(key==-1)return NULL;
+	if(key==-1){
+		funcname="???\0";
+		return false;
+	}
 	else{
-		return symtab[key].st_name+strtab;
+		funcname=symtab[key].st_name+strtab;
+		printf("%s\n",funcname );
+		return true;
 	}
 }

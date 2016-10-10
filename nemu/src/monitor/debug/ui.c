@@ -10,7 +10,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
-char* find_func_in_elf(swaddr_t);
+bool find_func_in_elf(char* ,swaddr_t);
 
 
 
@@ -219,14 +219,15 @@ static int cmd_bt(char *args){
     st.ret_addr=cpu.eip;
     int count=1;
     while(st.prev_ebp){
-        char *funcname;
-        funcname=find_func_in_elf(st.ret_addr);
-        //printf("check1\n" );
-        if(funcname==NULL){
+        bool find;
+        char *funcname="Uninitilazied\0";
+        find=find_func_in_elf(funcname,st.ret_addr);
+
+        if(!find){
             funcname="???Unknown\0";
         }
-        //printf("check2\n" );
-        if(strcmp(funcname,"???Unknown\0")==0){
+
+        if(!find){
             int i;
             for(i=0;i<4;i++){
                 st.args[i]=0;
@@ -242,8 +243,8 @@ static int cmd_bt(char *args){
         printf("0x%x in %s",st.ret_addr,funcname);
         printf("(0x%x,0x%x,0x%x,0x%x)\n",st.args[0],st.args[1],st.args[2],st.args[3]);
 
-        if(strcmp(funcname,"???Unknown\0")==0)break;
-        
+        if(!find)break;
+
         st.ret_addr=swaddr_read(st.prev_ebp+4,4);
         st.prev_ebp=swaddr_read(st.prev_ebp,4);
         count++;
