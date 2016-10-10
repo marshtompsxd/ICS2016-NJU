@@ -221,10 +221,11 @@ static int cmd_bt(char *args){
     while(st.prev_ebp){
         char *funcname;
         funcname=find_func_in_elf(st.ret_addr);
+        printf("check1\n" );
         if(funcname==NULL){
             strcpy(funcname,"Unknown");
         }
-        printf("check\n" );
+        printf("check2\n" );
         int i;
         for(i=0;i<4;i++){
             st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
