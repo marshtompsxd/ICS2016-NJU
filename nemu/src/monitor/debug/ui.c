@@ -222,6 +222,7 @@ static int cmd_bt(char *args){
         char *funcname="Uninitialized\0";
         bool find;
         find=find_func_in_elf(funcname,st.ret_addr);
+        printf("find ok\n");
         if(!find){
             strcpy(funcname,"Unknown function");
         }
