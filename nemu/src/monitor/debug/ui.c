@@ -10,7 +10,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
-bool find_func_in_elf(char*,swaddr_t);
+char* find_func_in_elf(swaddr_t);
 
 
 
@@ -219,16 +219,11 @@ static int cmd_bt(char *args){
     st.ret_addr=cpu.eip;
     int count=1;
     while(st.prev_ebp){
-        char *funcname="Uninitialized\0";
-        bool find;
-        find=find_func_in_elf(funcname,st.ret_addr);
-        //printf("find ok\n");
-        //printf("%s\n", funcname);
-        if(!find){
-            strcpy(funcname,"Unknown function");
-            //printf("cpy ok\n");
+        char *funcname;
+        funcname=find_func_in_elf(st.ret_addr);
+        if(funcname==NULL){
+            strcpy(funcname,"Unknown");
         }
-        //printf("cpy2 ok\n");
         int i;
         for(i=0;i<4;i++){
             st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
