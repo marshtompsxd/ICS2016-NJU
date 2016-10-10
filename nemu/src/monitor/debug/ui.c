@@ -222,13 +222,13 @@ static int cmd_bt(char *args){
         char *funcname="Uninitialized\0";
         bool find;
         find=find_func_in_elf(funcname,st.ret_addr);
-        printf("find ok\n");
-        printf("%s\n", funcname);
+        //printf("find ok\n");
+        //printf("%s\n", funcname);
         if(!find){
             strcpy(funcname,"Unknown function");
-            printf("cpy ok\n");
+            //printf("cpy ok\n");
         }
-        printf("cpy2 ok\n");
+        //printf("cpy2 ok\n");
         int i;
         for(i=0;i<4;i++){
             st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
