@@ -5,13 +5,15 @@
 static void do_execute(){
 	uint32_t opeip=cpu.eip;
 	uint32_t op=instr_fetch(opeip,1);
+	/*get the opcode after the prefix 66 to tell which call it is*/
 	while( op==0x66 )
 	{
 		opeip++;
 		op=instr_fetch(opeip,1);
 	}
+	
 	if( op==0xe8 ){
-		//DATA_TYPE_S offs=op_src->val;
+
 		if(DATA_BYTE==2){
 			cpu.esp-=2;
 			MEM_W(cpu.esp,(cpu.eip+DATA_BYTE+2)&0xffff);
