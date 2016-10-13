@@ -11,7 +11,7 @@ static void do_execute(){
 		opeip++;
 		op=instr_fetch(opeip,1);
 	}
-	
+
 	if( op==0xe8 ){
 
 		if(DATA_BYTE==2){
@@ -35,8 +35,8 @@ static void do_execute(){
 			cpu.eip=op_src->val;
 		}
 
-		int len=concat(decode_rm_,SUFFIX)(opeip+1);
-		MEM_W(cpu.esp,opeip+len+1);
+		int rmlen=concat(decode_rm_,SUFFIX)(opeip+1);
+		MEM_W(cpu.esp,opeip+rmlen+1);
 	}
 	else
 		panic("please implement call.");
