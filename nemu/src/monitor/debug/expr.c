@@ -332,8 +332,8 @@ static int eval(int p,int q,bool* success){
             if(!(*success)){
                 return -1;
             }
-			//printf("deref %d\n",addr);
-			//printf("%d\n",swaddr_read(addr,4) );
+			printf("deref %d\n",addr);
+			printf("deref result is %d\n",swaddr_read(addr,4) );
             return swaddr_read(addr,4);
         }
         else if(op_type==NEG){
