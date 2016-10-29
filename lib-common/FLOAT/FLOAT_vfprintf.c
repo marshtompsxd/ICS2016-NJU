@@ -61,6 +61,26 @@ static void modify_vfprintf() {
 	 * hijack.
 	 */
 
+	 /*
+ 	08048bee <_vfprintf_internal>:
+
+ 						   ............
+
+ 	8048ed2:	db 2a                	fldt   (%edx)
+ 	8048ed4:	eb 02                	jmp    8048ed8 <_vfprintf_internal+0x2ea>
+ 	8048ed6:	dd 02                	fldl   (%edx)
+ 	8048ed8:	53                   	push   %ebx
+ 	8048ed9:	53                   	push   %ebx
+ 	8048eda:	68 87 8b 04 08       	push   $0x8048b87
+ 	8048edf:	8d 84 24 a4 00 00 00 	lea    0xa4(%esp),%eax
+ 	8048ee6:	50                   	push   %eax
+ 	8048ee7:	83 ec 0c             	sub    $0xc,%esp
+ 	8048eea:	db 3c 24             	fstpt  (%esp)
+ 	8048eed:	ff b4 24 8c 01 00 00 	pushl  0x18c(%esp)
+ 	8048ef4:	e8 66 f6 ff ff       	call   804855f <_fpmaxtostr>
+ 	8048ef9:	83 c4 20             	add    $0x20,%esp
+ 	*/
+
 
 	 //mprotect((void	*)(((int)&_vfprintf_internal+775-100)&0xfffff000), 4096*2, PROT_READ | PROT_WRITE | PROT_EXEC);
 
@@ -124,6 +144,16 @@ static void modify_ppfs_setargs() {
 	 * Below is the code section in _vfprintf_internal() relative to
 	 * the modification.
 	 */
+
+	 /*
+	 08049153 <_ppfs_setargs>:
+
+	 	............
+
+	 80491b3:	8b 50 4c             	mov    0x4c(%eax),%edx
+	 80491b6:	7f 18                	jg     80491d0 <_ppfs_setargs+0x7d>
+	*/
+
 
 
 	 *(unsigned char*)(&_ppfs_setargs+0x71)=0xeb;
