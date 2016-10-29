@@ -137,7 +137,7 @@ static int cmd_p(char *args){
     int result=expr(args,&success);
     if(success){
         printf("The result is %d\n",result);
-        printf("with the format of hex %x\n",result);
+        printf("with the format of hex 0x%x\n",result);
     }
     else{
         printf("fail to evaluate expression\n");
