@@ -234,6 +234,7 @@ static int cmd_bt(char *args){
         else{
             int i;
             for(i=0;i<4;i++){
+                printf("fuck it\n");
                 st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
             }
         }
