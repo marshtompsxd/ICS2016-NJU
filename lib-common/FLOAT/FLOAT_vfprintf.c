@@ -61,7 +61,7 @@ static void modify_vfprintf() {
 	 */
 
 
-	 mprotect((void	*)(((int)&_vfprintf_internal+775-100)&0xfffff000), 4096*2, PROT_READ | PROT_WRITE | PROT_EXEC);
+	 //mprotect((void	*)(((int)&_vfprintf_internal+775-100)&0xfffff000), 4096*2, PROT_READ | PROT_WRITE | PROT_EXEC);
 
 	 int *addr=(int*)(&_vfprintf_internal+775);
 	 *addr+=(int)((unsigned)&format_FLOAT-(unsigned)&_fpmaxtostr);
