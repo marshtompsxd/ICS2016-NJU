@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "FLOAT.h"
+#include <sys/mman.h>
 
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
@@ -15,9 +16,41 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 *         0x00013333    "1.199996"
 	 */
 
+	/*
 	char buf[80];
 	int len = sprintf(buf, "0x%08x", f);
 	return __stdio_fwrite(buf, len, stream);
+	*/
+
+	char buf[80];
+	int integer;
+	int fraction;
+	int ilen, flen;
+	int negflag;
+	if(f<0){
+		f=-f;
+		negflag=1;
+	}
+	else{
+		negflag=0;
+	}
+	fraction=(((long long)f&0xffff)*1000000)>>16;
+	integer=(f&0x7fffffff)>>16;
+
+	/*output differs with the sign*/
+	if(negflag){
+		ilen = sprintf(buf, "-%d.", integer);
+	}
+	else{
+		ilen = sprintf(buf, "%d.", integer);
+	}
+	flen = sprintf(buf+ilen, "%d", fraction);
+	while (flen<6) {
+		buf[ilen+flen]='0';
+		flen++;
+	}
+	buf[ilen+flen]='\0';
+	return __stdio_fwrite(buf, ilen+flen, stream);
 }
 
 static void modify_vfprintf() {
@@ -26,6 +59,24 @@ static void modify_vfprintf() {
 	 * is the code section in _vfprintf_internal() relative to the
 	 * hijack.
 	 */
+
+
+	 mprotect((void	*)(((int)&_vfprintf_internal+775-100)&0xfffff000), 4096*2, PROT_READ | PROT_WRITE | PROT_EXEC);
+
+	 int *addr=(int*)(&_vfprintf_internal+775);
+	 *addr+=(int)((unsigned)&format_FLOAT-(unsigned)&_fpmaxtostr);
+
+	 *(unsigned char*)(&_vfprintf_internal+0x2e4)=0x90;
+	 *(unsigned char*)(&_vfprintf_internal+0x2e5)=0x90;
+	 *(unsigned char*)(&_vfprintf_internal+0x2e8)=0x90;
+	 *(unsigned char*)(&_vfprintf_internal+0x2e9)=0x90;
+	 *(unsigned char*)(&_vfprintf_internal+0x2fb)=0x08;
+	 *(unsigned char*)(&_vfprintf_internal+0x2fc)=0xff;
+	 *(unsigned char*)(&_vfprintf_internal+0x2fd)=0x32;
+	 *(unsigned char*)(&_vfprintf_internal+0x2fe)=0x90;
+
+
+
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
