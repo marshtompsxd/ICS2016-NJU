@@ -105,7 +105,7 @@ bool find_func_in_elf(char** funcname,swaddr_t addr){
 	int key=-1;
 	for(i=0;i<nr_symtab_entry;i++){
 		if(symtab[i].st_info&STT_FUNC){
-			if(addr>=symtab[i].st_value&&addr<=symtab[i].st_value+symtab[i].st_size){
+			if(addr>=symtab[i].st_value&&addr<symtab[i].st_value+symtab[i].st_size){
 				key=i;
 				break;
 			}
@@ -117,7 +117,7 @@ bool find_func_in_elf(char** funcname,swaddr_t addr){
 	}
 	else{
 		*funcname=symtab[key].st_name+strtab;
-		
+
 		return true;
 	}
 }
