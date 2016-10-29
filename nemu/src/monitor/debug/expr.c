@@ -41,7 +41,7 @@ static struct rule {
     {"\\)", ')'},                   // right bracket
     {"0[xX][0-9a-fA-Z]+",'h'},      // hexadecimal number
     {"[0-9]+", 'd'},                // decimal number
-    {"[_a-zA-Z0-9]+",ELFOBJ}        // object in elf
+    {"[_a-zA-Z][_a-zA-Z0-9]+",ELFOBJ}        // object in elf
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
