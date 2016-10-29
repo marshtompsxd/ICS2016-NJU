@@ -53,7 +53,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/print-FLOAT
+USERPROG := obj/testcase/add
 #ENTRY := $(USERPROG)
 ENTRY := $(kernel_BIN)
 
@@ -74,3 +74,6 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 
 submit: clean
 	cd .. && tar cvj $(shell pwd | grep -o '[^/]*$$') > $(STU_ID).tar.bz2
+
+count:
+	@find nemu -type f -name *.[ch] | xargs cat | tr -s '\n' |wc -l
