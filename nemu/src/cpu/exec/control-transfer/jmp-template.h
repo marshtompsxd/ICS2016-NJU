@@ -14,7 +14,7 @@ static void do_execute() {
 			else
 				cpu.eip=(DATA_TYPE)(op_src->val);
 		}
-		if( op_src->type==OP_TYPE_IMM ){
+		else if( op_src->type==OP_TYPE_IMM ){
 
 			if(DATA_BYTE==2){
 				cpu.eip=cpu.eip+(DATA_TYPE_S)op_src->val;
