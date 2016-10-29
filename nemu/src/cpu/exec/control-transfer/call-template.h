@@ -3,17 +3,22 @@
 #define instr call
 
 static void do_execute(){
-	uint32_t opeip=cpu.eip;
-	uint32_t op=instr_fetch(opeip,1);
-	/*get the opcode after the prefix 66 to tell which call it is*/
-	while( op==0x66 )
-	{
-		opeip++;
-		op=instr_fetch(opeip,1);
+
+	if( op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM ){
+		if(DATA_BYTE==2){
+			cpu.esp-=2;
+			int rmlen=concat(decode_rm_,SUFFIX)(cpu.eip+2);
+			MEM_W(cpu.esp,cpu.eip+rmlen+2);
+			cpu.eip=(op_src->val)&0xffff;
+		}
+		else if(DATA_BYTE==4){
+			cpu.esp-=4;
+			int rmlen=concat(decode_rm_,SUFFIX)(cpu.eip+1);
+			MEM_W(cpu.esp,cpu.eip+rmlen+1);
+			cpu.eip=op_src->val;
+		}
 	}
-
-	if( op==0xe8 ){
-
+	else if( op_src->type==OP_TYPE_IMM ){
 		if(DATA_BYTE==2){
 			cpu.esp-=2;
 			MEM_W(cpu.esp,(cpu.eip+DATA_BYTE+2)&0xffff);
@@ -22,21 +27,8 @@ static void do_execute(){
 		else if(DATA_BYTE==4){
 			cpu.esp-=4;
 			MEM_W(cpu.esp,cpu.eip+DATA_BYTE+1);
-			cpu.eip+=(DATA_TYPE_S)op_src->val;
+			cpu.eip=cpu.eip+(DATA_TYPE_S)op_src->val;
 		}
-	}
-	else if( op==0xff ){
-		if(DATA_BYTE==2){
-			cpu.esp=cpu.esp-2;
-			cpu.eip=(op_src->val)&0xffff;
-		}
-		else if(DATA_BYTE==4){
-			cpu.esp-=4;
-			cpu.eip=op_src->val;
-		}
-
-		int rmlen=concat(decode_rm_,SUFFIX)(opeip+1);
-		MEM_W(cpu.esp,opeip+rmlen+1);
 	}
 	else
 		panic("please implement call.");
