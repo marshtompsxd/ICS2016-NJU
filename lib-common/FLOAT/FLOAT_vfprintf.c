@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "FLOAT.h"
-#include <sys/mman.h>
+//#include <sys/mman.h>
 
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
+extern char _ppfs_setargs;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
@@ -123,6 +124,11 @@ static void modify_ppfs_setargs() {
 	 * Below is the code section in _vfprintf_internal() relative to
 	 * the modification.
 	 */
+
+
+	 *(unsigned char*)(&_ppfs_setargs+0x71)=0xeb;
+	 *(unsigned char*)(&_ppfs_setargs+0x72)=0x30;
+	 *(unsigned char*)(&_ppfs_setargs+0x73)=0x90;
 
 #if 0
 	enum {                          /* C type: */
