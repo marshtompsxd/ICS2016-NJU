@@ -27,13 +27,13 @@ static struct rule {
 	 */
 
   	{" +",	NOTYPE},				// spaces
-	  {"==", EQ},						// equal
+	{"==", EQ},						// equal
     {"!=",NEQ},                     // not equal
     {"&&",AND},                     // and
     {"\\|\\|",OR},                  // or
     {"!",NOT},                      // not
     {"\\$[a-z]+", 'r'},             // register
-	  {"\\+", '+'},					// plus
+	{"\\+", '+'},					// plus
     {"-", '-'},                     // minus
     {"\\*", '*'},                   // multiply
     {"/", '/'},                     // divide
@@ -332,6 +332,7 @@ static int eval(int p,int q,bool* success){
             if(!(*success)){
                 return -1;
             }
+			printf("deref\n");
             return swaddr_read(addr,4);
         }
         else if(op_type==NEG){
