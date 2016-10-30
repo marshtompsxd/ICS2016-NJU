@@ -146,12 +146,14 @@ static void modify_ppfs_setargs() {
 	 */
 
 	 /*
-	 08049153 <_ppfs_setargs>:
+	 0804910e <_ppfs_setargs>:
 
 	 	............
 
-	 80491b3:	8b 50 4c             	mov    0x4c(%eax),%edx
-	 80491b6:	7f 18                	jg     80491d0 <_ppfs_setargs+0x7d>
+	804917d:       75 44                   jne    80491c3 <_ppfs_setargs+0xb5>
+    804917f:       8d 5a 08                lea    0x8(%edx),%ebx
+    8049182:       dd 02                   fldl   (%edx)
+
 	*/
 
 
