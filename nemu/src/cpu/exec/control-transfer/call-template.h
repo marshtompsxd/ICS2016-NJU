@@ -30,8 +30,7 @@ static void do_execute(){
 			cpu.eip=cpu.eip+(DATA_TYPE_S)op_src->val;
 		}
 	}
-	else
-		panic("please implement call.");
+	
 	print_asm_template1();
 }
 
