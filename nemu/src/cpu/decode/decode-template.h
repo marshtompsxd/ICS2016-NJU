@@ -2,6 +2,9 @@
 
 #include "cpu/decode/modrm.h"
 
+/* I write some new decode functions to deal with some special instructions . */
+
+
 #define decode_r_internal concat3(decode_r_, SUFFIX, _internal)
 #define decode_rm_internal concat3(decode_rm_, SUFFIX, _internal)
 #define decode_i concat(decode_i_, SUFFIX)
@@ -42,6 +45,26 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	return DATA_BYTE;
 }
 #endif
+
+
+#if DATA_BYTE==2 || DATA_BYTE==4
+/* special decode method for control transfer instructions . */
+make_helper(concat(decode_cfsi_,SUFFIX)){
+	op_src->type=OP_TYPE_IMM;
+	op_src->simm=(DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
+	op_src->val=op_src->simm;
+
+#ifdef DEBUG
+	snprintf(op_src->str,OP_STR_SIZE,"$0x%x",op_src->val);
+#endif
+
+	if (DATA_BYTE==2)
+		return -2;	//1 for opcode , 1 for prefix
+	else if (DATA_BYTE==4)
+		return -1;	//1 for opcode
+}
+#endif
+
 
 /* eAX */
 static int concat(decode_a_, SUFFIX) (swaddr_t eip, Operand *op) {
@@ -185,37 +208,14 @@ void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
 	else { assert(0); }
 }
 
-
-
-/* I write some new decode functions to deal with some special instructions . */
-
 #if DATA_BYTE==2 || DATA_BYTE==4
-
-/* special decode method for control transfer instructions . */
-make_helper(concat(decode_cfsi_,SUFFIX)){
-	op_src->type=OP_TYPE_IMM;
-	op_src->simm=(DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
-	op_src->val=op_src->simm;
-
-#ifdef DEBUG
-	snprintf(op_src->str,OP_STR_SIZE,"$0x%x",op_src->val);
-#endif
-
-#if DATA_BYTE==2
-	return -2;	//1 for opcode , 1 for prefix
-#elif DATA_BYTE==4
-	return -1;	//1 for opcode
-#endif
-}
-
-
 make_helper(concat(decode_cfrm_,SUFFIX)){
 	decode_rm_internal(eip,op_src,op_src2);
-#if DATA_BYTE==2
-	return -2;	//1 for opcode , 1 for prefix
-#elif DATA_BYTE==4
-	return -1;	//1 for opcode
-#endif
+
+	if (DATA_BYTE==2)
+		return -2;	//1 for opcode , 1 for prefix
+	else if (DATA_BYTE==4)
+		return -1;	//1 for opcode
 }
 
 #endif
@@ -229,7 +229,6 @@ make_helper( concat(decode_msbrm2r_,SUFFIX) ){
 	int len=read_ModR_M(eip,op_src,op_dest);
 	op_src->val=(((int)(op_src->val))<<24>>24);		//sign extended
 	op_dest->val=REG(op_dest->reg);
-
 #ifdef DEBUG
 	snprintf(op_dest->str,OP_STR_SIZE,"%%%s",REG_NAME(op_dest->reg));
 #endif
@@ -241,7 +240,6 @@ make_helper( concat(decode_mzbrm2r_,SUFFIX) ){
 	op_src->size=1;		// 8 byte , so op_src is 1 size.
 	int len=read_ModR_M(eip,op_src,op_dest);
 	op_dest->val=REG(op_dest->reg);
-
 #ifdef DEBUG
 	snprintf(op_dest->str,OP_STR_SIZE,"%%%s",REG_NAME(op_dest->reg));
 #endif
@@ -258,7 +256,6 @@ make_helper( concat(decode_mswrm2r_,SUFFIX) ){
 	int len=read_ModR_M(eip,op_src,op_dest);
 	op_src->val=(((int)(op_src->val))<<16>>16);		//sign extended
 	op_dest->val=REG(op_dest->reg);
-
 #ifdef DEBUG
 	snprintf(op_dest->str,OP_STR_SIZE,"%%%s",REG_NAME(op_dest->reg));
 #endif
@@ -270,7 +267,6 @@ make_helper( concat(decode_mzwrm2r_,SUFFIX) ){
 	op_src->size=2;		// 16 byte , so op_src is 2 size.
 	int len=read_ModR_M(eip,op_src,op_dest);
 	op_dest->val=REG(op_dest->reg);
-
 #ifdef DEBUG
 	snprintf(op_dest->str,OP_STR_SIZE,"%%%s",REG_NAME(op_dest->reg));
 #endif
