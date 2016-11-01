@@ -35,8 +35,8 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	else{
 		negflag=0;
 	}
-	fraction=(((long long)f&0xffff)*1000000)>>16;
 	integer=(f&0x7fffffff)>>16;
+	fraction=(((long long)f&0xffff)*1000000)>>16;
 
 	/*output differs with the sign*/
 	if(negflag){
@@ -87,14 +87,15 @@ static void modify_vfprintf() {
 	 int *addr=(int*)(&_vfprintf_internal+775);
 	 *addr+=(int)((unsigned)&format_FLOAT-(unsigned)&_fpmaxtostr);
 
-	 *(unsigned char*)(&_vfprintf_internal+0x2e4)=0x90;
-	 *(unsigned char*)(&_vfprintf_internal+0x2e5)=0x90;
-	 *(unsigned char*)(&_vfprintf_internal+0x2e8)=0x90;
-	 *(unsigned char*)(&_vfprintf_internal+0x2e9)=0x90;
-	 *(unsigned char*)(&_vfprintf_internal+0x2fb)=0x08;
-	 *(unsigned char*)(&_vfprintf_internal+0x2fc)=0xff;
-	 *(unsigned char*)(&_vfprintf_internal+0x2fd)=0x32;
-	 *(unsigned char*)(&_vfprintf_internal+0x2fe)=0x90;
+
+	 *(char*)(&_vfprintf_internal+0x2e4)=0x90;
+	 *(char*)(&_vfprintf_internal+0x2e5)=0x90;
+	 *(char*)(&_vfprintf_internal+0x2e8)=0x90;
+	 *(char*)(&_vfprintf_internal+0x2e9)=0x90;
+	 *(char*)(&_vfprintf_internal+0x2fb)=0x08;
+	 *(char*)(&_vfprintf_internal+0x2fc)=0xff;
+	 *(char*)(&_vfprintf_internal+0x2fd)=0x32;
+	 *(char*)(&_vfprintf_internal+0x2fe)=0x90;
 
 
 
@@ -158,9 +159,9 @@ static void modify_ppfs_setargs() {
 
 
 
-	 *(unsigned char*)(&_ppfs_setargs+0x71)=0xeb;
-	 *(unsigned char*)(&_ppfs_setargs+0x72)=0x30;
-	 *(unsigned char*)(&_ppfs_setargs+0x73)=0x90;
+	 *(char*)(&_ppfs_setargs+0x71)=0xeb;
+	 *(char*)(&_ppfs_setargs+0x72)=0x30;
+	 *(char*)(&_ppfs_setargs+0x73)=0x90;
 
 #if 0
 	enum {                          /* C type: */
