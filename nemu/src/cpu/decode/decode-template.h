@@ -208,7 +208,9 @@ void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
 	else { assert(0); }
 }
 
+
 #if DATA_BYTE==2 || DATA_BYTE==4
+/* special decode method for control transfer instructions . */
 make_helper(concat(decode_cfrm_,SUFFIX)){
 	decode_rm_internal(eip,op_src,op_src2);
 
@@ -222,7 +224,6 @@ make_helper(concat(decode_cfrm_,SUFFIX)){
 
 
 #if DATA_BYTE==2 || DATA_BYTE==4
-
 /* special decode method for mov 8 byte src to 16 or 32 byte dest with sign extended. */
 make_helper( concat(decode_msbrm2r_,SUFFIX) ){
 	op_src->size=1;		// 8 byte , so op_src is 1 size.
@@ -249,7 +250,6 @@ make_helper( concat(decode_mzbrm2r_,SUFFIX) ){
 #endif
 
 #if DATA_BYTE==4
-
 /* special decode method for mov 16 byte src to 32 byte dest with sign extended. */
 make_helper( concat(decode_mswrm2r_,SUFFIX) ){
 	op_src->size=2;		// 16 byte , so op_src is 2 size.
