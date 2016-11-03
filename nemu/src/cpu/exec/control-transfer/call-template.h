@@ -3,7 +3,6 @@
 #define instr call
 
 static void do_execute(){
-
 	if( op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM ){
 		if(DATA_BYTE==2){
 			cpu.esp-=2;
@@ -29,8 +28,7 @@ static void do_execute(){
 			MEM_W(cpu.esp,cpu.eip+DATA_BYTE+1);
 			cpu.eip=cpu.eip+(DATA_TYPE_S)op_src->val;
 		}
-	}
-	
+	}	
 	print_asm_template1();
 }
 
