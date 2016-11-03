@@ -92,7 +92,7 @@ static void modify_vfprintf() {
 	 *(char*)(&_vfprintf_internal+0x2e5)=0x90;
 	 *(char*)(&_vfprintf_internal+0x2e8)=0x90;
 	 *(char*)(&_vfprintf_internal+0x2e9)=0x90;
-	 *(char*)(&_vfprintf_internal+0x2fb)=0x08;
+	 *(char*)(&_vfprintf_internal+0x2fb)=0x08;	//esp minus 8 because the stack depth has changed.
 	 *(char*)(&_vfprintf_internal+0x2fc)=0xff;
 	 *(char*)(&_vfprintf_internal+0x2fd)=0x32;
 	 *(char*)(&_vfprintf_internal+0x2fe)=0x90;
@@ -149,7 +149,7 @@ static void modify_ppfs_setargs() {
 	 /*
 	 0804910e <_ppfs_setargs>:
 
-	 	............
+	 					............
 
 	804917d:       75 44                   jne    80491c3 <_ppfs_setargs+0xb5>
     804917f:       8d 5a 08                lea    0x8(%edx),%ebx
@@ -158,7 +158,7 @@ static void modify_ppfs_setargs() {
 	*/
 
 
-
+	/*jump to longlong*/
 	 *(char*)(&_ppfs_setargs+0x71)=0xeb;
 	 *(char*)(&_ppfs_setargs+0x72)=0x30;
 	 *(char*)(&_ppfs_setargs+0x73)=0x90;
