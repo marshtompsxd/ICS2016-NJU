@@ -35,8 +35,9 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	else{
 		negflag=0;
 	}
-	integer=(f&0x7fffffff)>>16;
-	fraction=(((long long)f&0xffff)*1000000)>>16;
+
+	integer=(f&0x7fffffff)>>16;	//extract the integer
+	fraction=(((long long)f&0xffff)*1000000)>>16;	//extract the fraction
 
 	/*output differs with the sign*/
 	if(negflag){
@@ -46,11 +47,14 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 		ilen = sprintf(buf, "%d.", integer);
 	}
 	flen = sprintf(buf+ilen, "%d", fraction);
+
+	/*implement with 0 if len < 6*/
 	while (flen<6) {
 		buf[ilen+flen]='0';
 		flen++;
 	}
-	buf[ilen+flen]='\0';
+
+	buf[ilen+flen]='\0';//don't forget the '\0'!!!
 	return __stdio_fwrite(buf, ilen+flen, stream);
 }
 
@@ -85,17 +89,17 @@ static void modify_vfprintf() {
 	 //mprotect((void	*)(((int)&_vfprintf_internal+775-100)&0xfffff000), 4096*2, PROT_READ | PROT_WRITE | PROT_EXEC);
 
 	 int *addr=(int*)(&_vfprintf_internal+775);
-	 *addr+=(int)((unsigned)&format_FLOAT-(unsigned)&_fpmaxtostr);
+	 *addr+=(int)((unsigned)&format_FLOAT-(unsigned)&_fpmaxtostr);	//call format_FLOAT
 
 
-	 *(char*)(&_vfprintf_internal+0x2e4)=0x90;
-	 *(char*)(&_vfprintf_internal+0x2e5)=0x90;
-	 *(char*)(&_vfprintf_internal+0x2e8)=0x90;
-	 *(char*)(&_vfprintf_internal+0x2e9)=0x90;
+	 *(char*)(&_vfprintf_internal+0x2e4)=0x90;	//fldt to nop
+	 *(char*)(&_vfprintf_internal+0x2e5)=0x90;	//fldt to nop
+	 *(char*)(&_vfprintf_internal+0x2e8)=0x90;	//fldl to nop
+	 *(char*)(&_vfprintf_internal+0x2e9)=0x90;	//fldl to nop
 	 *(char*)(&_vfprintf_internal+0x2fb)=0x08;	//esp minus 8 because the stack depth has changed.
-	 *(char*)(&_vfprintf_internal+0x2fc)=0xff;
+	 *(char*)(&_vfprintf_internal+0x2fc)=0xff;	//fstpt to push (%edx)
 	 *(char*)(&_vfprintf_internal+0x2fd)=0x32;
-	 *(char*)(&_vfprintf_internal+0x2fe)=0x90;
+	 *(char*)(&_vfprintf_internal+0x2fe)=0x90;	//implement with nop
 
 
 

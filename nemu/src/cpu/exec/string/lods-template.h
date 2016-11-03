@@ -3,7 +3,6 @@
 
 
 make_helper( concat(lods_,SUFFIX) ) {
-
 	if (DATA_BYTE==1){
 		reg_b(R_AL)=MEM_R(cpu.esi);
 		if( cpu.eflags.DF==0 )

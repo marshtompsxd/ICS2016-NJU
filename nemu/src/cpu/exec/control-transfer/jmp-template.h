@@ -2,8 +2,6 @@
 
 #define instr jmp
 
-
-
 static void do_execute() {
 	if( op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM ){
 		if(DATA_BYTE==2)
@@ -20,7 +18,7 @@ static void do_execute() {
 			cpu.eip=cpu.eip+(DATA_TYPE_S)op_src->val;
 		}
 	}
-		
+
 	print_asm_template1();
 }
 

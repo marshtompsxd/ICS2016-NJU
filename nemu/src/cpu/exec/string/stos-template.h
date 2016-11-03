@@ -2,7 +2,6 @@
 
 
 make_helper( concat(stos_,SUFFIX) ) {
-
 	if(DATA_BYTE==1){
 		MEM_W( cpu.edi ,reg_b(R_AL));
 		if( cpu.eflags.DF==0 )

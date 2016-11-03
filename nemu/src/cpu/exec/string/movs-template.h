@@ -2,7 +2,6 @@
 
 
 make_helper( concat(movs_,SUFFIX) ) {
-
 	if (DATA_BYTE==1){
 		DATA_TYPE data=MEM_R(cpu.esi);
 		MEM_W(cpu.edi,data);

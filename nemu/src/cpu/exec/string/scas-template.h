@@ -2,8 +2,6 @@
 
 
 make_helper( concat( scas_,SUFFIX ) ) {
-
-
 	DATA_TYPE minuend=cpu.eax;
 	DATA_TYPE subtrahend=swaddr_read( cpu.edi ,DATA_BYTE);
 	DATA_TYPE result=minuend-subtrahend;
