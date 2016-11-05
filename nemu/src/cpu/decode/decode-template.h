@@ -228,8 +228,8 @@ make_helper(concat(decode_cfrm_,SUFFIX)){
 make_helper( concat(decode_msbrm2r_,SUFFIX) ){
 	op_src->size=1;		// 8 byte , so op_src is 1 size.
 	int len=read_ModR_M(eip,op_src,op_dest);
-	int sv=(((int)(op_src->val))<<24>>24);
-	op_src->val=sv;		//sign extended
+	int sv=(((int)(op_src->val))<<24>>24);	//sign extended
+	op_src->val=sv;
 	op_dest->val=REG(op_dest->reg);	//set dest reg
 #ifdef DEBUG
 	snprintf(op_dest->str,OP_STR_SIZE,"%%%s",REG_NAME(op_dest->reg));
@@ -255,8 +255,8 @@ make_helper( concat(decode_mzbrm2r_,SUFFIX) ){
 make_helper( concat(decode_mswrm2r_,SUFFIX) ){
 	op_src->size=2;		// 16 byte , so op_src is 2 size.
 	int len=read_ModR_M(eip,op_src,op_dest);
-	int sv=(((int)(op_src->val))<<16>>16);
-	op_src->val=sv;		//sign extended
+	int sv=(((int)(op_src->val))<<16>>16);	//sign extended
+	op_src->val=sv;
 	op_dest->val=REG(op_dest->reg);	//set dest reg
 #ifdef DEBUG
 	snprintf(op_dest->str,OP_STR_SIZE,"%%%s",REG_NAME(op_dest->reg));

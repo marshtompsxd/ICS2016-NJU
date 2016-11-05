@@ -47,7 +47,7 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 		ilen = sprintf(buf, "%d.", integer);
 	}
 	flen = sprintf(buf+ilen, "%d", fraction);
-
+	
 	/*implement with 0 if len < 6*/
 	while (flen<6) {
 		buf[ilen+flen]='0';
