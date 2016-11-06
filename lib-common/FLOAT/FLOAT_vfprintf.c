@@ -46,13 +46,13 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	else{
 		ilen = sprintf(buf, "%d.", integer);
 	}
-	flen = sprintf(buf+ilen, "%d", fraction);
-	
+	flen = sprintf(buf+ilen, "%-06d", fraction);
+
 	/*implement with 0 if len < 6*/
-	while (flen<6) {
-		buf[ilen+flen]='0';
-		flen++;
-	}
+	//while (flen<6) {
+		//buf[ilen+flen]='0';
+		//flen++;
+	//}
 
 	buf[ilen+flen]='\0';//don't forget the '\0'!!!
 	return __stdio_fwrite(buf, ilen+flen, stream);

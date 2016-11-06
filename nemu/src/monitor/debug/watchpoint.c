@@ -116,13 +116,12 @@ WP* find_wp_byNO(int NO){
 
 bool check_wp(){
     WP* wp;
-		bool ischanged=false;
+	bool ischanged=false;
     for(wp=head;wp!=NULL;wp=wp->next){
         bool success=true;
         int val=expr(wp->expr,&success);
         if(val!=wp->originvalue){
-					  printf("watchpoint %d activited, value changes from %d to %d\n"
-					  ,wp->NO,wp->originvalue,val);
+			printf("watchpoint %d activited, value changes from %d to %d\n",wp->NO,wp->originvalue,val);
             wp->originvalue=val;
             ischanged=true;
         }

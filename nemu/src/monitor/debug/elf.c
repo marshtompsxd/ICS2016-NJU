@@ -86,17 +86,14 @@ void load_elf_tables(int argc, char *argv[]) {
 bool find_obj_in_elf(const char* objname,uint32_t *addr){
 	int i;
 	for(i=0;i<nr_symtab_entry;i++){
-		if(symtab[i].st_info&STT_OBJECT)
-		{
+		if(symtab[i].st_info&STT_OBJECT){
 			if(strcmp(objname,strtab+symtab[i].st_name)==0){
-
 				*addr=symtab[i].st_value;
 				printf("find the obj which value is %d\n", *addr);
 				return true;
 			}
 		}
 	}
-
 	return false;
 }
 
@@ -117,7 +114,6 @@ bool find_func_in_elf(char** funcname,swaddr_t addr){
 	}
 	else{
 		*funcname=symtab[key].st_name+strtab;
-
 		return true;
 	}
 }
