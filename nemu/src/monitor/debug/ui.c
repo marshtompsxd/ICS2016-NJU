@@ -166,7 +166,7 @@ static int cmd_x(char *args){
         for(i=0;i<num;i++){
             uint32_t content=swaddr_read(addr,4);
             printf("0x%-20x",addr);
-            printf("%d\n",content);
+            printf("0x%-20x\n",content);
             addr+=4;
         }
     }
