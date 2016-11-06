@@ -166,7 +166,7 @@ static int cmd_x(char *args){
         for(i=0;i<num;i++){
             uint32_t content=swaddr_read(addr,4);
             printf("0x%-20x",addr);
-            printf("0x%-20x\n",content);
+            printf("%d\n",content);
             addr+=4;
         }
     }
@@ -234,7 +234,7 @@ static int cmd_bt(char *args){
         else{
             int i;
             for(i=0;i<4;i++){
-                
+
                 st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
             }
         }
