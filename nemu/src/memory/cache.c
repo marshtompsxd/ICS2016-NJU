@@ -89,7 +89,7 @@ static uint32_t readcl1_miss(uint32_t addr,uint32_t set_num){
 
     int i;
     for(i=0;i<CL1_BLOCK_SIZE;i++){
-        CL1.content[set_num][line].data[i]=(dram_read(block_begin+i,1)&0xff);
+        CL1.content[set_num][line].data[i]=(cachel2_read(block_begin+i,1)&0xff);
     }
 
     return line;
@@ -138,7 +138,7 @@ uint32_t cachel1_read(uint32_t addr,uint32_t len){
         case 1:return unalign_rw(data_temp+offset,1);
         case 2:return unalign_rw(data_temp+offset,2);
         case 4:return unalign_rw(data_temp+offset,4);
-        default:Assert(0,"wrong cache len: %d\n",len);
+        default:Assert(0,"wrong cachel1 len: %d\n",len);
     }
 
 }
@@ -172,7 +172,7 @@ static void cl1byte4_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     }
 
     if(line==CL1_NR_WAY){
-        dram_write((addr&(~CACHEUNIT_MASK))+offset, len, unalign_rw(data+offset,4));
+        cachel2_write((addr&(~CACHEUNIT_MASK))+offset, len, unalign_rw(data+offset,4));
         readcl1_miss(addr,set_num);
     }
     else{
@@ -182,7 +182,7 @@ static void cl1byte4_write(uint32_t addr,uint8_t*data,uint8_t*mask){
                 CL1.content[set_num][line].data[block_addr_edge+i]=data[i];
             }
         }
-        dram_write((addr&(~CACHEUNIT_MASK))+offset,len,unalign_rw(data+offset,4));
+        cachel2_write((addr&(~CACHEUNIT_MASK))+offset,len,unalign_rw(data+offset,4));
     }
 }
 
