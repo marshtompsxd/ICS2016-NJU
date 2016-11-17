@@ -12,6 +12,7 @@ void init_wp_pool();
 void init_ddr3();
 
 void init_CL1();
+void init_CL2();
 
 FILE *log_fp = NULL;
 
@@ -105,6 +106,9 @@ void restart() {
 
 	/* Initialize cache level1. */
 	init_CL1();
+
+	/* Initialize cache level2. */
+	init_CL2();
 
 	/*Initialize EFLAGS.*/
 	init_eflags();
