@@ -18,7 +18,7 @@ typedef struct cachel1{
 
 extern cachel1 CL1;
 
-extern double caceh_miss_time;
+extern double cache_miss_time;
 extern double cache_visit_time;
 
 uint32_t cachel1_read(uint32_t addr,uint32_t len);
