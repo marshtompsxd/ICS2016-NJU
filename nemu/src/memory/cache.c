@@ -120,3 +120,64 @@ uint32_t cachel1_read(uint32_t addr,uint32_t len){
     }
 
 }
+
+static void cl1byte4_write(uint32_t addr,uint8_t*data,uint8_t*mask){
+    cache_visit_time++;
+
+    cachel1_addr temp;
+    temp.addr=addr;
+    uint32_t block_addr=temp.block_addr;
+    uint32_t set_num=temp.set_num;
+    uint32_t tag_bit=temp.tag_bit;
+    uint32_t block_addr_edge=block_addr&(~CACHEUNIT_MASK);
+
+    uint32_t len=0,offset=0;
+    int k;
+    for(k=0;k<4;k++){
+        if(mask[k]==1)len++;
+    }
+    for(k=0;k<4;k++){
+        if(mask[k]==1){
+            offset=k;
+            break;
+        }
+    }
+
+    int line;
+    for(line=0;line<CL1_NR_WAY;line++){
+        if((CL1.content[set_num][line].valid)&&(CL1.content[set_num][line].tag==tag_bit))
+            break;
+    }
+
+    if(line==CL1_NR_WAY){
+        dram_write((addr&(~CACHEUNIT_MASK))+offset, len, unalign_rw(data+offset,4));
+        readcl1_miss(addr,set_num);
+    }
+    else{
+        int i;
+        for(i=0;i<4;i++){
+            if(mask[i]){
+                CL1.content[set_num][line].data[block_addr_edge+i]=data[i];
+            }
+        }
+        dram_write((addr&(~CACHEUNIT_MASK))+offset,len,unalign_rw(data+offset,4));
+    }
+}
+
+void cachel1_write(uint32_t addr,uint32_t len,uint32_t data){
+    uint32_t offset=addr&CACHEUNIT_MASK;
+    uint8_t temp[2*CACHEUNIT_LEN];
+    uint8_t mask[2*CACHEUNIT_LEN];
+
+    memset(mask,0,2*CACHEUNIT_LEN);
+
+    *(uint32_t *)(temp+offset)=data;
+    memset(mask+offset,1,len);
+
+    cl1byte4_write(addr,temp,mask);
+
+    if((offset+len)>CACHEUNIT_LEN){
+        cl1byte4_write(addr+CACHEUNIT_LEN,temp+CACHEUNIT_LEN,mask+CACHEUNIT_LEN);
+    }
+
+}
