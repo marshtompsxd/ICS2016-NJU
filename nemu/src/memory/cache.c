@@ -21,8 +21,8 @@ int rand();
 cachel1 CL1;
 cachel2 CL2;
 
-double cache_miss_time=0;
-double cache_visit_time=0;
+extern double cache_miss_time;
+extern double cache_visit_time;
 
 typedef union{
     struct{

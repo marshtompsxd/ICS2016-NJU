@@ -3,6 +3,8 @@
 
 uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
+double cache_miss_time=0;
+double cache_visit_time=0;
 
 /* Memory accessing interfaces */
 
