@@ -2,9 +2,24 @@
 #include "cache.h"
 
 uint32_t dram_read(hwaddr_t, size_t);
+
 void dram_write(hwaddr_t, size_t, uint32_t);
+
 double cache_miss_time=0;
+
 double cache_visit_time=0;
+
+
+/* Calculate cache performance parameter */
+double calculate_hit_rate()
+{
+	return (cache_visit_time-cache_miss_time)/cache_visit_time;
+}
+
+double calculate_visit_time()
+{
+	return cache_miss_time*200+cache_visit_time*2;
+}
 
 /* Memory accessing interfaces */
 

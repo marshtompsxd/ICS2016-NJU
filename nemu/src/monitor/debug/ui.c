@@ -12,8 +12,6 @@
 void cpu_exec(uint32_t);
 bool find_func_in_elf(char** ,swaddr_t);
 
-
-
 typedef struct {
     swaddr_t prev_ebp;
     swaddr_t ret_addr;
@@ -251,6 +249,19 @@ static int cmd_bt(char *args){
     return 0;
 }
 
+static int cmd_crate(char *args){
+    double hitrate=calculate_hit_rate();
+    printf("cache hit rate is %f\n",hitrate);
+    return 0;
+}
+
+static int cmd_ctime(char *args){
+    double visittime=calculate_visit_time();
+    printf("cache hit rate is %f\n",visittime);
+    return 0;
+}
+
+
 static int cmd_help(char *args);
 
 static struct {
@@ -267,6 +278,8 @@ static struct {
     { "w","Set a watchpoint",cmd_w },
     { "d","Delete a watchpoint",cmd_d },
     { "bt","Print the stack information" ,cmd_bt},
+    { "crate","Print cache hit rate" ,cmd_crate},
+    { "ctime","Print cache visit time" ,cmd_ctime},
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
