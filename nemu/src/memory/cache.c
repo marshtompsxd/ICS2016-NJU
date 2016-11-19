@@ -119,11 +119,11 @@ static void cl1unit_read(uint32_t addr,void* data){
 }
 
 uint32_t cachel1_read(uint32_t addr,uint32_t len){
-    cachel1_addr temp;
-    temp.addr=addr;
-    uint32_t block_addr=temp.block_addr;
+    //cachel1_addr temp;
+    //temp.addr=addr;
+    //uint32_t block_addr=temp.block_addr;
 
-    uint32_t offset=block_addr&CACHEUNIT_MASK;
+    uint32_t offset=addr&CACHEUNIT_MASK;
 
     uint8_t data_temp[2*CACHEUNIT_LEN];
     memset(data_temp,0,sizeof(data_temp));
