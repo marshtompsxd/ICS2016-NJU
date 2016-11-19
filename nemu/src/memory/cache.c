@@ -167,7 +167,8 @@ static void cl1unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     }
 
     if(line==CL1_NR_WAY){
-        cachel2_write((addr&(~CACHEUNIT_MASK))+offset, len, unalign_rw(data+offset,4));
+        //cachel2_write((addr&(~CACHEUNIT_MASK))+offset, len, unalign_rw(data+offset,4));
+        cachel2_write(addr, len, unalign_rw(data+offset,4));
         readcl1_miss(addr,set_num);
     }
     else{
