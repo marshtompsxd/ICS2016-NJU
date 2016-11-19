@@ -96,7 +96,7 @@ static uint32_t readcl1_miss(uint32_t addr,uint32_t set_num){
 
 }
 
-static void cl1byte4_read(uint32_t addr,void* data){
+static void cl1unit_read(uint32_t addr,void* data){
     cache_visit_time++;
     cachel1_addr temp;
     temp.addr=addr;
@@ -128,25 +128,17 @@ uint32_t cachel1_read(uint32_t addr,uint32_t len){
     uint8_t data_temp[2*CACHEUNIT_LEN];
     memset(data_temp,0,sizeof(data_temp));
 
-    cl1byte4_read(addr,data_temp);
+    cl1unit_read(addr,data_temp);
 
     if(offset+len>CACHEUNIT_LEN){
-        cl1byte4_read(addr+4,data_temp+4);
+        cl1unit_read(addr+4,data_temp+4);
     }
 
-    /*
-    switch (len) {
-        case 1:return unalign_rw(data_temp+offset,1);
-        case 2:return unalign_rw(data_temp+offset,2);
-        case 4:return unalign_rw(data_temp+offset,4);
-        default:Assert(0,"wrong cachel1 len: %d\n",len);
-    }
-    */
     return unalign_rw(data_temp+offset,4);
 
 }
 
-static void cl1byte4_write(uint32_t addr,uint8_t*data,uint8_t*mask){
+static void cl1unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     cache_visit_time++;
 
     cachel1_addr temp;
@@ -199,10 +191,10 @@ void cachel1_write(uint32_t addr,uint32_t len,uint32_t data){
     *(uint32_t *)(temp+offset)=data;
     memset(mask+offset,1,len);
 
-    cl1byte4_write(addr,temp,mask);
+    cl1unit_write(addr,temp,mask);
 
     if((offset+len)>CACHEUNIT_LEN){
-        cl1byte4_write(addr+CACHEUNIT_LEN,temp+CACHEUNIT_LEN,mask+CACHEUNIT_LEN);
+        cl1unit_write(addr+CACHEUNIT_LEN,temp+CACHEUNIT_LEN,mask+CACHEUNIT_LEN);
     }
 
 }
@@ -248,7 +240,7 @@ static uint32_t readcl2_miss(uint32_t addr,uint32_t set_num){
 
 }
 
-static void cl2byte4_read(uint32_t addr,void* data){
+static void cl2unit_read(uint32_t addr,void* data){
     cache_visit_time++;
     cachel2_addr temp;
     temp.addr=addr;
@@ -280,25 +272,17 @@ uint32_t cachel2_read(uint32_t addr,uint32_t len){
     uint8_t data_temp[2*CACHEUNIT_LEN];
     memset(data_temp,0,sizeof(data_temp));
 
-    cl2byte4_read(addr,data_temp);
+    cl2unit_read(addr,data_temp);
 
     if(offset+len>CACHEUNIT_LEN){
-        cl2byte4_read(addr+4,data_temp+4);
+        cl2unit_read(addr+4,data_temp+4);
     }
 
-    /*
-    switch (len) {
-        case 1:return unalign_rw(data_temp+offset,1);
-        case 2:return unalign_rw(data_temp+offset,2);
-        case 4:return unalign_rw(data_temp+offset,4);
-        default:Assert(0,"wrong cachel2 len: %d\n",len);
-    }
-    */
     return unalign_rw(data_temp+offset,4);
 
 }
 
-static void cl2byte4_write(uint32_t addr,uint8_t*data,uint8_t*mask){
+static void cl2unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     cache_visit_time++;
 
     cachel2_addr temp;
@@ -351,10 +335,10 @@ void cachel2_write(uint32_t addr,uint32_t len,uint32_t data){
     *(uint32_t *)(temp+offset)=data;
     memset(mask+offset,1,len);
 
-    cl2byte4_write(addr,temp,mask);
+    cl2unit_write(addr,temp,mask);
 
     if((offset+len)>CACHEUNIT_LEN){
-        cl2byte4_write(addr+CACHEUNIT_LEN,temp+CACHEUNIT_LEN,mask+CACHEUNIT_LEN);
+        cl2unit_write(addr+CACHEUNIT_LEN,temp+CACHEUNIT_LEN,mask+CACHEUNIT_LEN);
     }
 
 }
