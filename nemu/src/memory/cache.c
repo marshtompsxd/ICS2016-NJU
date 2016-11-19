@@ -315,12 +315,15 @@ static void cl2unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
         readcl2_miss(addr);
     }
     else{
+        /*
         int i;
         for(i=0;i<4;i++){
             if(mask[i]){
                 CL2.content[set_bit][line].data[blockaddr_bit_edge+i]=data[i];
             }
         }
+        */
+        memcpy_with_mask(CL2.content[set_bit][line].data + blockaddr_bit_edge, data, CACHEUNIT_LEN, mask);
         CL2.content[set_bit][line].dirty=1;
     }
 }
