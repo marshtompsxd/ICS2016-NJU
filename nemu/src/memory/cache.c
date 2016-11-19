@@ -202,11 +202,13 @@ void cachel1_write(uint32_t addr,uint32_t len,uint32_t data){
 
 /* cache level 2 */
 
-static uint32_t readcl2_miss(uint32_t addr,uint32_t set_num){
+static uint32_t readcl2_miss(uint32_t addr){
     cache_miss_time++;
 
     cachel2_addr temp;
     temp.addr=addr;
+    uint32_t set_num=temp.set_num;
+    
     int line;
     for(line=0;line<CL2_NR_WAY;line++){
         if(!CL2.content[set_num][line].valid)
@@ -257,7 +259,7 @@ static void cl2unit_read(uint32_t addr,void* data){
     }
 
     if(line==CL2_NR_WAY){
-        line=readcl2_miss(addr,set_num);
+        line=readcl2_miss(addr);
     }
 
     memcpy(data,CL2.content[set_num][line].data+block_addr_edge,CACHEUNIT_LEN);
@@ -314,7 +316,7 @@ static void cl2unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     if(line==CL2_NR_WAY){
         //dram_write((addr&(~CACHEUNIT_MASK))+offset, len, unalign_rw(data+offset,4));
         dram_write(addr, len, unalign_rw(data+offset,4));
-        readcl2_miss(addr,set_num);
+        readcl2_miss(addr);
     }
     else{
         int i;
