@@ -1,6 +1,7 @@
 #include "cache.h"
 #include "cache-config.h"
 #include "common.h"
+#include "misc.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -123,16 +124,16 @@ static void cl1unit_read(uint32_t addr,void* data){
 uint32_t cachel1_read(uint32_t addr,uint32_t len){
     uint32_t offset=addr&CACHEUNIT_MASK;
 
-    uint8_t data_temp[2*CACHEUNIT_LEN];
-    memset(data_temp,0,sizeof(data_temp));
+    uint8_t temp[2*CACHEUNIT_LEN];
+    memset(temp,0,sizeof(temp));
 
-    cl1unit_read(addr,data_temp);
+    cl1unit_read(addr,temp);
 
     if(offset+len>CACHEUNIT_LEN){
-        cl1unit_read(addr+4,data_temp+4);
+        cl1unit_read(addr+4,temp+4);
     }
 
-    return unalign_rw(data_temp+offset,4);
+    return unalign_rw(temp+offset,4);
 
 }
 
@@ -151,6 +152,7 @@ static void cl1unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     for(k=0;k<4;k++){
         if(mask[k]==1)len++;
     }
+
     for(k=0;k<4;k++){
         if(mask[k]==1){
             offset=k;
@@ -168,12 +170,15 @@ static void cl1unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
         cachel2_write(addr, len, unalign_rw(data+offset,4));
     }
     else{
+        /*
         int i;
         for(i=0;i<4;i++){
             if(mask[i]){
                 CL1.content[set_bit][line].data[blockaddr_bit_edge+i]=data[i];
             }
         }
+        */
+        memcpy_with_mask(CL1.content[set_bit][line].data + blockaddr_bit_edge, data, CACHEUNIT_LEN, mask);
         cachel2_write(addr,len,unalign_rw(data+offset,4));
     }
 }
@@ -264,16 +269,16 @@ static void cl2unit_read(uint32_t addr,void* data){
 uint32_t cachel2_read(uint32_t addr,uint32_t len){
     uint32_t offset=addr&CACHEUNIT_MASK;
 
-    uint8_t data_temp[2*CACHEUNIT_LEN];
-    memset(data_temp,0,sizeof(data_temp));
+    uint8_t temp[2*CACHEUNIT_LEN];
+    memset(temp,0,sizeof(temp));
 
-    cl2unit_read(addr,data_temp);
+    cl2unit_read(addr,temp);
 
     if(offset+len>CACHEUNIT_LEN){
-        cl2unit_read(addr+4,data_temp+4);
+        cl2unit_read(addr+4,temp+4);
     }
 
-    return unalign_rw(data_temp+offset,4);
+    return unalign_rw(temp+offset,4);
 
 }
 
