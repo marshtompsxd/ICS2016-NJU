@@ -312,7 +312,8 @@ static void cl2unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     }
 
     if(line==CL2_NR_WAY){
-        dram_write((addr&(~CACHEUNIT_MASK))+offset, len, unalign_rw(data+offset,4));
+        //dram_write((addr&(~CACHEUNIT_MASK))+offset, len, unalign_rw(data+offset,4));
+        dram_write(addr, len, unalign_rw(data+offset,4));
         readcl2_miss(addr,set_num);
     }
     else{
