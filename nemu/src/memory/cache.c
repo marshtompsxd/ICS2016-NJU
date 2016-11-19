@@ -18,7 +18,7 @@ uint32_t cachel2_read(uint32_t,uint32_t);
 
 void cachel2_write(uint32_t,uint32_t,uint32_t);
 
-int rand();
+//int rand();
 
 cachel1 CL1;
 cachel2 CL2;
