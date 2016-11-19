@@ -4,6 +4,7 @@
 #include "misc.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 
 uint32_t dram_read(hwaddr_t,size_t);
 
@@ -104,6 +105,7 @@ static uint32_t readcl1_miss(uint32_t addr){
     }
 
     if(line==CL1_NR_WAY){
+        srand(time(NULL));
         line=(rand())%CL1_NR_WAY;
     }
 
@@ -220,6 +222,7 @@ static uint32_t readcl2_miss(uint32_t addr){
     }
 
     if(line==CL2_NR_WAY){
+        srand(time(NULL));
         line=(rand())%CL2_NR_WAY;
 
         if(CL2.content[set_bit][line].dirty){
