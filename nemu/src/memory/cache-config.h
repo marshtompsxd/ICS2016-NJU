@@ -13,7 +13,8 @@
 
 #define THROUGH_ALLOC 0
 #define THROUGH_NOALLOC 1
-#define BACK 2
+#define BACK_ALLOC 2
+#define BACK_NOALLOC 3
 
 #define CL1_BLOCK_SIZE 64
 #define CL1_ALL_SIZE (64<<10)
@@ -31,7 +32,7 @@
 #define CL2_NR_WAY 16
 #define CL2_MAP_MODE SET
 #define CL2_REPLACE_MODE RAND
-#define CL2_WRITE_MODE BACK
+#define CL2_WRITE_MODE BACK_ALLOC
 #define CL2_NR_SET 4096
 #define CL2_BLOCK_WIDTH 6
 #define CL2_SET_WIDTH 12
