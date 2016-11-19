@@ -203,7 +203,6 @@ void cachel1_write(uint32_t addr,uint32_t len,uint32_t data){
     if((offset+len)>CACHEUNIT_LEN){
         cl1unit_write(addr+CACHEUNIT_LEN,temp+CACHEUNIT_LEN,mask+CACHEUNIT_LEN);
     }
-
 }
 
 /* cache level 2 */
