@@ -264,11 +264,11 @@ static void cl2unit_read(uint32_t addr,void* data){
 }
 
 uint32_t cachel2_read(uint32_t addr,uint32_t len){
-    cachel2_addr temp;
-    temp.addr=addr;
-    uint32_t block_addr=temp.block_addr;
+    //cachel2_addr temp;
+    //temp.addr=addr;
+    //uint32_t block_addr=temp.block_addr;
 
-    uint32_t offset=block_addr&CACHEUNIT_MASK;
+    uint32_t offset=addr&CACHEUNIT_MASK;
 
     uint8_t data_temp[2*CACHEUNIT_LEN];
     memset(data_temp,0,sizeof(data_temp));
