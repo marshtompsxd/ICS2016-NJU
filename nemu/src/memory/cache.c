@@ -134,12 +134,15 @@ uint32_t cachel1_read(uint32_t addr,uint32_t len){
         cl1byte4_read(addr+4,data_temp+4);
     }
 
+    /*
     switch (len) {
         case 1:return unalign_rw(data_temp+offset,1);
         case 2:return unalign_rw(data_temp+offset,2);
         case 4:return unalign_rw(data_temp+offset,4);
         default:Assert(0,"wrong cachel1 len: %d\n",len);
     }
+    */
+    return unalign_rw(data_temp+offset,4);
 
 }
 
@@ -283,12 +286,15 @@ uint32_t cachel2_read(uint32_t addr,uint32_t len){
         cl2byte4_read(addr+4,data_temp+4);
     }
 
+    /*
     switch (len) {
         case 1:return unalign_rw(data_temp+offset,1);
         case 2:return unalign_rw(data_temp+offset,2);
         case 4:return unalign_rw(data_temp+offset,4);
         default:Assert(0,"wrong cachel2 len: %d\n",len);
     }
+    */
+    return unalign_rw(data_temp+offset,4);
 
 }
 

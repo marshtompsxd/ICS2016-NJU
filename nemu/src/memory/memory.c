@@ -25,7 +25,7 @@ double calculate_visit_time()
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	//return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-	return cachel1_read(addr,len);
+	return cachel1_read(addr,len)& (~0u >> ((4 - len) << 3));
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
