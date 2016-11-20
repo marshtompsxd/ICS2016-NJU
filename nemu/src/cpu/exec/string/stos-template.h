@@ -3,21 +3,21 @@
 
 make_helper( concat(stos_,SUFFIX) ) {
 	if(DATA_BYTE==1){
-		MEM_W( cpu.edi ,reg_b(R_AL));
+		MEM_W( cpu.edi ,reg_b(R_AL),SR_ES);
 		if( cpu.eflags.DF==0 )
 			cpu.edi=cpu.edi+1;
 		else
 			cpu.edi=cpu.edi-1;
 	}
 	else if (DATA_BYTE==2){
-		MEM_W( cpu.edi ,reg_w(R_AX));
+		MEM_W( cpu.edi ,reg_w(R_AX),SR_ES);
 		if( cpu.eflags.DF==0 )
 			cpu.edi=cpu.edi+2;
 		else
 			cpu.edi=cpu.edi-2;
 	}
 	else if (DATA_BYTE==4){
-		MEM_W( cpu.edi , reg_l(R_EAX));
+		MEM_W( cpu.edi , reg_l(R_EAX),SR_ES);
 		if( cpu.eflags.DF==0 )
 			cpu.edi=cpu.edi+4;
 		else

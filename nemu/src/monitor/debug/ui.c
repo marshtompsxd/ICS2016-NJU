@@ -56,9 +56,7 @@ static int cmd_si(char *args){
         stepNum=atoi(args);
         if(stepNum)
         {
-
             cpu_exec(stepNum);
-
         }
     }
     return 0;
@@ -162,7 +160,7 @@ static int cmd_x(char *args){
         printf("%-20s","memorycontent");
         printf("\n");
         for(i=0;i<num;i++){
-            uint32_t content=swaddr_read(addr,4);
+            uint32_t content=swaddr_read(addr,4,SR_DS);
             printf("0x%-20x",addr);
             printf("0x%-20x\n",content);
             addr+=4;
@@ -233,7 +231,7 @@ static int cmd_bt(char *args){
             int i;
             for(i=0;i<4;i++){
 
-                st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4);
+                st.args[i]=swaddr_read(st.prev_ebp+8+4*i,4,SR_SS);
             }
         }
         printf("%d:",count);
@@ -242,8 +240,8 @@ static int cmd_bt(char *args){
 
         if(!find)break;
 
-        st.ret_addr=swaddr_read(st.prev_ebp+4,4);
-        st.prev_ebp=swaddr_read(st.prev_ebp,4);
+        st.ret_addr=swaddr_read(st.prev_ebp+4,4,SR_SS);
+        st.prev_ebp=swaddr_read(st.prev_ebp,4,SR_SS);
         count++;
     }
     return 0;

@@ -5,11 +5,11 @@
 static void do_execute(){
 	if(DATA_BYTE==2){
 		cpu.esp-=2;
-		swaddr_write(cpu.esp,2,op_src->val);
+		swaddr_write(cpu.esp,2,op_src->val,SR_SS);
 	}
 	else {
 		cpu.esp-=4;
-		swaddr_write(cpu.esp,4,op_src->val);
+		swaddr_write(cpu.esp,4,op_src->val,SR_SS);
 	}
 	print_asm_template1();
 }

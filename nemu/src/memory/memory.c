@@ -1,9 +1,12 @@
 #include "common.h"
 #include "cache.h"
+#include "cpu/reg.h"
 
 uint32_t dram_read(hwaddr_t, size_t);
 
 void dram_write(hwaddr_t, size_t, uint32_t);
+
+static lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg);
 
 double cache_miss_time=0;
 
@@ -41,16 +44,30 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	hwaddr_write(addr, len, data);
 }
 
-uint32_t swaddr_read(swaddr_t addr, size_t len) {
+uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
-	return lnaddr_read(addr, len);
+	lnaddr_t lnaddr=seg_translate(addr,len,sreg);
+	return lnaddr_read(lnaddr,len);
 }
 
-void swaddr_write(swaddr_t addr, size_t len, uint32_t data) {
+void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
-	lnaddr_write(addr, len, data);
+	lnaddr_t lnaddr=seg_translate(addr,len,sreg);
+	lnaddr_write(lnaddr, len, data);
+}
+
+static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
+	if(cpu.cr0.protect_enable==0){
+		return addr;
+	}
+	else{
+		uint32_t limit=cpu.sreg[sreg].hidden_descriptor.limit;
+		uint32_t base=cpu.sreg[sreg].hidden_descriptor.base;
+		Assert((addr+len-1)<=(base+limit),"reg:%u address %x + %u is out of the limit.",sreg,addr,len);
+		return addr+base;
+	}
 }

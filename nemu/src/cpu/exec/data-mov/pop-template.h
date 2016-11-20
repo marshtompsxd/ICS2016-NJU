@@ -4,7 +4,7 @@
 
 static void do_execute(){
 
-	OPERAND_W(op_src,MEM_R(cpu.esp));
+	OPERAND_W(op_src,MEM_R(cpu.esp,SR_SS));
 	if(DATA_BYTE==2)cpu.esp+=2;
 	else cpu.esp+=4;
 

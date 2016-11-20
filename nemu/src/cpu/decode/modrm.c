@@ -4,6 +4,8 @@
 int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 	assert(m->mod != 3);
 
+	rm->sreg=SR_DS;
+
 	int32_t disp;
 	int instr_len, disp_offset, disp_size = 4;
 	int base_reg = -1, index_reg = -1, scale = 0;
@@ -17,11 +19,15 @@ int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 		scale = s.ss;
 
 		if(s.index != R_ESP) { index_reg = s.index; }
+
+		if(s.base==R_ESP||s.base==R_EBP){ rm->sreg=SR_SS; }
 	}
 	else {
 		/* no SIB */
 		base_reg = m->R_M;
 		disp_offset = 1;
+
+		if(m->mod!=0&&m->R_M==R_EBP){ rm->sreg=SR_SS; }
 	}
 
 	if(m->mod == 0) {
@@ -60,13 +66,13 @@ int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 	else { disp_buf[0] = '\0'; }
 
 	if(base_reg == -1) { base_buf[0] = '\0'; }
-	else { 
-		sprintf(base_buf, "%%%s", regsl[base_reg]); 
+	else {
+		sprintf(base_buf, "%%%s", regsl[base_reg]);
 	}
 
 	if(index_reg == -1) { index_buf[0] = '\0'; }
-	else { 
-		sprintf(index_buf, ",%%%s,%d", regsl[index_reg], 1 << scale); 
+	else {
+		sprintf(index_buf, ",%%%s,%d", regsl[index_reg], 1 << scale);
 	}
 
 	if(base_reg == -1 && index_reg == -1) {
@@ -109,8 +115,7 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	}
 	else {
 		int instr_len = load_addr(eip, &m, rm);
-		rm->val = swaddr_read(rm->addr, rm->size);
+		rm->val = swaddr_read(rm->addr, rm->size, rm->sreg);
 		return instr_len;
 	}
 }
-

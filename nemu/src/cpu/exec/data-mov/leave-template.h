@@ -6,10 +6,10 @@ make_helper(concat(leave_,SUFFIX)){
 
 	cpu.esp=cpu.ebp;
 	if(DATA_BYTE==2)
-		reg_w(R_BP)=MEM_R(cpu.esp);
+		reg_w(R_BP)=MEM_R(cpu.esp,SR_SS);
 
 	else if(DATA_BYTE==4)
-		cpu.ebp=MEM_R(cpu.esp);
+		cpu.ebp=MEM_R(cpu.esp,SR_SS);
 
 
 	cpu.esp+=DATA_BYTE;

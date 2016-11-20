@@ -5,11 +5,11 @@
 static void do_execute () {
 	if (DATA_BYTE==2){
 		cpu.eip=cpu.eip&0xffff0000;
-		cpu.eip+=0xffff&MEM_R(cpu.esp);
+		cpu.eip+=0xffff&MEM_R(cpu.esp,SR_SS);
 		cpu.eip=cpu.eip&0xffff;
 	}
 	else if (DATA_BYTE==4){
-		cpu.eip=MEM_R(cpu.esp);
+		cpu.eip=MEM_R(cpu.esp,SR_SS);
 	}
 	cpu.esp+=DATA_BYTE;
 	int offset=((int)op_src->val)<<16>>16;
@@ -23,11 +23,11 @@ static void do_execute () {
 make_helper( concat(ret_,SUFFIX) ){
 	if (DATA_BYTE==2){
 		cpu.eip=cpu.eip&0xffff0000;
-		cpu.eip+=0xffff&MEM_R(cpu.esp);
+		cpu.eip+=0xffff&MEM_R(cpu.esp,SR_SS);
 		cpu.eip=cpu.eip&0xffff;
 	}
 	else if(DATA_BYTE==4){
-		cpu.eip=MEM_R(cpu.esp);
+		cpu.eip=MEM_R(cpu.esp,SR_SS);
 	}
 	cpu.esp+=DATA_BYTE;
 	print_asm("ret");

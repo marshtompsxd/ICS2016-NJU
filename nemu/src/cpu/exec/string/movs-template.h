@@ -3,8 +3,8 @@
 
 make_helper( concat(movs_,SUFFIX) ) {
 	if (DATA_BYTE==1){
-		DATA_TYPE data=MEM_R(cpu.esi);
-		MEM_W(cpu.edi,data);
+		DATA_TYPE data=MEM_R(cpu.esi,SR_DS);
+		MEM_W(cpu.edi,data,SR_ES);
 		if( cpu.eflags.DF==0 ){
 			cpu.esi+=1;
 			cpu.edi+=1;
@@ -15,8 +15,8 @@ make_helper( concat(movs_,SUFFIX) ) {
 		}
 	}
 	else if (DATA_BYTE==2){
-		DATA_TYPE data=MEM_R(cpu.esi);
-		MEM_W(cpu.edi,data);
+		DATA_TYPE data=MEM_R(cpu.esi,SR_DS);
+		MEM_W(cpu.edi,data,SR_ES);
 		if( cpu.eflags.DF==0 ){
 			cpu.esi+=2;
 			cpu.edi+=2;
@@ -27,8 +27,8 @@ make_helper( concat(movs_,SUFFIX) ) {
 		}
 	}
 	else if (DATA_BYTE==4){
-		DATA_TYPE data=MEM_R(cpu.esi);
-		MEM_W(cpu.edi,data);
+		DATA_TYPE data=MEM_R(cpu.esi,SR_DS);
+		MEM_W(cpu.edi,data,SR_ES);
 		if( cpu.eflags.DF==0 ){
 			cpu.esi+=4;
 			cpu.edi+=4;
