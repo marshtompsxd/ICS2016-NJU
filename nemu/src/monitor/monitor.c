@@ -78,6 +78,7 @@ static void load_entry() {
 }
 
 void init_eflags(){
+	/*
 	cpu.eflags.CF=0;
 	cpu.eflags.PF=0;
 	cpu.eflags.ZF=0;
@@ -85,6 +86,8 @@ void init_eflags(){
 	cpu.eflags.IF=0;
 	cpu.eflags.DF=0;
 	cpu.eflags.OF=0;
+	*/
+	cpu.eflags.EFLAGS=2;
 
 }
 
