@@ -26,8 +26,6 @@ make_helper(concat(ljmp_,SUFFIX)){
             uint32_t limit;
         } desclimit;
 
-
-
         uint32_t address[2];
         memset(address,0,sizeof(address));
         address[0]=instr_fetch(cpu.eip+1,4);
