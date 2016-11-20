@@ -7,8 +7,8 @@ static void do_execute(){
         panic("please implement lgdt\n");
     }
     else{
-        cpu.gdtr.limit=swaddr_read(op_src->addr,2,SR_DS);
-        cpu.gdtr.base=swaddr_read(op_src->addr+2,4,SR_DS);
+        cpu.gdtr.limit=lnaddr_read(op_src->addr,2);
+        cpu.gdtr.base=lnaddr_read(op_src->addr+2,4);
     }
 
     print_asm_template1();
