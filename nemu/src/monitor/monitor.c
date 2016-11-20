@@ -78,17 +78,20 @@ static void load_entry() {
 }
 
 void init_eflags(){
-	/*
-	cpu.eflags.CF=0;
-	cpu.eflags.PF=0;
-	cpu.eflags.ZF=0;
-	cpu.eflags.SF=0;
-	cpu.eflags.IF=0;
-	cpu.eflags.DF=0;
-	cpu.eflags.OF=0;
-	*/
 	cpu.eflags.EFLAGS=2;
+}
 
+void init_cr0(){
+	cpu.cr0.val=0;
+}
+
+void init_sreg(){
+	int i;
+	for(i=0;i<4;i++){
+		cpu.sreg[i].selector.SELECTOR=0;
+	}
+	cpu.sreg[SR_CS].hidden_descriptor.base=0;
+	cpu.sreg[SR_CS].hidden_descriptor.limit=0xffffffff;
 }
 
 void restart() {
@@ -107,12 +110,18 @@ void restart() {
 	/* Initialize DRAM. */
 	init_ddr3();
 
-	/* Initialize cache level1. */
+	/* Initialize CACHE L1. */
 	init_CL1();
 
-	/* Initialize cache level2. */
+	/* Initialize CACHE L2. */
 	init_CL2();
 
-	/*Initialize EFLAGS.*/
+	/* Initialize EFLAGS. */
 	init_eflags();
+
+	/* Initialize CR0. */
+	init_cr0();
+
+	/* Initialize SREG. */
+	init_sreg();
 }
