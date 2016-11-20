@@ -9,6 +9,7 @@
 #include "data-mov/leave.h"
 #include "data-mov/cwtltd.h"
 #include "data-mov/cmovcc.h"
+#include "data-mov/lgdt.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -49,3 +50,4 @@
 #include "control-transfer/ret.h"
 #include "control-transfer/jcc.h"
 #include "control-transfer/jmp.h"
+#include "control-transfer/ljmp.h"

@@ -14,8 +14,8 @@
 #define SEG_EXECUTABLE          0x8
 
 #define NR_SEGMENTS             3
-#define SEG_NULL                0 
-#define SEG_KERNEL_CODE         1 
+#define SEG_NULL                0
+#define SEG_KERNEL_CODE         1
 #define SEG_KERNEL_DATA         2
 
 #define SELECTOR_KERNEL(s)		( (s << 3) | DPL_KERNEL )
@@ -41,7 +41,7 @@
 typedef union PageDirectoryEntry {
 	struct {
 		uint32_t present             : 1;
-		uint32_t read_write          : 1; 
+		uint32_t read_write          : 1;
 		uint32_t user_supervisor     : 1;
 		uint32_t page_write_through  : 1;
 		uint32_t page_cache_disable  : 1;
@@ -73,7 +73,8 @@ typedef union PageTableEntry {
 typedef PTE (*PT) [NR_PTE];
 
 /* the 64bit segment descriptor */
-typedef struct SegmentDescriptor {
+typedef union SegmentDescriptor {
+	struct{
 	uint32_t limit_15_0          : 16;
 	uint32_t base_15_0           : 16;
 	uint32_t base_23_16          : 8;
@@ -87,6 +88,8 @@ typedef struct SegmentDescriptor {
 	uint32_t pad0                : 1;
 	uint32_t granularity         : 1;
 	uint32_t base_31_24          : 8;
+};
+uint32_t content[2];
 } SegDesc;
 
 typedef struct GateDescriptor {
