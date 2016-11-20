@@ -36,14 +36,9 @@ make_helper(concat(ljmp_,SUFFIX)){
 
         uint32_t index=cpu.sreg[SR_CS].selector.INDEX;
 
-        uint64_t descbuffer[2];
-        memset(descbuffer,0,sizeof(descbuffer));
-        descbuffer[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
-        descbuffer[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
-
         SegDesc desc;
-        desc.content[0]=descbuffer[0];
-        desc.content[1]=descbuffer[1];
+        desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
+        desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
 
         descbase._0=desc.base_15_0;
         descbase._1=desc.base_23_16;
