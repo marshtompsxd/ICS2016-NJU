@@ -6,6 +6,7 @@
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
 enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
+enum { SR_SS, SR_DS, SR_ES, SR_CS};
 
 /* TODO: Re-organize the `CPU_state' structure to match the register
  * encoding scheme in i386 instruction format. For example, if we
@@ -22,6 +23,9 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
 
 
 typedef struct {
+
+/* General-Purpose Register Set part of the cpu */
+
 	union{
 		union {
 			uint32_t _32;
@@ -36,7 +40,10 @@ typedef struct {
     	};
 	};
 
+/* EIP of the cpu */
     swaddr_t eip;
+
+/* EFLAGS part of the cpu  */
     union{
     	struct {
     		unsigned CF:1;
@@ -60,6 +67,35 @@ typedef struct {
     	};
     	uint32_t EFLAGS;
 	}eflags;
+
+/* Segment Register part of the cpu */
+	struct{
+		union{
+			struct{
+				uint16_t RPL:2;
+				uint16_t TI:1;
+				uint16_t INDEX:13;
+			};
+			uint16_t SELECTOR;
+		}selector;
+
+		union{
+			struct{
+				uint32_t limit;
+				uint32_t base;
+			}
+			uint64_t HIDDEN_DESCRIPTOR;
+		}hidden_descriptor;
+	}sreg[4];
+
+/* Global Descriptor Table Register part of the cpu */
+	struct{
+		uint16_t limit;
+		uint32_t base;
+	}gdtr;
+
+/* Control Register 0 part of the cpu */
+	CR0 cr0;
 
 } CPU_state;
 
