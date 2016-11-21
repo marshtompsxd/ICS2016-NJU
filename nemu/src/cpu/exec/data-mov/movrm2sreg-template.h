@@ -6,11 +6,9 @@
 
 static void do_execute() {
 
-
     SegDesc desc;
     SegDescBase descbase;
     SegDescLimit desclimit;
-
 
 	cpu.sreg[op_dest->reg].selector.SELECTOR=op_src->val;
 
@@ -18,12 +16,12 @@ static void do_execute() {
 	desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
 	desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
 
-	descbase._0 = desc.base_15_0;
-	descbase._1 = desc.base_23_16;
-	descbase._2 = desc.base_31_24;
+	descbase._15_0 = desc.base_15_0;
+	descbase._23_16 = desc.base_23_16;
+	descbase._31_24 = desc.base_31_24;
 
-	desclimit._0 = desc.limit_15_0;
-	desclimit._1 = desc.limit_19_16;
+	desclimit._15_0 = desc.limit_15_0;
+	desclimit._19_16 = desc.limit_19_16;
 
 	if( desc.granularity==0 )
 		cpu.sreg[op_dest->reg].hidden_descriptor.limit=desclimit.limit;

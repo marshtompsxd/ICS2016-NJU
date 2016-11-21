@@ -105,17 +105,17 @@ typedef struct GateDescriptor {
 
 typedef union SegmentDescriptorBase {
 	struct {
-		uint32_t _0:16;
-		uint32_t _1:8;
-		uint32_t _2:8;
+		uint32_t _15_0:16;
+		uint32_t _23_16:8;
+		uint32_t _31_24:8;
 	};
 	uint32_t base;
 } SegDescBase;
 
 typedef union SegmentDescriptorLimit {
 	struct {
-		uint32_t _0:16;
-		uint32_t _1:4;
+		uint32_t _15_0:16;
+		uint32_t _19_16:4;
 	};
 	uint32_t limit;
 } SegDescLimit;
