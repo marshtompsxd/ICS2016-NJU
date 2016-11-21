@@ -9,22 +9,9 @@ make_helper(concat(ljmp_,SUFFIX)){
     }
     else{
 
-        union {
-            struct {
-                uint32_t _0:16;
-                uint32_t _1:8;
-                uint32_t _2:8;
-            };
-            uint32_t base;
-        } descbase;
-
-        union {
-            struct {
-                uint32_t _0:16;
-                uint32_t _1:4;
-            };
-            uint32_t limit;
-        } desclimit;
+        SegDesc desc;
+        SegDescBase descbase;
+        SegDescLimit desclimit;
 
         uint32_t address[2];
         memset(address,0,sizeof(address));
@@ -36,7 +23,6 @@ make_helper(concat(ljmp_,SUFFIX)){
 
         uint32_t index=cpu.sreg[SR_CS].selector.INDEX;
 
-        SegDesc desc;
         desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
         desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
 
