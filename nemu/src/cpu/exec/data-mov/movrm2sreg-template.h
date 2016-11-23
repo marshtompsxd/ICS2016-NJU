@@ -22,7 +22,7 @@ void setsreg(int index){
     if(desc.granularity==0)
         cpu.sreg[index].hidden_descriptor.limit=desclimit.limit;
     else
-        cpu.sreg[index].hidden_descriptor.limit=((desclimit.limit+1)*(1<<12))-1;
+        cpu.sreg[index].hidden_descriptor.limit=desclimit.limit<<12;
 
     cpu.sreg[index].hidden_descriptor.base=descbase.base;
 }
@@ -36,6 +36,8 @@ static void do_execute() {
 	desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
 
     loadbase();
+    printf("base is %d",descbase.base);
+    panic(" ");
     loadlimit();
     setsreg(op_dest->reg);
 

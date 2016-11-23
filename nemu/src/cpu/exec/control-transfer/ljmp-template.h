@@ -3,6 +3,14 @@
 
 #define instr ljmp
 
+/*
+ * Direct far JMP. Direct JMP instructions that specify a target location
+ * outside the current code segment contain a far pointer. This pointer
+ * consists of a selector for the new code segment and an offset within the new
+ * segment.
+ */
+
+
 SegDesc desc;
 SegDescBase descbase;
 SegDescLimit desclimit;
@@ -22,7 +30,7 @@ void setsreg(int index){
     if(desc.granularity==0)
         cpu.sreg[index].hidden_descriptor.limit=desclimit.limit;
     else
-        cpu.sreg[index].hidden_descriptor.limit=((desclimit.limit+1)*(1<<12))-1;
+        cpu.sreg[index].hidden_descriptor.limit=desclimit.limit<<12;
 
     cpu.sreg[index].hidden_descriptor.base=descbase.base;
 }
