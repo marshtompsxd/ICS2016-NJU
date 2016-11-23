@@ -14,6 +14,8 @@ static void do_execute() {
 	desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
 	desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
 
+    if(desc.present==0)panic("the present of sreg %d descriptor is 0\n",op_dest->reg);
+
     loadbase(&desc,&descbase);
     loadlimit(&desc,&desclimit);
     setsreg(desc, descbase, desclimit, op_dest->reg);

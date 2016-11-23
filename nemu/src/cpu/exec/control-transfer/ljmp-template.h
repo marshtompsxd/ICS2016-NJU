@@ -27,6 +27,8 @@ make_helper(concat(ljmp_,SUFFIX)){
         desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
         desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
 
+        if(desc.present==0)panic("the present of sreg %d descriptor is 0\n",SR_CS);
+
         loadbase(&desc,&descbase);
         loadlimit(&desc,&desclimit);
         setsreg(desc, descbase, desclimit, SR_CS);
