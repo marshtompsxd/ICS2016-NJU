@@ -1,33 +1,13 @@
 #include "cpu/exec/template-start.h"
 #include "../../../../../lib-common/x86-inc/mmu.h"
-
+#include "desc.h"
 #define instr movrm2sreg
 
-SegDesc desc;
-SegDescBase descbase;
-SegDescLimit desclimit;
-
-void loadbase(){
-    descbase._15_0=desc.base_15_0;
-    descbase._23_16=desc.base_23_16;
-    descbase._31_24=desc.base_31_24;
-}
-
-void loadlimit(){
-    desclimit._15_0=desc.limit_15_0;
-    desclimit._19_16=desc.limit_19_16;
-}
-
-void setsreg(int index){
-    if(desc.granularity==0)
-        cpu.sreg[index].hidden_descriptor.limit=desclimit.limit;
-    else
-        cpu.sreg[index].hidden_descriptor.limit=desclimit.limit<<12;
-
-    cpu.sreg[index].hidden_descriptor.base=descbase.base;
-}
-
 static void do_execute() {
+
+    SegDesc desc;
+    SegDescBase descbase;
+    SegDescLimit desclimit;
 
 	cpu.sreg[op_dest->reg].selector.SELECTOR=op_src->val;
 
@@ -35,11 +15,11 @@ static void do_execute() {
 	desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
 	desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
 
-    loadbase();
-    printf("base is %d",descbase.base);
-    panic(" ");
-    loadlimit();
-    setsreg(op_dest->reg);
+    loadbase(&desc,&descbase);
+    loadlimit(&desc,&desclimit);
+    setsreg(desc, descbase, desclimit, op_dest->reg);
+    //printf("base is %d",descbase.base);
+    //panic(" ");
 
 	print_asm_template2();
 }
