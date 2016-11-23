@@ -18,7 +18,7 @@ static void do_execute() {
     loadbase(&desc,&descbase);
     loadlimit(&desc,&desclimit);
     setsreg(desc, descbase, desclimit, op_dest->reg);
-    printf("limit is %d",desclimit.limit);
+    printf("limit is %x",desclimit.limit);
     panic("hahahah");
 
 	print_asm_template2();
