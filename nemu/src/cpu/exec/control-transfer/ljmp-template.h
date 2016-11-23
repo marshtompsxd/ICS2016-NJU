@@ -30,7 +30,8 @@ make_helper(concat(ljmp_,SUFFIX)){
         if(desc.granularity==0)
             cpu.sreg[SR_CS].hidden_descriptor.limit=desclimit.limit;
         else
-            cpu.sreg[SR_CS].hidden_descriptor.limit=((desclimit.limit+1)*(1<<12))-1;
+            panic("please consider granularity is 1\n");
+            //cpu.sreg[SR_CS].hidden_descriptor.limit=((desclimit.limit+1)*(1<<12))-1;
         cpu.sreg[SR_CS].hidden_descriptor.base=descbase.base;
 
         print_asm("ljmp");
