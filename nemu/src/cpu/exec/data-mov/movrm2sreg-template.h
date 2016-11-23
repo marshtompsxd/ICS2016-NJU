@@ -1,5 +1,4 @@
 #include "cpu/exec/template-start.h"
-#include "../../../../../lib-common/x86-inc/mmu.h"
 #include "desc.h"
 #define instr movrm2sreg
 
