@@ -18,8 +18,8 @@ static void do_execute() {
     loadbase(&desc,&descbase);
     loadlimit(&desc,&desclimit);
     setsreg(desc, descbase, desclimit, op_dest->reg);
-    //printf("base is %d",descbase.base);
-    //panic(" ");
+    printf("base is %d",descbase.base);
+    panic(" ");
 
 	print_asm_template2();
 }
