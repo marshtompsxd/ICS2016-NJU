@@ -16,7 +16,7 @@ void setsreg(SegDesc desc ,SegDescBase descbase, SegDescLimit desclimit, int ind
     if(desc.granularity==0)
         cpu.sreg[index].hidden_descriptor.limit=desclimit.limit;
     else
-        cpu.sreg[index].hidden_descriptor.limit=desclimit.limit<<12;
+        cpu.sreg[index].hidden_descriptor.limit=((desclimit.limit+1)<<12)-1;
 
     cpu.sreg[index].hidden_descriptor.base=descbase.base;
 }
