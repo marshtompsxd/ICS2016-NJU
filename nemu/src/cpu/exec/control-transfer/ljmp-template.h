@@ -18,6 +18,14 @@ void loadlimit(){
     desclimit._19_16=desc.limit_19_16;
 }
 
+void setsreg(int index){
+    if(desc.granularity==0)
+        cpu.sreg[index].hidden_descriptor.limit=desclimit.limit;
+    else
+        cpu.sreg[index].hidden_descriptor.limit=((desclimit.limit+1)*(1<<12))-1;
+
+    cpu.sreg[index].hidden_descriptor.base=descbase.base;
+}
 
 make_helper(concat(ljmp_,SUFFIX)){
     if(DATA_BYTE==2){
@@ -33,13 +41,7 @@ make_helper(concat(ljmp_,SUFFIX)){
 
         loadbase();
         loadlimit();
-
-        if(desc.granularity==0)
-            cpu.sreg[SR_CS].hidden_descriptor.limit=desclimit.limit;
-        else
-            cpu.sreg[SR_CS].hidden_descriptor.limit=((desclimit.limit+1)*(1<<12))-1;
-
-        cpu.sreg[SR_CS].hidden_descriptor.base=descbase.base;
+        setsreg(SR_CS);
 
         print_asm("ljmp");
         return 0;
