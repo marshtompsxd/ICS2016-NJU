@@ -19,7 +19,7 @@ static void do_execute() {
     loadlimit(&desc,&desclimit);
     setsreg(desc, descbase, desclimit, op_dest->reg);
     printf("base is %d",descbase.base);
-    panic(" ");
+    panic("hahahah");
 
 	print_asm_template2();
 }
