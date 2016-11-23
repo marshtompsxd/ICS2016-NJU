@@ -3,12 +3,31 @@
 
 #define instr movrm2sreg
 
+SegDesc desc;
+SegDescBase descbase;
+SegDescLimit desclimit;
+
+void loadbase(){
+    descbase._15_0=desc.base_15_0;
+    descbase._23_16=desc.base_23_16;
+    descbase._31_24=desc.base_31_24;
+}
+
+void loadlimit(){
+    desclimit._15_0=desc.limit_15_0;
+    desclimit._19_16=desc.limit_19_16;
+}
+
+void setsreg(int index){
+    if(desc.granularity==0)
+        cpu.sreg[index].hidden_descriptor.limit=desclimit.limit;
+    else
+        cpu.sreg[index].hidden_descriptor.limit=((desclimit.limit+1)*(1<<12))-1;
+
+    cpu.sreg[index].hidden_descriptor.base=descbase.base;
+}
 
 static void do_execute() {
-
-    SegDesc desc;
-    SegDescBase descbase;
-    SegDescLimit desclimit;
 
 	cpu.sreg[op_dest->reg].selector.SELECTOR=op_src->val;
 
@@ -16,18 +35,9 @@ static void do_execute() {
 	desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
 	desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
 
-	descbase._15_0 = desc.base_15_0;
-	descbase._23_16 = desc.base_23_16;
-	descbase._31_24 = desc.base_31_24;
-
-	desclimit._15_0 = desc.limit_15_0;
-	desclimit._19_16 = desc.limit_19_16;
-
-	if( desc.granularity==0 )
-		cpu.sreg[op_dest->reg].hidden_descriptor.limit=desclimit.limit;
-	else
-		cpu.sreg[op_dest->reg].hidden_descriptor.limit=( (desclimit.limit+1)*(1<<12) )-1;
-	cpu.sreg[op_dest->reg].hidden_descriptor.base=descbase.base;
+    loadbase();
+    loadlimit();
+    setsreg(op_dest->reg);
 
 	print_asm_template2();
 }
