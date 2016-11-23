@@ -18,8 +18,8 @@ static void do_execute() {
     loadlimit(&desc,&desclimit);
     setsreg(desc, descbase, desclimit, op_dest->reg);
 
-    printf("sreg %d base is %x\n",op_dest->reg,descbase.base );
-    printf("sreg %d limit is %x\n",op_dest->reg,desclimit.limit );
+    printf("sreg %d base is %x\n",op_dest->reg,cpu.sreg[op_dest->reg].hidden_descriptor.base );
+    printf("sreg %d limit is %x\n",op_dest->reg,cpu.sreg[op_dest->reg].hidden_descriptor.limit );
 	print_asm_template2();
 }
 
