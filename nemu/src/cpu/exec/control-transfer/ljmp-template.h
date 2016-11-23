@@ -12,7 +12,7 @@
 
 make_helper(concat(ljmp_,SUFFIX)){
     if(DATA_BYTE==2){
-        panic("please implment ljmp");
+        panic("please implment ljmp\n");
     }
     else{
 
