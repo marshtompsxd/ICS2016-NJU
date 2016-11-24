@@ -14,26 +14,30 @@ double cache_visit_time=0;
 
 
 /* Calculate cache performance parameter */
-double calculate_hit_rate()
-{
+double calculate_hit_rate(){
 	return (cache_visit_time-cache_miss_time)/cache_visit_time;
 }
 
-double calculate_visit_time()
-{
+double calculate_visit_time(){
 	return cache_miss_time*200+cache_visit_time*2;
 }
 
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	//return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+#ifdef USE_CACHE
 	return cachel1_read(addr,len)& (~0u >> ((4 - len) << 3));
+#else
+	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+#endif
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	//dram_write(addr, len, data);
+#ifdef USE_CACHE
 	cachel1_write(addr,len,data);
+#else
+	dram_write(addr, len, data);
+#endif
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {

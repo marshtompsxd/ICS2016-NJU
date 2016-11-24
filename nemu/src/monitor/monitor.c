@@ -110,11 +110,13 @@ void restart() {
 	/* Initialize DRAM. */
 	init_ddr3();
 
+#ifdef USE_CACHE
 	/* Initialize CACHE L1. */
 	init_CL1();
 
 	/* Initialize CACHE L2. */
 	init_CL2();
+#endif
 
 	/* Initialize EFLAGS. */
 	init_eflags();
