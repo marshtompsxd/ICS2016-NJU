@@ -85,6 +85,10 @@ void init_cr0(){
 	cpu.cr0.val=0;
 }
 
+void init_cr3(){
+	cpu.cr3.val=0;
+}
+
 void init_sreg(){
 	int i;
 	for(i=0;i<4;i++){
@@ -123,6 +127,9 @@ void restart() {
 
 	/* Initialize CR0. */
 	init_cr0();
+
+	/* Initialize CR3. */
+	init_cr3();
 
 	/* Initialize SREG. */
 	init_sreg();
