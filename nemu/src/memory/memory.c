@@ -72,7 +72,30 @@ static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
 	else{
 		uint32_t limit=cpu.sreg[sreg].hidden_descriptor.limit;
 		uint32_t base=cpu.sreg[sreg].hidden_descriptor.base;
-		Assert(addr<=limit,"address %x + %x is out of the limit.",base,addr);
+		Assert(addr<=limit,"address 0x%x + 0x%x is out of the limit.",base,addr);
 		return addr+base;
+	}
+}
+
+static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
+	if(cpu.cr0.paging==0 || cpu.cr0.protect_enable==0){
+		return addr;
+	}
+	else{
+		page_addr temp;
+		temp.addr=addr;
+		uint32_t DIR=temp.DIR;
+		uint32_t PAGE=temp.PAGE;
+		uint32_t OFFSET=temp.OFFSET;
+
+		PDE pde;
+		pde.val==hwaddr_read((cpu.cr3.page_directory_base<<12)+DIR*4,4);
+		Assert(pde.present,"null directory entry in address 0x%x.",addr);
+
+		PTE pte;
+		pte.val=hwaddr_read((pde.page_frame<<12)+PAGE*4,4);
+		Assert(pde.present,"null page table entry in address 0x%x.",addr);
+
+		return (pte.page_frame<<12)+OFFSET;
 	}
 }

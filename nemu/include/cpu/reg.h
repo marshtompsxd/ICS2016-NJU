@@ -3,6 +3,7 @@
 
 #include "common.h"
 #include "../../../lib-common/x86-inc/cpu.h"
+#include "../../../lib-common/x86-inc/mmu.h"
 
 enum { R_EAX, R_ECX, R_EDX, R_EBX, R_ESP, R_EBP, R_ESI, R_EDI };
 enum { R_AX, R_CX, R_DX, R_BX, R_SP, R_BP, R_SI, R_DI };
@@ -97,6 +98,9 @@ typedef struct {
 
 /* Control Register 0 part of the cpu */
 	CR0 cr0;
+
+/* Control Register 3 part of the cpu */
+	CR3 cr3;
 
 } CPU_state;
 
