@@ -33,6 +33,9 @@ make_helper(concat(ljmp_,SUFFIX)){
         loadlimit(&desc,&desclimit);
         setsreg(desc, descbase, desclimit, SR_CS);
 
+        printf("sreg %d base is %x\n",SR_CS,cpu.sreg[SR_CS].hidden_descriptor.base );
+        printf("sreg %d limit is %x\n",SR_CS,cpu.sreg[SR_CS].hidden_descriptor.limit );
+
         print_asm("ljmp");
         return 0;
     }
