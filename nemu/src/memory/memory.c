@@ -8,6 +8,10 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 
 static lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg);
 
+static hwaddr_t page_translate(lnaddr_t addr);
+
+static bool data_cross_the_page_boundary(lnaddr_t addr,size_t len);
+
 double cache_miss_time=0;
 
 double cache_visit_time=0;
@@ -42,11 +46,23 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-	return hwaddr_read(addr, len);
+	if(data_cross_the_page_boundary(addr,len)){
+		Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x\n", addr,len);
+	}
+	else{
+		hwaddr_t hwaddr=page_translate(addr);
+		return hwaddr_read(hwaddr,len);
+	}
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-	hwaddr_write(addr, len, data);
+	if(data_cross_the_page_boundary(addr,len)){
+		Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x\n", addr,len);
+	}
+	else{
+		hwaddr_t hwaddr=page_translate(addr);
+		hwaddr_write(hwaddr, len, data);
+	}
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
@@ -77,7 +93,17 @@ static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
 	}
 }
 
-static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
+static bool data_cross_the_page_boundary(lnaddr_t addr,size_t len){
+	uint32_t offset=addr&PAGE_MASK;
+	if(offset+len>PAGE_SIZE){
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+static hwaddr_t page_translate(lnaddr_t addr){
 	if(cpu.cr0.paging==0 || cpu.cr0.protect_enable==0){
 		return addr;
 	}
@@ -89,12 +115,12 @@ static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
 		uint32_t OFFSET=temp.OFFSET;
 
 		PDE pde;
-		pde.val==hwaddr_read((cpu.cr3.page_directory_base<<12)+DIR*4,4);
+		pde.val=hwaddr_read((cpu.cr3.page_directory_base<<12)+DIR*4,4);
 		Assert(pde.present,"null directory entry in address 0x%x.",addr);
 
 		PTE pte;
 		pte.val=hwaddr_read((pde.page_frame<<12)+PAGE*4,4);
-		Assert(pde.present,"null page table entry in address 0x%x.",addr);
+		Assert(pte.present,"null page table entry in address 0x%x.",addr);
 
 		return (pte.page_frame<<12)+OFFSET;
 	}
