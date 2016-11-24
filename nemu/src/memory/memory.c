@@ -22,6 +22,7 @@ double calculate_visit_time(){
 	return cache_miss_time*200+cache_visit_time*2;
 }
 
+
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
