@@ -74,9 +74,9 @@ typedef PTE (*PT) [NR_PTE];
 
 typedef union PageAddr{
 	struct{
-		uint32_t DIR 	:10;
-		uint32_t PAGE 	:10;
 		uint32_t OFFSET	:12;
+		uint32_t PAGE 	:10;
+		uint32_t DIR 	:10;
 	};
 	uint32_t addr;
 } page_addr;
