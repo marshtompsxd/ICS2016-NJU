@@ -22,7 +22,7 @@ static void do_execute() {
 
     printf("sreg %d base is %x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].base );
     printf("sreg %d limit is %x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].limit );
-	print_asm_template2();
+	print_asm("movrm2sreg");
 }
 
 

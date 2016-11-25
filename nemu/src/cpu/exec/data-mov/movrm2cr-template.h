@@ -7,6 +7,8 @@ static void do_execute(){
     else if(op_dest->reg==3)cpu.cr3.val=op_src->val;
     else panic("please implment movrm2cr\n");
 
+    printf("mov 0x%x to cr%x\n",op_src->val,op_dest->reg);
+
     print_asm("movrm2cr");
 }
 

@@ -27,7 +27,6 @@ enum { SR_ES, SR_CS, SR_SS, SR_DS};
 typedef struct {
 
 /* General-Purpose Register Set part of the cpu */
-
 	union{
 		union {
 			uint32_t _32;
@@ -71,7 +70,6 @@ typedef struct {
 	}eflags;
 
 /* Segment Register part of the cpu */
-
 	union{
 		union{
 			struct{
@@ -123,10 +121,17 @@ static inline int check_reg_index(int index) {
 	return index;
 }
 
+static inline int check_sreg_index(int index) {
+	assert(index >= 0 && index < 4);
+	return index;
+}
 
 #define reg_l(index) (cpu.gpr[check_reg_index(index)]._32)
 #define reg_w(index) (cpu.gpr[check_reg_index(index)]._16)
 #define reg_b(index) (cpu.gpr[check_reg_index(index) & 0x3]._8[index >> 2])
+
+#define sreg_selector(index) (cpu.sreg[check_sreg_index(index)].selector)
+#define sreg_descriptor(index) (cpu.descsreg[check_sreg_index(index)])
 
 extern const char* regsl[];
 extern const char* regsw[];
