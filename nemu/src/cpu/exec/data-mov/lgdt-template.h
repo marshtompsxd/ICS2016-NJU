@@ -10,7 +10,7 @@ static void do_execute(){
         cpu.gdtr.limit=lnaddr_read(op_src->addr,2);
         cpu.gdtr.base=lnaddr_read(op_src->addr+2,4);
     }
-    printf("gdtr limit is %x\n",cpu.gdtr.limit );
+    printf("gdtr limit is 0x%x\n",cpu.gdtr.limit );
     print_asm_template1();
 }
 

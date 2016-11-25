@@ -20,8 +20,8 @@ static void do_execute() {
     loadlimit(&desc,&desclimit);
     setsreg(desc, descbase, desclimit, op_dest->reg);
 
-    printf("sreg %d base is %x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].base );
-    printf("sreg %d limit is %x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].limit );
+    printf("sreg %d base is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].base );
+    printf("sreg %d limit is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].limit );
 	print_asm("movrm2sreg");
 }
 
