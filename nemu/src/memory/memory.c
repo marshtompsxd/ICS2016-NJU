@@ -47,7 +47,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	if(data_cross_the_page_boundary(addr,len)){
-		Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x\n", addr,len);
+		Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x.", addr,len);
 	}
 	else{
 		hwaddr_t hwaddr=page_translate(addr);
@@ -57,7 +57,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	if(data_cross_the_page_boundary(addr,len)){
-		Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x\n", addr,len);
+		Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x.", addr,len);
 	}
 	else{
 		hwaddr_t hwaddr=page_translate(addr);
@@ -88,14 +88,14 @@ static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
 	else{
 		uint32_t limit=cpu.sregdesc[sreg].limit;
 		uint32_t base=cpu.sregdesc[sreg].base;
-		Assert(addr<=limit,"address 0x%x + 0x%x is out of the limit.",base,addr);
+		Assert(addr+len-1<=limit,"address 0x%x + 0x%x is out of the limit.",base,addr);
 		return addr+base;
 	}
 }
 
 static bool data_cross_the_page_boundary(lnaddr_t addr,size_t len){
 	uint32_t offset=addr&PAGE_MASK;
-	if(offset+len>PAGE_SIZE){
+	if(offset+len-1>PAGE_SIZE){
 		return true;
 	}
 	else{
