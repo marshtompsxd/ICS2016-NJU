@@ -71,24 +71,36 @@ typedef struct {
 	}eflags;
 
 /* Segment Register part of the cpu */
-	struct{
+
+	union{
 		union{
 			struct{
 				uint16_t RPL:2;
 				uint16_t TI:1;
 				uint16_t INDEX:13;
 			};
-			uint16_t SELECTOR;
-		}selector;
+			uint16_t selector;
+		}sreg[4];
 
-		union{
-			struct{
-				uint32_t limit;
-				uint32_t base;
-			};
-			uint64_t HIDDEN_DESCRIPTOR;
-		}hidden_descriptor;
-	}sreg[4];
+		struct{
+			uint16_t es, cs, ss, ds;
+		};
+	};
+
+
+
+/* Invisible descriptor cache part of the cpu */
+	union{
+		struct{
+			uint32_t limit;
+			uint32_t base;
+		}sregdesc[4];
+
+		struct{
+			uint64_t esdesc, csdesc, ssdesc, dsdesc;
+		};
+	};
+
 
 /* Global Descriptor Table Register part of the cpu */
 	struct{

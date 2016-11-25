@@ -92,10 +92,10 @@ void init_cr3(){
 void init_sreg(){
 	int i;
 	for(i=0;i<4;i++){
-		cpu.sreg[i].selector.SELECTOR=0;
+		cpu.sreg[i].selector=0;
 	}
-	cpu.sreg[SR_CS].hidden_descriptor.base=0;
-	cpu.sreg[SR_CS].hidden_descriptor.limit=0xffffffff;
+	cpu.sregdesc[SR_CS].base=0;
+	cpu.sregdesc[SR_CS].limit=0xffffffff;
 }
 
 void restart() {

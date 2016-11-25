@@ -14,9 +14,9 @@ void loadlimit(SegDesc *desc , SegDescLimit *desclimit){
 
 void setsreg(SegDesc desc ,SegDescBase descbase, SegDescLimit desclimit, int index){
     if(desc.granularity==0)
-        cpu.sreg[index].hidden_descriptor.limit=desclimit.limit;
+        cpu.sregdesc[index].limit=desclimit.limit;
     else
-        cpu.sreg[index].hidden_descriptor.limit=((desclimit.limit+1)<<12)-1;
+        cpu.sregdesc[index].limit=((desclimit.limit+1)<<12)-1;
 
-    cpu.sreg[index].hidden_descriptor.base=descbase.base;
+    cpu.sregdesc[index].base=descbase.base;
 }

@@ -86,8 +86,8 @@ static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
 		return addr;
 	}
 	else{
-		uint32_t limit=cpu.sreg[sreg].hidden_descriptor.limit;
-		uint32_t base=cpu.sreg[sreg].hidden_descriptor.base;
+		uint32_t limit=cpu.sregdesc[sreg].limit;
+		uint32_t base=cpu.sregdesc[sreg].base;
 		Assert(addr<=limit,"address 0x%x + 0x%x is out of the limit.",base,addr);
 		return addr+base;
 	}

@@ -7,7 +7,7 @@ static void do_execute(){
     else if(op_dest->reg==3)cpu.cr3.val=op_src->val;
     else panic("please implment movrm2cr\n");
 
-    print_asm_template2();
+    print_asm("movrm2cr");
 }
 
 make_instr_helper(rm2r)

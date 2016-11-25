@@ -8,9 +8,9 @@ static void do_execute() {
     SegDescBase descbase;
     SegDescLimit desclimit;
 
-	cpu.sreg[op_dest->reg].selector.SELECTOR=op_src->val;
+	cpu.sreg[op_dest->reg].selector=op_src->val;
 
-	uint32_t index=cpu.sreg[op_dest->reg].selector.INDEX;
+	uint32_t index=cpu.sreg[op_dest->reg].INDEX;
 	desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
 	desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
 
@@ -20,8 +20,8 @@ static void do_execute() {
     loadlimit(&desc,&desclimit);
     setsreg(desc, descbase, desclimit, op_dest->reg);
 
-    printf("sreg %d base is %x\n",op_dest->reg,cpu.sreg[op_dest->reg].hidden_descriptor.base );
-    printf("sreg %d limit is %x\n",op_dest->reg,cpu.sreg[op_dest->reg].hidden_descriptor.limit );
+    printf("sreg %d base is %x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].base );
+    printf("sreg %d limit is %x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].limit );
 	print_asm_template2();
 }
 
