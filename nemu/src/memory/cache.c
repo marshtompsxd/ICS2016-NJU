@@ -1,5 +1,4 @@
 #include "cache.h"
-#include "cache-config.h"
 #include "common.h"
 #include "misc.h"
 #include <stdlib.h>
