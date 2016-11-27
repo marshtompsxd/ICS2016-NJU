@@ -89,7 +89,6 @@ static int getoffset(uint8_t*mask)
 }
 
 /* cache level 1 */
-/*
 static uint32_t readcl1_miss(uint32_t addr){
     cache_miss_time++;
 
@@ -121,7 +120,7 @@ static uint32_t readcl1_miss(uint32_t addr){
     return line;
 
 }
-*/
+
 static void cl1unit_read(uint32_t addr,void* data){
     cache_visit_time++;
     cachel1_addr temp;
@@ -137,29 +136,7 @@ static void cl1unit_read(uint32_t addr,void* data){
     }
 
     if(line==CL1_NR_WAY){
-
-        cache_miss_time++;
-
-        for(line=0;line<CL1_NR_WAY;line++){
-            if(!CL1.content[set_bit][line].valid)
-                break;
-        }
-
-        if(line==CL1_NR_WAY){
-            srand(time(NULL));
-            line=(rand())%CL1_NR_WAY;
-        }
-
-        CL1.content[set_bit][line].tag=temp.tag_bit;
-        CL1.content[set_bit][line].valid=1;
-
-        uint32_t block_begin=((addr>>CL1_BLOCK_WIDTH)<<CL1_BLOCK_WIDTH);
-
-        int i;
-        for(i=0;i<CL1_BLOCK_SIZE;i++){
-            CL1.content[set_bit][line].data[i]=(cachel2_read(block_begin+i,1)&0xff);
-        }
-
+        line=readcl1_miss(addr);
     }
 
     memcpy(data,CL1.content[set_bit][line].data+blockaddr_bit,CACHEUNIT_LEN);
@@ -181,7 +158,7 @@ uint32_t cachel1_read(uint32_t addr,uint32_t len){
 
 }
 
-static void cl1unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
+static void cl1unit_write(uint32_t addr,uint8_t*data,uint8_t*mask,int len,int offset){
     cache_visit_time++;
 
     cachel1_addr temp;
@@ -190,15 +167,14 @@ static void cl1unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     uint32_t set_bit=temp.set_bit;
     uint32_t tag_bit=temp.tag_bit;
 
-    uint32_t len,offset;
-    len=getlen(mask);
-    offset=getoffset(mask);
 
     int line;
     for(line=0;line<CL1_NR_WAY;line++){
         if((CL1.content[set_bit][line].valid)&&(CL1.content[set_bit][line].tag==tag_bit))
             break;
     }
+
+
 
     if(line==CL1_NR_WAY){
         cachel2_write(addr, len, unalign_rw(data+offset,4));
@@ -213,16 +189,22 @@ void cachel1_write(uint32_t addr,uint32_t len,uint32_t data){
     uint32_t offset=addr&CACHEUNIT_MASK;
     uint8_t temp[2*CACHEUNIT_LEN];
     uint8_t mask[2*CACHEUNIT_LEN];
+    uint32_t masklen,maskoffset;
 
     memset(mask,0,2*CACHEUNIT_LEN);
 
     *(uint32_t *)(temp+offset)=data;
     memset(mask+offset,1,len);
 
-    cl1unit_write(addr,temp,mask);
+    masklen=getlen(mask);
+    maskoffset=getoffset(mask);
+
+    cl1unit_write(addr,temp,mask,masklen,maskoffset);
 
     if((offset+len)>CACHEUNIT_LEN){
-        cl1unit_write(addr+CACHEUNIT_LEN,temp+CACHEUNIT_LEN,mask+CACHEUNIT_LEN);
+        masklen=getlen(mask+CACHEUNIT_LEN);
+        maskoffset=getoffset(mask+CACHEUNIT_LEN);
+        cl1unit_write(addr+CACHEUNIT_LEN,temp+CACHEUNIT_LEN,mask+CACHEUNIT_LEN,masklen,maskoffset);
     }
 }
 
@@ -316,10 +298,6 @@ static void cl2unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     uint32_t set_bit=temp.set_bit;
     uint32_t tag_bit=temp.tag_bit;
 
-    uint32_t len,offset;
-    len=getlen(mask);
-    offset=getoffset(mask);
-
     int line;
     for(line=0;line<CL2_NR_WAY;line++){
         if((CL2.content[set_bit][line].valid)&&(CL2.content[set_bit][line].tag==tag_bit))
@@ -327,6 +305,9 @@ static void cl2unit_write(uint32_t addr,uint8_t*data,uint8_t*mask){
     }
 
     if(line==CL2_NR_WAY){
+        uint32_t len,offset;
+        len=getlen(mask);
+        offset=getoffset(mask);
         dram_write(addr, len, unalign_rw(data+offset,4));
         readcl2_miss(addr);
     }
