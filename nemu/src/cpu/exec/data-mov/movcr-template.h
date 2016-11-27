@@ -3,7 +3,7 @@
 #define instr movcr
 
 make_helper(concat(movcr_r2rm_,SUFFIX)){
-    int len=decode_r2rm_w(eip+1);
+    int len=decode_r2rm_l(eip+1);
 
     if(op_src->reg==0)OPERAND_W(op_dest,cpu.cr0.val);
     else panic("please implment movcr2rm\n");
@@ -16,7 +16,7 @@ make_helper(concat(movcr_r2rm_,SUFFIX)){
 }
 
 make_helper(concat(movcr_rm2r_,SUFFIX)){
-    int len=decode_rm2r_w(eip+1);
+    int len=decode_rm2r_l(eip+1);
 
     if(op_dest->reg==0)cpu.cr0.val=op_src->val;
     else if(op_dest->reg==3)cpu.cr3.val=op_src->val;
