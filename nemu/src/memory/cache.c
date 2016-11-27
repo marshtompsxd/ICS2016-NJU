@@ -17,7 +17,6 @@ uint32_t cachel2_read(uint32_t,uint32_t);
 
 void cachel2_write(uint32_t,uint32_t,uint32_t);
 
-//int rand();
 
 cachel1 CL1;
 cachel2 CL2;
@@ -90,6 +89,7 @@ static int getoffset(uint8_t*mask)
 }
 
 /* cache level 1 */
+/*
 static uint32_t readcl1_miss(uint32_t addr){
     cache_miss_time++;
 
@@ -121,7 +121,7 @@ static uint32_t readcl1_miss(uint32_t addr){
     return line;
 
 }
-
+*/
 static void cl1unit_read(uint32_t addr,void* data){
     cache_visit_time++;
     cachel1_addr temp;
@@ -137,7 +137,29 @@ static void cl1unit_read(uint32_t addr,void* data){
     }
 
     if(line==CL1_NR_WAY){
-        line=readcl1_miss(addr);
+
+        cache_miss_time++;
+
+        for(line=0;line<CL1_NR_WAY;line++){
+            if(!CL1.content[set_bit][line].valid)
+                break;
+        }
+
+        if(line==CL1_NR_WAY){
+            srand(time(NULL));
+            line=(rand())%CL1_NR_WAY;
+        }
+
+        CL1.content[set_bit][line].tag=temp.tag_bit;
+        CL1.content[set_bit][line].valid=1;
+
+        uint32_t block_begin=((addr>>CL1_BLOCK_WIDTH)<<CL1_BLOCK_WIDTH);
+
+        int i;
+        for(i=0;i<CL1_BLOCK_SIZE;i++){
+            CL1.content[set_bit][line].data[i]=(cachel2_read(block_begin+i,1)&0xff);
+        }
+
     }
 
     memcpy(data,CL1.content[set_bit][line].data+blockaddr_bit,CACHEUNIT_LEN);
