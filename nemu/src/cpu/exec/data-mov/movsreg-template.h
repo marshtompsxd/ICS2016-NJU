@@ -4,7 +4,7 @@
 
 make_helper(concat(movsreg_rm2r_,SUFFIX)){
 
-    concat(decode_rm2r_, SUFFIX)(eip);
+    decode_rm2r_w(eip);
     SegDesc desc;
     SegDescBase descbase;
     SegDescLimit desclimit;
