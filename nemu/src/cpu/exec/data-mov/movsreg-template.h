@@ -1,8 +1,8 @@
 #include "cpu/exec/template-start.h"
 #include "desc.h"
-#define instr movrm2sreg
+#define instr movsreg
 
-static void do_execute() {
+make_helper(concat(movsreg_rm2r_,SUFFIX)){
 
     SegDesc desc;
     SegDescBase descbase;
@@ -22,10 +22,10 @@ static void do_execute() {
 
     printf("sreg %d base is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].base );
     printf("sreg %d limit is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].limit );
-	print_asm("movrm2sreg");
+	print_asm("movsreg");
+
+    return 2;
 }
 
-
-make_instr_helper(rm2r)
 
 #include "cpu/exec/template-end.h"

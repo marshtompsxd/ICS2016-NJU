@@ -12,7 +12,7 @@
 #include "data-mov/lgdt.h"
 #include "data-mov/movcr2rm.h"
 #include "data-mov/movrm2cr.h"
-#include "data-mov/movrm2sreg.h"
+#include "data-mov/movsreg.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
