@@ -20,6 +20,7 @@ make_helper(concat(movsreg_rm2r_,SUFFIX)){
     loadlimit(&desc,&desclimit);
     setsreg(desc, descbase, desclimit, op_dest->reg);
 
+    printf("%d\n",op_dest->reg );
     printf("sreg %d base is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].base );
     printf("sreg %d limit is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].limit );
 	print_asm("movsreg");
