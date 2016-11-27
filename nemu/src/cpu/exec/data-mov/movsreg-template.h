@@ -4,6 +4,7 @@
 
 make_helper(concat(movsreg_rm2r_,SUFFIX)){
 
+    concat(decode_rm2r_, SUFFIX)(eip);
     SegDesc desc;
     SegDescBase descbase;
     SegDescLimit desclimit;
@@ -25,7 +26,7 @@ make_helper(concat(movsreg_rm2r_,SUFFIX)){
     printf("sreg %d limit is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].limit );
 	print_asm("movsreg");
 
-    return 3;
+    return 2;
 }
 
 
