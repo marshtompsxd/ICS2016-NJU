@@ -1,5 +1,6 @@
 #include "common.h"
 #include "cache.h"
+#include "TLB.h"
 #include "cpu/reg.h"
 
 uint32_t dram_read(hwaddr_t, size_t);
@@ -127,20 +128,10 @@ static hwaddr_t page_translate(lnaddr_t addr){
 		return addr;
 	}
 	else{
-		page_addr temp;
-		temp.addr=addr;
-		uint32_t DIR=temp.DIR;
-		uint32_t PAGE=temp.PAGE;
-		uint32_t OFFSET=temp.OFFSET;
-
-		PDE pde;
-		pde.val=hwaddr_read((cpu.cr3.page_directory_base<<12)+DIR*4,4);
-		Assert(pde.present,"null directory entry in address 0x%x.",addr);
-
-		PTE pte;
-		pte.val=hwaddr_read((pde.page_frame<<12)+PAGE*4,4);
-		Assert(pte.present,"null page table entry in address 0x%x.",addr);
-
-		return (pte.page_frame<<12)+OFFSET;
+#ifdef USE_TLB
+		return TLB_read(addr);
+#else
+		return page_walk(addr);
+#endif
 	}
 }

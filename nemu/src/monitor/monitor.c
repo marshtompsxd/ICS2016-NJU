@@ -13,6 +13,7 @@ void init_ddr3();
 
 void init_CL1();
 void init_CL2();
+void init_TLB();
 
 FILE *log_fp = NULL;
 
@@ -120,6 +121,11 @@ void restart() {
 
 	/* Initialize CACHE L2. */
 	init_CL2();
+#endif
+
+#ifdef USE_TLB
+	/* Initialize TLB. */
+	init_TLB();
 #endif
 
 	/* Initialize EFLAGS. */

@@ -25,14 +25,14 @@ typedef union{
 }TLB_addr;
 
 
-uint32_t readTLB_miss(lnaddr_t addr){
+static uint32_t readTLB_miss(lnaddr_t addr){
     TLB_addr temp;
     temp.addr = addr;
     uint32_t tag_bit=temp.tag_bit;
 
     int item;
     for(item=0;item<TLB_NR_ITEM;item++){
-        if(TLB[item].valid){
+        if(!TLB[item].valid){
             break;
         }
     }
@@ -42,9 +42,9 @@ uint32_t readTLB_miss(lnaddr_t addr){
         item=(rand())%TLB_NR_ITEM;
     }
 
-    TLB[item].phpagenum=(page_walk(addr))>>TLB_OFFSET_WIDTH;
     TLB[item].valid=1;
     TLB[item].tag=tag_bit;
+    TLB[item].phpagenum=(page_walk(addr))>>TLB_OFFSET_WIDTH;
 
     return item;
 

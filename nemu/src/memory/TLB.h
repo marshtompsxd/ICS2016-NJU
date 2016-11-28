@@ -19,6 +19,4 @@ extern TLBitem TLB[TLB_NR_ITEM];
 
 hwaddr_t TLB_read(lnaddr_t addr);
 
-uint32_t readTLB_miss(lnaddr_t addr);
-
 #endif
