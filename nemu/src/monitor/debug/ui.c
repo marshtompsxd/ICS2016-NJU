@@ -248,14 +248,26 @@ static int cmd_bt(char *args){
 }
 
 static int cmd_crate(char *args){
-    double hitrate=calculate_hit_rate();
+    double hitrate=calculate_cache_hit_rate();
     printf("cache hit rate is %f\n",hitrate);
     return 0;
 }
 
 static int cmd_ctime(char *args){
-    double visittime=calculate_visit_time();
+    double visittime=calculate_cache_visit_time();
     printf("cache hit rate is %f\n",visittime);
+    return 0;
+}
+
+static int cmd_trate(char *args){
+    double hitrate=calculate_TLB_hit_rate();
+    printf("TLB hit rate is %f\n",hitrate);
+    return 0;
+}
+
+static int cmd_ttime(char *args){
+    double visittime=calculate_TLB_visit_time();
+    printf("TLB hit rate is %f\n",visittime);
     return 0;
 }
 
@@ -278,6 +290,8 @@ static struct {
     { "bt","Print the stack information" ,cmd_bt},
     { "crate","Print cache hit rate" ,cmd_crate},
     { "ctime","Print cache visit time" ,cmd_ctime},
+    { "trate","Print TLB hit rate" ,cmd_trate},
+    { "ttime","Print TLB visit time" ,cmd_ttime},
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */

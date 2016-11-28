@@ -7,6 +7,10 @@ TLBitem TLB[TLB_NR_ITEM];
 
 hwaddr_t page_walk(lnaddr_t);
 
+extern double TLB_miss_time;
+extern double TLB_visit_time;
+
+
 void init_TLB(){
     printf("execute init TLB\n");
     int i;
@@ -26,6 +30,8 @@ typedef union{
 
 
 static uint32_t readTLB_miss(lnaddr_t addr){
+    TLB_miss_time++;
+
     TLB_addr temp;
     temp.addr = addr;
     uint32_t tag_bit=temp.tag_bit;
@@ -52,6 +58,8 @@ static uint32_t readTLB_miss(lnaddr_t addr){
 
 
 hwaddr_t TLB_read(lnaddr_t addr){
+    TLB_visit_time++;
+
     TLB_addr temp;
     temp.addr = addr;
     uint32_t offset_bit=temp.offset_bit;

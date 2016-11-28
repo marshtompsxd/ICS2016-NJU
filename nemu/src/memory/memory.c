@@ -17,15 +17,29 @@ double cache_miss_time=0;
 
 double cache_visit_time=0;
 
+double TLB_miss_time=0;
+
+double TLB_visit_time=0;
 
 /* Calculate cache performance parameter */
-double calculate_hit_rate(){
+double calculate_cache_hit_rate(){
 	return (cache_visit_time-cache_miss_time)/cache_visit_time;
 }
 
-double calculate_visit_time(){
+double calculate_cache_visit_time(){
 	return cache_miss_time*200+cache_visit_time*2;
 }
+
+
+/* Calculate TLB performance parameter */
+double calculate_TLB_hit_rate(){
+	return (TLB_visit_time-TLB_miss_time)/TLB_visit_time;
+}
+
+double calculate_TLB_visit_time(){
+	return TLB_miss_time*200+TLB_visit_time*2;
+}
+
 
 
 /* Memory accessing interfaces */
