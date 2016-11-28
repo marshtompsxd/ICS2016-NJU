@@ -33,6 +33,10 @@ extern cachel2 CL2;
 extern double cache_miss_time;
 extern double cache_visit_time;
 
+void init_CL1();
+
+void init_CL2();
+
 uint32_t cachel1_read(uint32_t addr,uint32_t len);
 
 void cachel1_write(uint32_t addr,uint32_t len,uint32_t data);

@@ -21,7 +21,11 @@ make_helper(concat(movcr_rm2r_,SUFFIX)){
     int len=decode_rm2r_l(eip+1);
 
     if(op_dest->reg==0)cpu.cr0.val=op_src->val;
-    else if(op_dest->reg==3)cpu.cr3.val=op_src->val;
+    else if(op_dest->reg==3)
+    {
+        cpu.cr3.val=op_src->val;
+        init_TLB();
+    }
     else panic("please implment movrm2cr\n");
 
     printf("mov 0x%x to cr%x\n",op_src->val,op_dest->reg);

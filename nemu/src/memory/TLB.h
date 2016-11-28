@@ -17,6 +17,8 @@ typedef struct TLBitem{
 
 extern TLBitem TLB[TLB_NR_ITEM];
 
+void init_TLB();
+
 hwaddr_t TLB_read(lnaddr_t addr);
 
 #endif
