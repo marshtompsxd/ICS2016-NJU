@@ -50,7 +50,7 @@ static uint32_t readTLB_miss(lnaddr_t addr){
 
     TLB[item].valid=1;
     TLB[item].tag=tag_bit;
-    TLB[item].phpagenum=(page_walk(addr))>>TLB_OFFSET_WIDTH;
+    TLB[item].phpagenum=((uint32_t)page_walk(addr))>>TLB_OFFSET_WIDTH;
 
     return item;
 
