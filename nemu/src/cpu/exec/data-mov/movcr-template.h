@@ -1,4 +1,6 @@
 #include "cpu/exec/template-start.h"
+#include "../../../memory/TLB.h"
+
 
 #define instr movcr
 
