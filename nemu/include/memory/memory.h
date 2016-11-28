@@ -25,6 +25,7 @@ void lnaddr_write(lnaddr_t, size_t, uint32_t);
 void hwaddr_write(hwaddr_t, size_t, uint32_t);
 double calculate_hit_rate();
 double calculate_visit_time();
+hwaddr_t page_walk(lnaddr_t);
 
 
 #endif
