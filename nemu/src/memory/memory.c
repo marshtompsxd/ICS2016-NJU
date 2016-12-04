@@ -103,14 +103,14 @@ static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
 	else{
 		uint32_t limit=cpu.sregdesc[sreg].limit;
 		uint32_t base=cpu.sregdesc[sreg].base;
-		Assert(addr+len-1<=limit,"address 0x%x + 0x%x is out of the limit.",base,addr);
+		Assert(len-1<=limit-addr,"addr 0x%x with length %d exceeds the limit.",addr,len);
 		return addr+base;
 	}
 }
 
 static bool data_cross_the_page_boundary(lnaddr_t addr,size_t len){
 	uint32_t offset=addr&PAGE_MASK;
-	if(offset+len-1>PAGE_SIZE){
+	if(len-1>PAGE_SIZE-offset){
 		return true;
 	}
 	else{
