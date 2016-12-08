@@ -1,8 +1,4 @@
-#include <setjmp.h>
-#include "common.h"
-#include "cpu/reg.h"
-#include "memory/memory.h"
-#include "desc.h"
+#include "raise_intr.h"
 
 extern jmp_buf jbuf;
 
@@ -12,8 +8,13 @@ static void push(uint32_t data) {
 }
 
 void raise_intr(uint8_t ID) {
+	printf("push eflags %d\n",cpu.eflags.EFLAGS );
 	push(cpu.eflags.EFLAGS);
+
+	printf("push cs selector %d\n",cpu.sreg[SR_CS].selector );
 	push(cpu.sreg[SR_CS].selector);
+
+	printf("push eip %d\n", cpu.eip);
 	push(cpu.eip);
 
     cpu.eflags.IF=0;
@@ -25,27 +26,14 @@ void raise_intr(uint8_t ID) {
 
 	Assert(gatedesc.present==1, "the present of gate descriptor is 0\n");
 
+	cpu.eip = gatedesc.offset_15_0+(gatedesc.offset_31_16 << 16);
 	cpu.sreg[SR_CS].selector=gatedesc.segment;
 
-/*
-    SegDesc segdesc;
-    SegDescBase segdescbase;
-    SegDescLimit segdesclimit;
-
-	uint32_t index=cpu.sreg[SR_CS].INDEX;
-    segdesc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
-    segdesc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
-
-    Assert(segdesc.present==1,"the present of segment descriptor is 0\n");
-
-    loadSegDescBase(&segdesc,&segdescbase);
-    loadSegDescLimit(&segdesc,&segdesclimit);
-    setsreg(segdesc, segdescbase, segdesclimit, SR_CS);
-*/
-
     updateSreg(SR_CS);
-    
-	cpu.eip = gatedesc.offset_15_0+(gatedesc.offset_31_16 << 16);
+	printf("sreg %d base is %x\n",SR_CS,cpu.sregdesc[SR_CS].base );
+	printf("sreg %d limit is %x\n",SR_CS,cpu.sregdesc[SR_CS].limit );
+
+
 
 	longjmp(jbuf, 1);
 }

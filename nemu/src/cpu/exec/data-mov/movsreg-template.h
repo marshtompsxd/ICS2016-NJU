@@ -8,24 +8,6 @@ make_helper(concat(movsreg_rm2r_,SUFFIX)){
 
     cpu.sreg[op_dest->reg].selector=op_src->val;
 
-/*
-    SegDesc desc;
-    SegDescBase descbase;
-    SegDescLimit desclimit;
-
-
-
-	uint32_t index=cpu.sreg[op_dest->reg].INDEX;
-	desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
-	desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
-
-    Assert(desc.present==1,"the present of segment descriptor is 0\n");
-
-    loadSegDescBase(&desc,&descbase);
-    loadSegDescLimit(&desc,&desclimit);
-    setsreg(desc, descbase, desclimit, op_dest->reg);
-*/
-
     updateSreg(op_dest->reg);
 
     printf("sreg no is %d\n",op_dest->reg );
