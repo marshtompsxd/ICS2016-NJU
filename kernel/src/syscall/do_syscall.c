@@ -21,7 +21,7 @@ void do_syscall(TrapFrame *tf) {
 		 * very dangerous in a real operating system. Therefore such a
 		 * system call never exists in GNU/Linux.
 		 */
-		case 0: 
+		case 0:
 			cli();
 			add_irq_handle(tf->ebx, (void*)tf->ecx);
 			sti();
@@ -29,10 +29,17 @@ void do_syscall(TrapFrame *tf) {
 
 		case SYS_brk: sys_brk(tf); break;
 		case SYS_ioctl: sys_ioctl(tf); break;
-
+		case SYS_write:{
+			if( tf->ebx==1 || tf->ebx==2 )
+	        {
+	        	asm volatile (".byte 0xd6" :: "a"(2), "c"(tf->ecx), "d"(tf->edx));
+				tf->eax = tf->edx;
+	        }
+	        else panic("please implement SYS_write");break;
+		}
+		
 		/* TODO: Add more system calls. */
 
 		default: panic("Unhandled system call: id = %d, eip = 0x%08x", tf->eax, tf->eip);
 	}
 }
-
