@@ -106,6 +106,12 @@ typedef struct {
 		uint32_t base;
 	}gdtr;
 
+/* Interrupt Descriptor Table Register part of the cpu */
+	struct{
+		uint16_t limit;
+		uint32_t base;
+	}idtr;
+
 /* Control Register 0 part of the cpu */
 	CR0 cr0;
 

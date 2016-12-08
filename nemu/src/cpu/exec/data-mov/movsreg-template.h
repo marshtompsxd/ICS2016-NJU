@@ -17,8 +17,8 @@ make_helper(concat(movsreg_rm2r_,SUFFIX)){
 
     Assert(desc.present==1,"the present of segment descriptor is 0\n");
 
-    loaddescbase(&desc,&descbase);
-    loaddesclimit(&desc,&desclimit);
+    loadSegDescBase(&desc,&descbase);
+    loadSegDescLimit(&desc,&desclimit);
     setsreg(desc, descbase, desclimit, op_dest->reg);
 
     printf("sreg no is %d\n",op_dest->reg );
