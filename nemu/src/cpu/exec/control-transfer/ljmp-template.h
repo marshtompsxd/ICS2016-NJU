@@ -29,8 +29,8 @@ make_helper(concat(ljmp_,SUFFIX)){
 
         Assert(desc.present==1,"the present of segment descriptor is 0\n");
 
-        loadbase(&desc,&descbase);
-        loadlimit(&desc,&desclimit);
+        loaddescbase(&desc,&descbase);
+        loaddesclimit(&desc,&desclimit);
         setsreg(desc, descbase, desclimit, SR_CS);
 
         printf("sreg %d base is %x\n",SR_CS,cpu.sregdesc[SR_CS].base );

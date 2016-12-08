@@ -4,9 +4,9 @@
 #include "cpu/reg.h"
 #include "../../lib-common/x86-inc/mmu.h"
 
-void loadbase(SegDesc *desc , SegDescBase *descbase);
+void loaddescbase(SegDesc *desc , SegDescBase *descbase);
 
-void loadlimit(SegDesc *desc , SegDescLimit *desclimit);
+void loaddesclimit(SegDesc *desc , SegDescLimit *desclimit);
 
 void setsreg(SegDesc desc ,SegDescBase descbase, SegDescLimit desclimit, int index);
 
