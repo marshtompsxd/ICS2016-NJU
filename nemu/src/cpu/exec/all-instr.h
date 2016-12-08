@@ -16,7 +16,6 @@
 #include "data-mov/pusha.h"
 #include "data-mov/popa.h"
 
-
 #include "arith/dec.h"
 #include "arith/inc.h"
 #include "arith/neg.h"
@@ -41,7 +40,6 @@
 #include "logic/test.h"
 #include "logic/setcc.h"
 
-
 #include "string/rep.h"
 #include "string/stos.h"
 #include "string/scas.h"
@@ -59,3 +57,7 @@
 #include "control-transfer/jcc.h"
 #include "control-transfer/jmp.h"
 #include "control-transfer/ljmp.h"
+
+#include "interrupt/cli-sti.h"
+#include "interrupt/int.h"
+#include "interrupt/iret.h"
