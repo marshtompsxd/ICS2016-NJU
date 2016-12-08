@@ -27,6 +27,7 @@ void raise_intr(uint8_t ID) {
 
 	cpu.sreg[SR_CS].selector=gatedesc.segment;
 
+/*
     SegDesc segdesc;
     SegDescBase segdescbase;
     SegDescLimit segdesclimit;
@@ -40,7 +41,10 @@ void raise_intr(uint8_t ID) {
     loadSegDescBase(&segdesc,&segdescbase);
     loadSegDescLimit(&segdesc,&segdesclimit);
     setsreg(segdesc, segdescbase, segdesclimit, SR_CS);
+*/
 
+    updateSreg(SR_CS);
+    
 	cpu.eip = gatedesc.offset_15_0+(gatedesc.offset_31_16 << 16);
 
 	longjmp(jbuf, 1);

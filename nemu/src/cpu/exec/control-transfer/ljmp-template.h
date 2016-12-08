@@ -23,6 +23,7 @@ make_helper(concat(ljmp_,SUFFIX)){
         cpu.eip=instr_fetch(eip+1,4);
         cpu.sreg[SR_CS].selector=instr_fetch(eip+5,2);
 
+/*
         uint32_t index=cpu.sreg[SR_CS].INDEX;
         desc.content[0]=lnaddr_read(cpu.gdtr.base+index*8,4);
         desc.content[1]=lnaddr_read(cpu.gdtr.base+index*8+4,4);
@@ -32,6 +33,9 @@ make_helper(concat(ljmp_,SUFFIX)){
         loadSegDescBase(&desc,&descbase);
         loadSegDescLimit(&desc,&desclimit);
         setsreg(desc, descbase, desclimit, SR_CS);
+*/
+
+        updateSreg(SR_CS);
 
         printf("sreg %d base is %x\n",SR_CS,cpu.sregdesc[SR_CS].base );
         printf("sreg %d limit is %x\n",SR_CS,cpu.sregdesc[SR_CS].limit );

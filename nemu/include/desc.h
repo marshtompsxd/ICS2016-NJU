@@ -8,6 +8,8 @@ void loadSegDescBase(SegDesc *desc , SegDescBase *descbase);
 
 void loadSegDescLimit(SegDesc *desc , SegDescLimit *desclimit);
 
-void setsreg(SegDesc desc ,SegDescBase descbase, SegDescLimit desclimit, int index);
+void setHiddenDesc(SegDesc desc ,SegDescBase descbase, SegDescLimit desclimit, int index);
+
+void updateSreg(uint32_t sreg);
 
 #endif
