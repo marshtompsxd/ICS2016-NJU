@@ -1,7 +1,7 @@
 #ifndef __DESC_H__
 #define __DESC_H__
 
-#include "cpu/reg.h"
+#include "nemu.h"
 #include "../../lib-common/x86-inc/mmu.h"
 
 void loadSegDescBase(SegDesc *desc , SegDescBase *descbase);
