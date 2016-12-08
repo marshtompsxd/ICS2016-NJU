@@ -101,35 +101,44 @@ typedef union SegmentDescriptor {
 	uint32_t content[2];
 } SegDesc;
 
-typedef struct GateDescriptor {
-	uint32_t offset_15_0      : 16;
-	uint32_t segment          : 16;
-	uint32_t pad0             : 8;
-	uint32_t type             : 4;
-	uint32_t system           : 1;
-	uint32_t privilege_level  : 2;
-	uint32_t present          : 1;
-	uint32_t offset_31_16     : 16;
+typedef union GateDescriptor {
+	struct{
+		uint32_t offset_15_0      : 16;
+		uint32_t segment          : 16;
+		uint32_t pad0             : 8;
+		uint32_t type             : 4;
+		uint32_t system           : 1;
+		uint32_t privilege_level  : 2;
+		uint32_t present          : 1;
+		uint32_t offset_31_16     : 16;
+	};
+	uint32_t content[2];
 } GateDesc;
 
 typedef union SegmentDescriptorBase {
 	struct {
-		uint32_t _15_0:16;
-		uint32_t _23_16:8;
-		uint32_t _31_24:8;
+		uint32_t _15_0			:16;
+		uint32_t _23_16			:8;
+		uint32_t _31_24			:8;
 	};
 	uint32_t base;
 } SegDescBase;
 
 typedef union SegmentDescriptorLimit {
 	struct {
-		uint32_t _15_0:16;
-		uint32_t _19_16:4;
+		uint32_t _15_0			:16;
+		uint32_t _19_16			:4;
 	};
 	uint32_t limit;
 } SegDescLimit;
 
-
+typedef union GateDescriptorOffset {
+	struct {
+		uint32_t _15_0			:16;
+		uint32_t _31_16			:16;
+	};
+	uint32_t offset;
+}GateDescOffset;
 
 #endif
 
