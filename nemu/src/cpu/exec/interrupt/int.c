@@ -2,7 +2,7 @@
 #include "raise_intr.h"
 
 make_helper(int_b) {
-	printf("\nexecute int\n\n");
+	printf("\n***execute int***\n");
 	int len=decode_i_b(eip+1);
 	cpu.eip=cpu.eip+len+1;
 	print_asm("int 0x%x",op_src->val);
