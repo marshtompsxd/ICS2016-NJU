@@ -7,6 +7,8 @@ make_helper( concat(pusha_,SUFFIX) ) {
         panic("please implement pusha");
     }
     else{
+        printf("\nexecute pusha\n\n");
+
         uint32_t temp=cpu.esp;
 
         cpu.esp=cpu.esp-4;

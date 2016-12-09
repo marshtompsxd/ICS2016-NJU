@@ -7,6 +7,8 @@ make_helper(concat(iret_,SUFFIX)) {
         panic("please implement iret");
     }
     else{
+        printf("\nexecute iret\n\n");
+
         printf("pop eip %d\n",cpu.eip);
         cpu.eip=swaddr_read( cpu.esp,4,SR_SS );
     	cpu.esp=cpu.esp+4;
