@@ -61,3 +61,7 @@
 #include "interrupt/cli-sti.h"
 #include "interrupt/int.h"
 #include "interrupt/iret.h"
+
+#include "IO/in.h"
+#include "IO/out.h"
+#include "IO/hlt.h"

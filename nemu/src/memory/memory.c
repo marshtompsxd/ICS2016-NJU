@@ -2,6 +2,7 @@
 #include "cache.h"
 #include "TLB.h"
 #include "cpu/reg.h"
+#include "device/mmio.h"
 
 uint32_t dram_read(hwaddr_t, size_t);
 
@@ -45,19 +46,33 @@ double calculate_TLB_visit_time(){
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-#ifdef USE_CACHE
-	return cachel1_read(addr,len)& (~0u >> ((4 - len) << 3));
-#else
-	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-#endif
+	int map_num=is_mmio(addr);
+	if(map_num==-1){
+		#ifdef USE_CACHE
+			return cachel1_read(addr,len)& (~0u >> ((4 - len) << 3));
+		#else
+			return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+		#endif
+	}
+	else{
+		return mmio_read(addr,len,map_num);
+	}
+
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-#ifdef USE_CACHE
-	cachel1_write(addr,len,data);
-#else
-	dram_write(addr, len, data);
-#endif
+	int map_num=is_mmio(addr);
+	if(map_num==-1){
+		#ifdef USE_CACHE
+			cachel1_write(addr,len,data);
+		#else
+			dram_write(addr, len, data);
+		#endif
+	}
+	else{
+		mmio_write(addr,len,data,map_num);
+	}
+
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
