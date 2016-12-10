@@ -37,10 +37,11 @@ uint32_t loader() {
 
 	/* Load each program segment */
 	//panic("please implement me");
+	ph = (void*)((uint32_t)elf + elf->e_phoff);
 	int i;
 	for(i=0; i<elf->e_phnum;i++ ) {
 		/* Scan the program header table, load each segment into memory */
-		ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
+		//ph=(void*)(buf+elf->e_phoff+i*elf->e_phentsize);
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file
@@ -60,9 +61,9 @@ uint32_t loader() {
 			/* TODO: zero the memory region
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-			if(ph->p_memsz > ph->p_filesz){
-				memset((void *)(seg_paddr+ph->p_filesz),0,ph->p_memsz-ph->p_filesz);
-			}
+
+			memset((void *)(seg_paddr+ph->p_filesz),0,ph->p_memsz-ph->p_filesz);
+
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
@@ -71,6 +72,7 @@ uint32_t loader() {
 			if(cur_brk < new_brk) { max_brk = cur_brk = new_brk; }
 #endif
 		}
+		ph++;
 	}
 
 	volatile uint32_t entry = elf->e_entry;
