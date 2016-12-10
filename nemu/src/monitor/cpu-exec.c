@@ -14,6 +14,7 @@
 int nemu_state = STOP;
 
 int exec(swaddr_t);
+void raise_intr(uint8_t NO);
 
 char assembly[80];
 char asm_buf[128];
