@@ -11,8 +11,8 @@ static void do_execute(){
         cpu.gdtr.limit=lnaddr_read(op_src->addr,2);
         cpu.gdtr.base=lnaddr_read(op_src->addr+2,4);
     }
-    printf("gdtr base is 0x%x\n",cpu.gdtr.base );
-    printf("gdtr limit is 0x%x\n",cpu.gdtr.limit );
+    //printf("gdtr base is 0x%x\n",cpu.gdtr.base );
+    //printf("gdtr limit is 0x%x\n",cpu.gdtr.limit );
     print_asm("lgdt");
 }
 

@@ -12,7 +12,7 @@ extern double TLB_visit_time;
 
 
 void init_TLB(){
-    printf("execute init TLB\n");
+    //printf("execute init TLB\n");
     int i;
     for(i=0;i<TLB_NR_ITEM;i++){
         TLB[i].valid=0;

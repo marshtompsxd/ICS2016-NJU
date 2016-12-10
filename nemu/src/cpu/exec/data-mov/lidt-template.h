@@ -11,8 +11,8 @@ static void do_execute(){
         cpu.idtr.limit=lnaddr_read(op_src->addr,2);
         cpu.idtr.base=lnaddr_read(op_src->addr+2,4);
     }
-    printf("idtr base is 0x%x\n",cpu.idtr.base );
-    printf("idtr limit is 0x%x\n",cpu.idtr.limit );
+    //printf("idtr base is 0x%x\n",cpu.idtr.base );
+    //printf("idtr limit is 0x%x\n",cpu.idtr.limit );
     print_asm("lidt");
 }
 

@@ -43,7 +43,7 @@ typedef union{
 }cachel2_addr;
 
 void init_CL1(){
-    printf("execute init CL1\n");
+    //printf("execute init CL1\n");
     int i,j;
     for(i=0;i<CL1_NR_SET;i++){
         for(j=0;j<CL1_NR_WAY;j++){
@@ -54,7 +54,7 @@ void init_CL1(){
 }
 
 void init_CL2(){
-    printf("execute init CL2\n");
+    //printf("execute init CL2\n");
     int i,j;
     for(i=0;i<CL2_NR_SET;i++){
         for(j=0;j<CL2_NR_WAY;j++){
