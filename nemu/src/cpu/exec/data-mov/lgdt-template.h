@@ -7,7 +7,7 @@ static void do_execute(){
         panic("please implement lgdt\n");
     }
     else{
-        printf("op_src addr is 0x%x\n", op_src->addr);
+        //printf("op_src addr is 0x%x\n", op_src->addr);
         cpu.gdtr.limit=lnaddr_read(op_src->addr,2);
         cpu.gdtr.base=lnaddr_read(op_src->addr+2,4);
     }

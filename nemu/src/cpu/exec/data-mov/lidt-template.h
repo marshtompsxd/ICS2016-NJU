@@ -7,7 +7,7 @@ static void do_execute(){
         panic("please implement lidt\n");
     }
     else{
-        printf("op_src addr is 0x%x\n", op_src->addr);
+        //printf("op_src addr is 0x%x\n", op_src->addr);
         cpu.idtr.limit=lnaddr_read(op_src->addr,2);
         cpu.idtr.base=lnaddr_read(op_src->addr+2,4);
     }
