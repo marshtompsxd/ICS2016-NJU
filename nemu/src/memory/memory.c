@@ -77,7 +77,9 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	if(data_cross_the_page_boundary(addr,len)){
-		Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x.", addr,len);
+		//Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x.", addr,len);
+		hwaddr_t hwaddr=page_translate(addr);
+		return hwaddr_read(hwaddr,len);
 	}
 	else{
 		hwaddr_t hwaddr=page_translate(addr);
@@ -87,7 +89,9 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	if(data_cross_the_page_boundary(addr,len)){
-		Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x.", addr,len);
+		//Assert(0,"data cross the page boundary , addr is 0x%x and len is 0x%x.", addr,len);
+		hwaddr_t hwaddr=page_translate(addr);
+		hwaddr_write(hwaddr, len, data);
 	}
 	else{
 		hwaddr_t hwaddr=page_translate(addr);
