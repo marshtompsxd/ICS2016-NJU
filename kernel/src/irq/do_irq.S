@@ -32,9 +32,9 @@
 asm_do_irq:
 	pushal
 
-	pushl %esp		# ???
+	pushl %esp		# this is the address of trapframe
 	call irq_handle
-	
+
 	addl $4, %esp
 	popal
 	addl $8, %esp

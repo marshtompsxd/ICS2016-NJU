@@ -2,20 +2,22 @@
 
 extern jmp_buf jbuf;
 
-static void push(uint32_t data) {
-	cpu.esp=cpu.esp-4;
-	swaddr_write( cpu.esp, 4, data, SR_SS );
-}
+
 
 void raise_intr(uint8_t ID) {
+	printf("raise interrupt with ID %d\n",ID );
+
 	printf("push eflags %d\n",cpu.eflags.EFLAGS );
-	push(cpu.eflags.EFLAGS);
+	cpu.esp=cpu.esp-4;
+	swaddr_write( cpu.esp, 4, cpu.eflags.EFLAGS, SR_SS );
 
 	printf("push cs selector %d\n",cpu.sreg[SR_CS].selector );
-	push(cpu.sreg[SR_CS].selector);
+	cpu.esp=cpu.esp-4;
+	swaddr_write( cpu.esp, 4, cpu.sreg[SR_CS].selector, SR_SS );
 
 	printf("push eip %d\n", cpu.eip);
-	push(cpu.eip);
+	cpu.esp=cpu.esp-4;
+	swaddr_write( cpu.esp, 4, cpu.eip, SR_SS );
 
     cpu.eflags.IF=0;
 	cpu.eflags.TF=0;
