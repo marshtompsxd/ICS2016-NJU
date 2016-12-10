@@ -20,8 +20,8 @@ make_helper(concat(ljmp_,SUFFIX)){
 
         updateSreg(SR_CS);
 
-        printf("sreg %d base is %x\n",SR_CS,cpu.sregdesc[SR_CS].base );
-        printf("sreg %d limit is %x\n",SR_CS,cpu.sregdesc[SR_CS].limit );
+        //printf("sreg %d base is %x\n",SR_CS,cpu.sregdesc[SR_CS].base );
+        //printf("sreg %d limit is %x\n",SR_CS,cpu.sregdesc[SR_CS].limit );
 
         print_asm("ljmp");
         return 0;

@@ -10,9 +10,9 @@ make_helper(concat(movsreg_rm2r_,SUFFIX)){
 
     updateSreg(op_dest->reg);
 
-    printf("sreg no is %d\n",op_dest->reg );
-    printf("sreg %d base is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].base );
-    printf("sreg %d limit is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].limit );
+    //printf("sreg no is %d\n",op_dest->reg );
+    //printf("sreg %d base is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].base );
+    //printf("sreg %d limit is 0x%x\n",op_dest->reg,cpu.sregdesc[op_dest->reg].limit );
 	print_asm("movsreg");
 
     return len+1;

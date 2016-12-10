@@ -7,7 +7,7 @@ make_helper( concat(popa_,SUFFIX) ){
         panic("please implement popa");
     }
     else{
-        printf("\n***execute popa***\n");
+        //printf("\n***execute popa***\n");
 
         cpu.edi=swaddr_read(cpu.esp,4,SR_SS);
         cpu.esp=cpu.esp+4;

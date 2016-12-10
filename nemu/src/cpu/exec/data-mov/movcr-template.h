@@ -10,7 +10,7 @@ make_helper(concat(movcr_r2rm_,SUFFIX)){
     if(op_src->reg==0)OPERAND_W(op_dest,cpu.cr0.val);
     else panic("please implment movcr2rm\n");
 
-    printf("mov cr%x value is 0x%x to op_dest\n",op_src->reg,op_src->val);
+    //printf("mov cr%x value is 0x%x to op_dest\n",op_src->reg,op_src->val);
 
     print_asm("movcr2rm");
 
@@ -28,7 +28,7 @@ make_helper(concat(movcr_rm2r_,SUFFIX)){
     }
     else panic("please implment movrm2cr\n");
 
-    printf("mov 0x%x to cr%x\n",op_src->val,op_dest->reg);
+    //printf("mov 0x%x to cr%x\n",op_src->val,op_dest->reg);
 
     print_asm("movrm2cr");
 
