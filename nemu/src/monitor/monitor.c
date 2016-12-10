@@ -15,6 +15,9 @@ void init_CL1();
 void init_CL2();
 void init_TLB();
 
+void init_device();
+void init_sdl();
+
 FILE *log_fp = NULL;
 
 static void init_log() {
@@ -41,6 +44,12 @@ void init_monitor(int argc, char *argv[]) {
 
 	/* Initialize the watchpoint pool. */
 	init_wp_pool();
+
+	/* Initialize the device. */
+	init_device();
+
+	/* Initialize the sdl. */
+	init_sdl();
 
 	/* Display welcome message. */
 	welcome();

@@ -118,6 +118,9 @@ typedef struct {
 /* Control Register 3 part of the cpu */
 	CR3 cr3;
 
+/* INTR pin part of the cpu */
+	bool INTR;
+
 } CPU_state;
 
 extern CPU_state cpu;
