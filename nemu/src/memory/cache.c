@@ -43,7 +43,7 @@ typedef union{
 }cachel2_addr;
 
 void init_CL1(){
-    //printf("execute init CL1\n");
+    printf("execute init CL1\n");
     int i,j;
     for(i=0;i<CL1_NR_SET;i++){
         for(j=0;j<CL1_NR_WAY;j++){
@@ -54,7 +54,7 @@ void init_CL1(){
 }
 
 void init_CL2(){
-    //printf("execute init CL2\n");
+    printf("execute init CL2\n");
     int i,j;
     for(i=0;i<CL2_NR_SET;i++){
         for(j=0;j<CL2_NR_WAY;j++){
@@ -155,7 +155,6 @@ uint32_t cachel1_read(uint32_t addr,uint32_t len){
     }
 
     return unalign_rw(temp+offset,4);
-
 }
 
 static void cl1unit_write(uint32_t addr,uint8_t*data,uint8_t*mask,uint32_t len,uint32_t offset){
@@ -174,11 +173,11 @@ static void cl1unit_write(uint32_t addr,uint8_t*data,uint8_t*mask,uint32_t len,u
     }
 
     if(line==CL1_NR_WAY){
-        cachel2_write(addr, len, unalign_rw(data+offset,4));
+        cachel2_write((addr&(~CACHEUNIT_MASK))+offset, len, unalign_rw(data+offset,4));
     }
     else{
         memcpy_with_mask(CL1.content[set_bit][line].data + blockaddr_bit, data, CACHEUNIT_LEN, mask);
-        cachel2_write(addr,len,unalign_rw(data+offset,4));
+        cachel2_write((addr&(~CACHEUNIT_MASK))+offset,len,unalign_rw(data+offset,4));
     }
 }
 
@@ -302,7 +301,7 @@ static void cl2unit_write(uint32_t addr,uint8_t*data,uint8_t*mask,uint32_t len,u
     }
 
     if(line==CL2_NR_WAY){
-        dram_write(addr, len, unalign_rw(data+offset,4));
+        dram_write((addr&(~CACHEUNIT_MASK)) + offset, len, unalign_rw(data+offset,4));
         readcl2_miss(addr);
     }
     else{
