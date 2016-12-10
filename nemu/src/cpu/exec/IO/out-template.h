@@ -3,10 +3,10 @@
 #define instr out
 
 make_helper( concat(out_imm_,SUFFIX) ) {
-	uint32_t len=decode_i_b(eip+1);
+	decode_i_b(eip+1);
 	pio_write( op_src->val, DATA_BYTE, REG(R_EAX) );
-    print_asm("out");
-	return 1+len;
+    print_asm("out 	%u,%%%s",op_src->val,REG_NAME(R_EAX) );
+	return 2;
 }
 
 make_helper( concat(out_dx_,SUFFIX) ) {
