@@ -9,20 +9,23 @@ make_helper(concat(iret_,SUFFIX)) {
     else{
         printf("\n***execute iret***\n");
 
-        printf("pop eip %d\n",cpu.eip);
+
         cpu.eip=swaddr_read( cpu.esp,4,SR_SS );
     	cpu.esp=cpu.esp+4;
+        printf("pop eip %d\n",cpu.eip);
 
-        printf("pop cs selector %d\n",cpu.sreg[SR_CS].selector);
+
     	cpu.sreg[SR_CS].selector=swaddr_read( cpu.esp,4,SR_SS );
     	cpu.esp=cpu.esp+4;
+        printf("pop cs selector %d\n",cpu.sreg[SR_CS].selector);
     	updateSreg(SR_CS);
         printf("sreg %d base is %x\n",SR_CS,cpu.sregdesc[SR_CS].base );
     	printf("sreg %d limit is %x\n",SR_CS,cpu.sregdesc[SR_CS].limit );
 
-        printf("pop eflags %d\n", cpu.eflags.EFLAGS);
+
     	cpu.eflags.EFLAGS=swaddr_read( cpu.esp,4,SR_SS );
     	cpu.esp=cpu.esp+4;
+        printf("pop eflags %d\n", cpu.eflags.EFLAGS);
     }
 	print_asm("iret");
 	return 0;
