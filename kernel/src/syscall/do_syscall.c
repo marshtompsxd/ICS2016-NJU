@@ -18,6 +18,7 @@ static void sys_ioctl(TrapFrame *tf) {
 static void sys_write(TrapFrame *tf) {
 	if( tf->ebx==1 || tf->ebx==2 )
 	{
+		Log("sys write");
 		int i;
 		for(i=0 ; i < tf->edx ; ++i)
 			serial_printc(*(uint8_t*)(tf->ecx+i));
