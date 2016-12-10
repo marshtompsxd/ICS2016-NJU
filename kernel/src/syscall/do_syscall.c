@@ -5,6 +5,7 @@
 void add_irq_handle(int, void (*)(void));
 uint32_t mm_brk(uint32_t);
 int fs_ioctl(int, uint32_t, void *);
+void serial_printc(char);
 
 static void sys_brk(TrapFrame *tf) {
 	tf->eax = mm_brk(tf->ebx);
@@ -13,6 +14,20 @@ static void sys_brk(TrapFrame *tf) {
 static void sys_ioctl(TrapFrame *tf) {
 	tf->eax = fs_ioctl(tf->ebx, tf->ecx, (void *)tf->edx);
 }
+
+static void sys_write(TrapFrame *tf) {
+	if( tf->ebx==1 || tf->ebx==2 )
+	{
+		int i;
+		for(i=0 ; i < tf->edx ; ++i)
+			serial_printc(*(uint8_t*)(tf->ecx+i));
+
+		tf->eax = tf->edx;
+	}
+	else
+		panic("sys_write get false fd");
+}
+
 
 void do_syscall(TrapFrame *tf) {
 	switch(tf->eax) {
@@ -29,15 +44,8 @@ void do_syscall(TrapFrame *tf) {
 
 		case SYS_brk: sys_brk(tf); break;
 		case SYS_ioctl: sys_ioctl(tf); break;
-		case SYS_write:{
-			if( tf->ebx==1 || tf->ebx==2 )
-	        {
-	        	asm volatile (".byte 0xd6" :: "a"(2), "c"(tf->ecx), "d"(tf->edx));
-				tf->eax = tf->edx;
-	        }
-	        else panic("please implement SYS_write");break;
-		}
-		
+		case SYS_write: sys_write(tf); break;
+
 		/* TODO: Add more system calls. */
 
 		default: panic("Unhandled system call: id = %d, eip = 0x%08x", tf->eax, tf->eip);
