@@ -5,10 +5,8 @@
 static void do_execute(){
 	uint32_t opeip=cpu.eip;
 	uint32_t op=instr_fetch(opeip,1);
-	if( op==0x66 )
-	{
+	if( op==0x66 ){
 		opeip++;
-		op=instr_fetch(opeip,1);
 	}
 	if( op_src->type==OP_TYPE_IMM ){
 		DATA_TYPE_S offs=op_src->val;
