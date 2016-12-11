@@ -5,7 +5,7 @@
 static void do_execute(){
 	uint32_t opeip=cpu.eip;
 	uint32_t op=instr_fetch(opeip,1);
-	while( op==0x66 )
+	if( op==0x66 )
 	{
 		opeip++;
 		op=instr_fetch(opeip,1);
