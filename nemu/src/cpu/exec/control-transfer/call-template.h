@@ -10,7 +10,7 @@ static void do_execute(){
 		opeip++;
 		op=instr_fetch(opeip,1);
 	}
-	if( op==0xe8 ){
+	if( op_src->type==OP_TYPE_IMM ){
 		DATA_TYPE_S offs=op_src->val;
 		if(DATA_BYTE==2){
 			cpu.esp-=2;
@@ -23,7 +23,7 @@ static void do_execute(){
 			cpu.eip+=offs;
 		}
 	}
-	else if( op==0xff ){
+	else if( op_src->type==OP_TYPE_REG || op_src->type==OP_TYPE_MEM ){
 		if(DATA_BYTE==2){
 			cpu.esp=cpu.esp-2;
 			cpu.eip=( op_src->val )&0xffff;
