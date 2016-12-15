@@ -7,6 +7,12 @@ uint32_t mm_brk(uint32_t);
 int fs_ioctl(int, uint32_t, void *);
 void serial_printc(char);
 
+int fs_open(const char*, int);
+int fs_read(int, void*, int);
+int fs_write(int, void*, int);
+int fs_lseek(int, int, int);
+int fs_close(int);
+
 static void sys_brk(TrapFrame *tf) {
 	tf->eax = mm_brk(tf->ebx);
 }

@@ -1,4 +1,5 @@
 #include "common.h"
+#include <string.h>
 #include <sys/ioctl.h>
 
 typedef struct {
@@ -35,6 +36,7 @@ int fs_ioctl(int fd, uint32_t request, void *p) {
 
 void ide_read(uint8_t *, uint32_t, uint32_t);
 void ide_write(uint8_t *, uint32_t, uint32_t);
+void serial_printc(char);
 
 /* TODO: implement a simplified file system here. */
 
@@ -55,8 +57,8 @@ int fs_open(const char *pathname,int flags){
 	int i;
     for(i = 0; i < NR_FILES; i++){
 		if(strcmp(pathname, file_table[i].name) == 0){
-	    	fstate[i + 3].opened = true;
-	    	fstate[i + 3].offset = 0;
+	    	files[i + 3].opened = true;
+	    	files[i + 3].offset = 0;
 	    	return i + 3;
 		}
 	}
