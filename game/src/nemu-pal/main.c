@@ -572,7 +572,7 @@ main_loop() {
    sdlpal_psp_init();
 #endif
    PAL_Init(wScreenWidth, wScreenHeight, fFullScreen);
-
+   Log("PAL_Init success");
    //
    // Show the trademark screen and splash screen
    //
