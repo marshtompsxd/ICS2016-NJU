@@ -15,5 +15,5 @@
 
 
 
-make_helper_v(in_imm)
-make_helper_v(in_dx)
+make_helper_v(in_imm2a)
+make_helper_v(in_dx2a)

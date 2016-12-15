@@ -14,5 +14,5 @@
 #undef DATA_BYTE
 
 
-make_helper_v(out_imm)
-make_helper_v(out_dx)
+make_helper_v(out_imm2a)
+make_helper_v(out_dx2a)
