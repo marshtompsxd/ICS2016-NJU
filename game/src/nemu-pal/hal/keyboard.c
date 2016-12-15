@@ -17,7 +17,26 @@ static int key_state[NR_KEYS];
 void
 keyboard_event(void) {
 	/* TODO: Fetch the scancode and update the key states. */
-	assert(0);
+	//assert(0);
+
+	int key_code=in_byte(0x60);
+	int i;
+	for(i=0; i<NR_KEYS;i++){
+		if(key_code == keycode_array[i]){
+			switch(key_state[i]){
+				case KEY_STATE_EMPTY:
+				case KEY_STATE_RELEASE:
+				case KEY_STATE_PRESS: key_state[i] = KEY_STATE_PRESS; break;
+				case KEY_STATE_WAIT_RELEASE: key_state[i] = KEY_STATE_WAIT_RELEASE; break;
+				default: assert(0); break;
+			}
+			break;
+		}
+		else if(key_code == keycode_array[i]+0x80){
+			key_state[i] = KEY_STATE_RELEASE;
+			break;
+		}
+	}
 }
 
 static inline int
@@ -44,7 +63,7 @@ clear_key(int index) {
 	key_state[index] = KEY_STATE_EMPTY;
 }
 
-bool 
+bool
 process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int)) {
 	cli();
 	/* TODO: Traverse the key states. Find a key just pressed or released.
@@ -55,7 +74,29 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * Remember to enable interrupts before returning from the function.
 	 */
 
-	assert(0);
+	//assert(0);
+	int i;
+	for(i=0; i<NR_KEYS; i++){
+		switch(key_state[i]) {
+			case KEY_STATE_EMPTY: ;
+			case KEY_STATE_WAIT_RELEASE: break;
+			case KEY_STATE_PRESS: {
+				key_press_callback(keycode_array[i]);
+				key_state[i] = KEY_STATE_WAIT_RELEASE;
+				sti();
+				return true;
+				break;
+			}
+			case KEY_STATE_RELEASE: {
+				key_release_callback(keycode_array[i]);
+				key_state[i] = KEY_STATE_EMPTY;
+				sti();
+				return true;
+				break;
+			}
+			default: assert(0); break;
+		}
+	}
 	sti();
 	return false;
 }
