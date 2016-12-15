@@ -9,7 +9,7 @@
 /* You will define this macro in PA4 */
 #define HAS_DEVICE
 
-#define DEBUG
+//#define DEBUG
 #define LOG_FILE
 
 #include "debug.h"
