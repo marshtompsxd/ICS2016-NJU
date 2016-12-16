@@ -101,7 +101,7 @@ int fs_write(int fd, void *buf, int len) {
 			serial_printc(*(char *)(buf+i));
 		}
 
-		return ret;
+
 	}
 	else{
 		assert((files[fd].opened) && (files[fd].offset>=0));
@@ -115,23 +115,24 @@ int fs_write(int fd, void *buf, int len) {
 		ide_write(buf,file_table[fd-3].disk_offset+files[fd].offset,ret);
 		files[fd].offset+=ret;
 
-		return ret;
+
 	}
+	return ret;
 
 }
 
-long fs_lseek(int fd, int offset, int whence){
+int fs_lseek(int fd, int offset, int whence){
 	assert(fd>=3 && fd<=NR_FILES+3);
 	assert((files[fd].opened) && (files[fd].offset>=0));
 
-	long n_offset = -1;
+	int n_offset = -1;
 	switch (whence) {
 		case SEEK_SET: n_offset=offset;break;
 		case SEEK_CUR: n_offset=files[fd].offset + offset;break;
 		case SEEK_END: n_offset=file_table[fd-3].size+offset;break;
 		default:assert(0);break;
 	}
-	
+
 	if(n_offset>file_table[fd-3].size)
 		n_offset=file_table[fd-3].size;
 
