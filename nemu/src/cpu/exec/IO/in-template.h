@@ -13,7 +13,7 @@ make_helper( concat(in_imm2a_,SUFFIX) ) {
 }
 
 make_helper( concat(in_dx2a_,SUFFIX) ) {
-	REG(R_EAX) = pio_read( cpu.edx & 0xffff , DATA_BYTE);
+	REG(R_EAX) = pio_read( cpu.dx , DATA_BYTE);
 	print_asm("in");
 	return 1;
 }
