@@ -33,7 +33,7 @@ void SDL_Delay(uint32_t ms) {
 	/* TODO: Return from this function after waiting for `ms' milliseconds. */
 	//assert(0);
 
-	uint32_t time_now=jiffy;
-	while(jiffy - time_now <= ms/10);
+	uint32_t currenttime=jiffy;
+	while(jiffy - currenttime <= ms/10);
 	return;
 }

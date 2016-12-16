@@ -22,17 +22,20 @@ keyboard_event(void) {
 	int key_code=in_byte(0x60);
 	int i;
 	for(i=0; i<NR_KEYS;i++){
-		if(key_code == keycode_array[i]){
-			switch(key_state[i]){
-				case KEY_STATE_EMPTY:
-				case KEY_STATE_RELEASE:
-				case KEY_STATE_PRESS: key_state[i] = KEY_STATE_PRESS; break;
-				case KEY_STATE_WAIT_RELEASE: key_state[i] = KEY_STATE_WAIT_RELEASE; break;
-				default: assert(0); break;
+		if(key_code == get_keycode(i)){
+			int state = query_key(i);
+			if(state == KEY_STATE_EMPTY || state == KEY_STATE_RELEASE || state == KEY_STATE_PRESS){
+				key_state[i] = KEY_STATE_PRESS;
+			}
+			else if(state == KEY_STATE_WAIT_RELEASE){
+				key_state[i] = KEY_STATE_WAIT_RELEASE;
+			}
+			else{
+				panic("error key_code");
 			}
 			break;
 		}
-		else if(key_code == keycode_array[i]+0x80){
+		else if(key_code == get_keycode(i)+0x80){
 			key_state[i] = KEY_STATE_RELEASE;
 			break;
 		}
@@ -76,26 +79,19 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 
 	//assert(0);
 	int i;
-	for(i=0; i<NR_KEYS; i++){
-		switch(key_state[i]) {
-			case KEY_STATE_EMPTY: ;
-			case KEY_STATE_WAIT_RELEASE: break;
-			case KEY_STATE_PRESS: {
-				key_press_callback(keycode_array[i]);
-				key_state[i] = KEY_STATE_WAIT_RELEASE;
-				sti();
-				return true;
-				break;
-			}
-			case KEY_STATE_RELEASE: {
-				key_release_callback(keycode_array[i]);
-				key_state[i] = KEY_STATE_EMPTY;
-				sti();
-				return true;
-				break;
-			}
-			default: assert(0); break;
-		}
+	for(i = 0; i < NR_KEYS; i++){
+	    if(query_key(i) == KEY_STATE_PRESS){
+			int key_code=get_keycode(i);
+			key_press_callback(key_code);
+			release_key(i);
+			return true;
+	    }
+	    else if(query_key(i) == KEY_STATE_RELEASE){
+			int key_code=get_keycode(i);
+			key_release_callback(key_code);
+			clear_key(i);
+			return true;
+	    }
 	}
 	sti();
 	return false;

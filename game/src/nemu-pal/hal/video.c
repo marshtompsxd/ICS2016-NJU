@@ -10,20 +10,20 @@ int get_fps();
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 		SDL_Surface *dst, SDL_Rect *dstrect) {
 	assert(dst && src);
-/*
+
 	int sx = (srcrect == NULL ? 0 : srcrect->x);
 	int sy = (srcrect == NULL ? 0 : srcrect->y);
 	int dx = (dstrect == NULL ? 0 : dstrect->x);
 	int dy = (dstrect == NULL ? 0 : dstrect->y);
 	int w = (srcrect == NULL ? src->w : srcrect->w);
 	int h = (srcrect == NULL ? src->h : srcrect->h);
-	if(dst->w - dx < w) { w = dst->w - dx; }
-	if(dst->h - dy < h) { h = dst->h - dy; }
-	if(dstrect != NULL) {
-		dstrect->w = w;
-		dstrect->h = h;
-	}
-*/
+	//if(dst->w - dx < w) { w = dst->w - dx; }
+	//if(dst->h - dy < h) { h = dst->h - dy; }
+	//if(dstrect != NULL) {
+		//dstrect->w = w;
+		//dstrect->h = h;
+	//}
+
 
 
 	/* TODO: copy pixels from position (`sx', `sy') with size
@@ -33,32 +33,17 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 
 	//assert(0);
 
-	int w,h;
-	uint8_t *src_ptr, *dst_ptr;
 
-	if(srcrect == NULL){
-		w = src->w;
-	    h = src->h;
-		src_ptr=src->pixels;
-	}
-	else{
-		w = srcrect->w;
-	    h = srcrect->h;
-		src_ptr=src->pixels + srcrect->x + srcrect->y * src->w;
-	}
+	uint8_t *srcptr, *dstptr;
 
-	if(dstrect == NULL){
-		dst_ptr=dst->pixels;
-	}
-	else{
-		dst_ptr=dst->pixels + dstrect->x + dstrect->y * dst->w;
-	}
+	dstptr=dst->pixels + dx + dy * dst->w;
+	srcptr=src->pixels + sx + sy * src->w;
 
 	int i;
 	for(i=0;i<h;i++){
-		memcpy(dst_ptr,src_ptr,w);
-		src_ptr+=src->w;
-		dst_ptr+=dst->w;
+		memcpy(dstptr,srcptr,w);
+		srcptr+=src->w;
+		dstptr+=dst->w;
 	}
 }
 
@@ -75,21 +60,21 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 
 
 	int w,h;
-	uint8_t *dst_ptr;
+	uint8_t *dstptr;
 	if(dstrect == NULL) {
-		dst_ptr = dst->pixels;
+		dstptr = dst->pixels;
 		w = dst->w;
 		h = dst->h;
 	}
 	else {
-		dst_ptr = dst->pixels + dstrect->x + dstrect->y * dst->w;
+		dstptr = dst->pixels + dstrect->x + dstrect->y * dst->w;
 		w = dstrect->w;
 		h = dstrect->h;
 	}
 	int i;
 	for(i=0; i<h; ++i){
-		memset(dst_ptr, color, w);
-		dst_ptr += dst->w;
+		memset(dstptr, color, w);
+		dstptr += dst->w;
 	}
 
 }
