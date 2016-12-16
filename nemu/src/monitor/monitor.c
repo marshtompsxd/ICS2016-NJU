@@ -133,6 +133,7 @@ void restart() {
 #endif
 
 #ifdef USE_TLB
+	printf("Init TLB\n");
 	/* Initialize TLB. */
 	init_TLB();
 #endif
