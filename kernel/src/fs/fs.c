@@ -100,8 +100,6 @@ int fs_write(int fd, void *buf, int len) {
 		for(i=0;i<ret;i++){
 			serial_printc(*(char *)(buf+i));
 		}
-
-
 	}
 	else{
 		assert((files[fd].opened) && (files[fd].offset>=0));
@@ -114,7 +112,6 @@ int fs_write(int fd, void *buf, int len) {
 
 		ide_write(buf,file_table[fd-3].disk_offset+files[fd].offset,ret);
 		files[fd].offset+=ret;
-
 
 	}
 	return ret;

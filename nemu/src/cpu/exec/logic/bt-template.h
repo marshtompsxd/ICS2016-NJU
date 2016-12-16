@@ -3,8 +3,13 @@
 #define instr bt
 
 static void do_execute () {
-	cpu.eflags.CF = ( op_dest->val >> op_src->val )&1;
-	print_asm_template2();
+	if(op_dest->type == OP_TYPE_REG){
+		cpu.eflags.CF = ( op_dest->val >> op_src->val )&1;
+		print_asm_template2();
+	}
+	else{
+		panic("please implement bt");
+	}
 }
 
 make_instr_helper(r2rm)
