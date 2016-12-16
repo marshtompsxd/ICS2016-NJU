@@ -14,6 +14,33 @@ static const int keycode_array[] = {
 
 static int key_state[NR_KEYS];
 
+
+static inline int
+get_keycode(int index) {
+	assert(index >= 0 && index < NR_KEYS);
+	return keycode_array[index];
+}
+
+static inline int
+query_key(int index) {
+	assert(index >= 0 && index < NR_KEYS);
+	return key_state[index];
+}
+
+static inline void
+release_key(int index) {
+	assert(index >= 0 && index < NR_KEYS);
+	key_state[index] = KEY_STATE_WAIT_RELEASE;
+}
+
+static inline void
+clear_key(int index) {
+	assert(index >= 0 && index < NR_KEYS);
+	key_state[index] = KEY_STATE_EMPTY;
+}
+
+
+
 void
 keyboard_event(void) {
 	/* TODO: Fetch the scancode and update the key states. */
@@ -42,29 +69,6 @@ keyboard_event(void) {
 	}
 }
 
-static inline int
-get_keycode(int index) {
-	assert(index >= 0 && index < NR_KEYS);
-	return keycode_array[index];
-}
-
-static inline int
-query_key(int index) {
-	assert(index >= 0 && index < NR_KEYS);
-	return key_state[index];
-}
-
-static inline void
-release_key(int index) {
-	assert(index >= 0 && index < NR_KEYS);
-	key_state[index] = KEY_STATE_WAIT_RELEASE;
-}
-
-static inline void
-clear_key(int index) {
-	assert(index >= 0 && index < NR_KEYS);
-	key_state[index] = KEY_STATE_EMPTY;
-}
 
 bool
 process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int)) {
