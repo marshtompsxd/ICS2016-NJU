@@ -11,16 +11,14 @@ $(FLOAT): $(FLOAT_A_OBJ)
 # TODO: complete the following rules
 
 
-FLOAT_CFLAGS := -m32 -O2 -fno-builtin -c -fno-stack-protector \
+FLOAT_CFLAGS := -m32 -O2 -fno-builtin -c -fno-stack-protector -U_FORTIFY_SOURCE \
 	-I $(LIB_COMMON_DIR)
 
 
 $(FLOAT_O): $(LIB_COMMON_DIR)/FLOAT/FLOAT.c
 	@mkdir -p obj/$(LIB_COMMON_DIR)/FLOAT/
 	gcc $(FLOAT_CFLAGS) $(LIB_COMMON_DIR)/FLOAT/FLOAT.c -o $(FLOAT_O)
-#	$(call make_command, $(CC), $(FLOAT_CFLAGS), ld $@, $(CFLAGS) $(LIB_COMMON_DIR)/FLOAT/FLOAT.c)
 
 $(FLOAT_VFPRINTF_O): $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c
 	@mkdir -p obj/$(LIB_COMMON_DIR)/FLOAT/
 	gcc $(FLOAT_CFLAGS) $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c -o $(FLOAT_VFPRINTF_O)
-#	$(call make_command, $(CC), $(FLOAT_CFLAGS), ld $@, $(CFLAGS) $(LIB_COMMON_DIR)/FLOAT/FLOAT_vfprintf.c)

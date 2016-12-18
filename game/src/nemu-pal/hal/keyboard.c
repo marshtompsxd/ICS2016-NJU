@@ -14,7 +14,6 @@ static const int keycode_array[] = {
 
 static int key_state[NR_KEYS];
 
-
 static inline int
 get_keycode(int index) {
 	assert(index >= 0 && index < NR_KEYS);
@@ -38,7 +37,6 @@ clear_key(int index) {
 	assert(index >= 0 && index < NR_KEYS);
 	key_state[index] = KEY_STATE_EMPTY;
 }
-
 
 
 void
