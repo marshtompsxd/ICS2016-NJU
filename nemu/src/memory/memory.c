@@ -46,6 +46,7 @@ double calculate_TLB_visit_time(){
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
+	if(addr==0xfe9d0)printf("hit\n");
 	int map_num=is_mmio(addr);
 	if(map_num==-1){
 		#ifdef USE_CACHE
@@ -61,6 +62,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
+	if(addr==0xfe9d0)printf("hit\n");
 	int map_num=is_mmio(addr);
 	if(map_num==-1){
 		#ifdef USE_CACHE
