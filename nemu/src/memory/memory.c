@@ -46,7 +46,7 @@ double calculate_TLB_visit_time(){
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	if(addr==0xfe9d0)printf("hit\n");
+
 	int map_num=is_mmio(addr);
 	if(map_num==-1){
 		#ifdef USE_CACHE
@@ -62,7 +62,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	if(addr==0xfe9d0)printf("hit\n");
+
 	int map_num=is_mmio(addr);
 	if(map_num==-1){
 		#ifdef USE_CACHE
@@ -102,6 +102,7 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
+	if(addr==0xfe9d0)printf("hit\n");
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
@@ -110,6 +111,7 @@ uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
 }
 
 void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
+	if(addr==0xfe9d0)printf("hit\n");
 #ifdef DEBUG
 	assert(len == 1 || len == 2 || len == 4);
 #endif
