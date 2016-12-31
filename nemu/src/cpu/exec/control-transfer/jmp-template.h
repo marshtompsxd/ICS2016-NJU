@@ -2,34 +2,50 @@
 
 #define instr jmp
 
-static void do_execute() {
-	if( op_src->type==OP_TYPE_REG||op_src->type==OP_TYPE_MEM ){
-		if(DATA_BYTE==2)
-			cpu.eip=(DATA_TYPE)(op_src->val)&0xffff;
-		else
-			cpu.eip=(DATA_TYPE)(op_src->val);
-	}
-	else if( op_src->type==OP_TYPE_IMM ){
-		if(DATA_BYTE==2){
-			cpu.eip=cpu.eip+(DATA_TYPE_S)op_src->val;
-			cpu.eip=cpu.eip&0xffff;
-		}
-		else{
-			cpu.eip=cpu.eip+(DATA_TYPE_S)op_src->val;
-		}
-	}
+#if DATA_BYTE == 1
+make_helper(concat(jmp_si_,SUFFIX)){
 
-	print_asm_template1();
+  int len=concat(decode_si_,SUFFIX)(eip+1);
+
+  cpu.eip+=op_src->val;
+  print_asm_template1();
+
+  return len+1;
 }
-
-make_instr_helper(i)
-
-#if DATA_BYTE==2 || DATA_BYTE==4
-make_instr_helper(cfrm)
 #endif
 
-#if DATA_BYTE==1 || DATA_BYTE==4
-make_instr_helper(si)
+
+
+#if DATA_BYTE == 2 || DATA_BYTE == 4
+make_helper(concat(jmp_i_,SUFFIX)){
+
+  int len=concat(decode_i_,SUFFIX)(eip+1);
+  if(DATA_BYTE==2){
+    panic("jmp DATA_BYTE 2");
+  }
+  else if(DATA_BYTE==4){
+    cpu.eip+=op_src->val;
+
+  }
+  print_asm_template1();
+
+  return len+1;
+
+}
+
+make_helper(concat(jmp_rm_,SUFFIX)){
+  concat(decode_rm_,SUFFIX)(eip+1);
+
+  if(DATA_BYTE==2){
+    panic("jmp DATA_BYTE 2");
+  }
+  else if(DATA_BYTE==4){
+    cpu.eip=op_src->val;
+  }
+  print_asm_template1();
+
+  return 0;
+}
 #endif
 
 

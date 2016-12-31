@@ -2,40 +2,49 @@
 
 #define instr ret
 
-static void do_execute () {
-	if (DATA_BYTE==2){
-		cpu.eip=cpu.eip&0xffff0000;
-		cpu.eip+=0xffff&MEM_R(cpu.esp,SR_SS);
-		cpu.eip=cpu.eip&0xffff;
-	}
-	else if (DATA_BYTE==4){
-		cpu.eip=MEM_R(cpu.esp,SR_SS);
-	}
-	cpu.esp+=DATA_BYTE;
-	int offset=((int)op_src->val)<<16>>16;
+make_helper(concat(ret_, SUFFIX)) {
 
-	cpu.esp=cpu.esp+offset;
-
-	print_asm_template1();
+  int len = 1;
+ 
+  if(DATA_BYTE == 2) {
+    uint32_t tmp = (uint32_t)swaddr_read(cpu.gpr[R_ESP]._16, DATA_BYTE, SR_SS);
+    cpu.eip = (tmp - len) & 0x0000FFFF;
+    cpu.gpr[R_ESP]._16 += 2;
+  }
+  else{
+    uint32_t tmp = (uint32_t)swaddr_read(cpu.esp, DATA_BYTE, SR_SS);
+    cpu.eip = tmp - len;
+    cpu.gpr[R_ESP]._32 += 4;
+  }
+   print_asm("ret");
+  return len;
 }
 
+make_helper(concat(ret_i_, SUFFIX)) {
+ 
+  op_src->type = OP_TYPE_IMM;
+  op_src->imm = (uint32_t)swaddr_read(cpu.eip + 1, 2, SR_CS);
+  op_src->val = op_src->imm;
+  
+  int len = 3;
 
-make_helper( concat(ret_,SUFFIX) ){
-	if (DATA_BYTE==2){
-		cpu.eip=cpu.eip&0xffff0000;
-		cpu.eip+=0xffff&MEM_R(cpu.esp,SR_SS);
-		cpu.eip=cpu.eip&0xffff;
-	}
-	else if(DATA_BYTE==4){
-		cpu.eip=MEM_R(cpu.esp,SR_SS);
-	}
-	cpu.esp+=DATA_BYTE;
-	print_asm("ret");
-	return 0;
+  if(DATA_BYTE == 2) {
+    uint32_t tmp = (uint32_t)swaddr_read(cpu.gpr[R_ESP]._16, DATA_BYTE, SR_SS);
+    cpu.eip = (tmp - len) & 0x0000FFFF;
+    cpu.gpr[R_ESP]._16 += 2;
+    cpu.gpr[R_ESP]._16 += op_src->val;
+  }
+  else{
+    uint32_t tmp = (uint32_t)swaddr_read(cpu.esp, DATA_BYTE, SR_SS);
+    cpu.eip = tmp - len;
+    cpu.gpr[R_ESP]._32 += 4;
+    cpu.gpr[R_ESP]._32 += op_src->val;
+  }
+
+  print_asm("ret imm");
+
+  return len;
 }
-
-
-make_instr_helper(cfsi)
 
 
 

@@ -15,6 +15,7 @@
 #include "data-mov/movsreg.h"
 #include "data-mov/pusha.h"
 #include "data-mov/popa.h"
+#include "data-mov/cwt.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
