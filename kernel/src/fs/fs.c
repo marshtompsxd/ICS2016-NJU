@@ -15,6 +15,11 @@ typedef struct {
 
 enum {SEEK_SET, SEEK_CUR, SEEK_END};
 
+void ide_read(uint8_t *, uint32_t, uint32_t);
+void ide_write(uint8_t *, uint32_t, uint32_t);
+void serial_printc(char);
+
+
 /* This is the information about all files in disk. */
 static const file_info file_table[] __attribute__((used)) = {
 	{"1.rpg", 188864, 1048576}, {"2.rpg", 188864, 1237440},
@@ -50,14 +55,9 @@ int fs_ioctl(int fd, uint32_t request, void *p) {
 	return (fd >= 0 && fd <= 2 ? 0 : -1);
 }
 
-void ide_read(uint8_t *, uint32_t, uint32_t);
-void ide_write(uint8_t *, uint32_t, uint32_t);
-void serial_printc(char);
 
 /* TODO: implement a simplified file system here. */
 
-
-static Fstate files[NR_FILES+3];
 
 int fs_open(const char* pathname,int flags);
 int fs_read(int fd, void *buf, int len);
@@ -69,8 +69,7 @@ int fs_open(const char *pathname,int flags){
 	int i;
     for(i = 0; i < NR_FILES; i++){
 		if(strcmp(pathname, file_table[i].name) == 0){
-	    	files[i + 3].opened = true;
-	    	files[i + 3].offset = 0;
+	    	file_state[i + 3].opened = true;
 	    	return i + 3;
 		}
 	}
@@ -80,77 +79,43 @@ int fs_open(const char *pathname,int flags){
 }
 
 int fs_read(int fd, void *buf, int len){
-	assert(fd>=3 && fd<=NR_FILES+3);
-	assert((files[fd].opened) && (files[fd].offset>=0));
-	assert(buf && len);
 
-	int ret = -1;
-	int remain=file_table[fd-3].size - files[fd].offset;
+	assert((file_state[fd - 3].opened) && (file_state[fd - 3].offset>=0));
 
-	if(remain <= 0) return 0;
-	else if(remain < len) ret=remain;
-	else ret=len;
-
-	ide_read(buf,file_table[fd-3].disk_offset+files[fd].offset,ret);
-	files[fd].offset+=ret;
-
-	return ret;
+	ide_read(buf, file_table[fd - 3].disk_offset + file_state[fd - 3].offset, len);
+	file_state[fd - 3].offset += len;
+	if (file_state[fd - 3].offset >= file_table[fd - 3].size) {
+		len -= file_state[fd - 3].offset - file_table[fd - 3].size;
+		file_state[fd - 3].offset = file_table[fd - 3].size;
+	}
+	return len;
 }
 
 int fs_write(int fd, void *buf, int len) {
-	assert(fd>=0 && fd<=NR_FILES+3);
-	assert(buf && len);
+	
+	assert((file_state[fd - 3].opened) && (file_state[fd - 3].offset>=0));
 
-	int ret=-1;
-	if(fd==0){
-		panic("fs_write receive fd==0");
-	}
-	else if((fd==1) || (fd==2)){
-		ret=len;
-
-		int i;
-		for(i=0;i<ret;i++){
-			serial_printc(*(char *)(buf+i));
-		}
-	}
-	else{
-		assert((files[fd].opened) && (files[fd].offset>=0));
-
-		int remain=file_table[fd-3].size - files[fd].offset;
-
-		if(remain <= 0) return 0;
-		else if(remain < len) ret=remain;
-		else ret=len;
-
-		ide_write(buf,file_table[fd-3].disk_offset+files[fd].offset,ret);
-		files[fd].offset+=ret;
-
-	}
-	return ret;
-
+	ide_write(buf, file_table[fd - 3].disk_offset + file_state[fd - 3].offset, len);
+	file_state[fd - 3].offset += len;
+	return len;
 }
 
 int fs_lseek(int fd, int offset, int whence){
-	assert(fd>=3 && fd<=NR_FILES+3);
-	assert((files[fd].opened) && (files[fd].offset>=0));
+	
+	assert((file_state[fd - 3].opened) && (file_state[fd - 3].offset>=0));
 
-	int n_offset = -1;
+	
 	switch (whence) {
-		case SEEK_SET: n_offset=offset;break;
-		case SEEK_CUR: n_offset=files[fd].offset + offset;break;
-		case SEEK_END: n_offset=file_table[fd-3].size+offset;break;
-		default:assert(0);break;
+		case SEEK_SET: file_state[fd - 3].offset = offset; break;
+		case SEEK_CUR: file_state[fd - 3].offset += offset; break;
+		case SEEK_END: file_state[fd - 3].offset = file_table[fd - 3].size + offset; break;
+		default : panic("No such whence type.");
 	}
-
-	if(n_offset>file_table[fd-3].size)
-		n_offset=file_table[fd-3].size;
-
-	files[fd].offset=n_offset;
-	return n_offset;
+	return file_state[fd - 3].offset;
 }
 
 int fs_close(int fd) {
-	assert(fd >= 3 && fd<NR_FILES+3);
-	files[fd].opened=false;
+	file_state[fd - 3].opened = false;
+	file_state[fd - 3].offset = 0;
 	return 0;
 }

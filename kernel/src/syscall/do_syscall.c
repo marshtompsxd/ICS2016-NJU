@@ -21,20 +21,21 @@ static void sys_ioctl(TrapFrame *tf) {
 	tf->eax = fs_ioctl(tf->ebx, tf->ecx, (void *)tf->edx);
 }
 
-/*
-static void sys_write(TrapFrame *tf) {
-	if( tf->ebx==1 || tf->ebx==2 )
+
+static ssize_t sys_write(int fd, void *buf, size_t len) {
+	if( fd==1 || fd==2 )
 	{
 		int i;
-		for(i=0 ; i < tf->edx ; ++i)
-			serial_printc(*(uint8_t*)(tf->ecx+i));
-
-		tf->eax = tf->edx;
+		const char *p = buf;
+		for (i=0;i<len;++i) {
+			serial_printc(p[i]);
+		}
+		return len;
 	}
 	else
-		panic("sys_write get false fd");
+		return fs_write(fd,	buf, len);
 }
-*/
+
 
 void do_syscall(TrapFrame *tf) {
 	switch(tf->eax) {
@@ -53,7 +54,7 @@ void do_syscall(TrapFrame *tf) {
 		case SYS_ioctl: sys_ioctl(tf); break;
 		case SYS_open: 	tf->eax = fs_open((const char*)tf->ebx, tf->ecx); break;
 		case SYS_read: 	tf->eax = fs_read(tf->ebx, (void *)tf->ecx, tf->edx); break;
-		case SYS_write: tf->eax = fs_write(tf->ebx, (void *)tf->ecx, tf->edx); break;
+		case SYS_write: tf->eax = sys_write(tf->ebx, (void *)tf->ecx, tf->edx); break;
 		case SYS_lseek: tf->eax = fs_lseek(tf->ebx, tf->ecx, tf->edx); break;
 		case SYS_close: tf->eax = fs_close(tf->ebx); break;
 
