@@ -8,7 +8,7 @@
 /* Use the function to get the start address of user page directory. */
 PDE* get_updir();
 
-static PTE table[1024] align_to_page;
+static PTE kptable[NR_PTE] align_to_page;
 
 void create_video_mapping() {
 	/* TODO: create an identical mapping from virtual memory area
@@ -19,15 +19,14 @@ void create_video_mapping() {
 	//panic("please implement me");
 
 
-	PDE* p_dir=get_updir();
-	PTE* p_table=va_to_pa(&table[160]);
-
-	p_dir[0].val=make_pde(p_table);
-
-	uint32_t i;
-	for(i=VMEM_ADDR;i<VMEM_ADDR+SCR_SIZE;i+=PAGE_SIZE){
-		p_table->val=make_pte(i);
-		p_table++;
+	PDE *pdir = (PDE *)(get_updir());
+	PTE *ptable = (PTE *)(kptable+0xa0);
+ 	pdir[0].val = make_pde(va_to_pa(kptable));
+ 	
+	int32_t pframe_addr;
+	for (pframe_addr = VMEM_ADDR; pframe_addr < VMEM_ADDR + SCR_SIZE; pframe_addr += PAGE_SIZE) {
+		ptable->val = make_pte(pframe_addr);
+		ptable ++;
 	}
 
 
