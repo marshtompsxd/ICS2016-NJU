@@ -8,6 +8,11 @@ typedef struct {
 	uint32_t disk_offset;
 } file_info;
 
+typedef struct {
+	bool opened;
+	uint32_t offset;
+} Fstate;
+
 enum {SEEK_SET, SEEK_CUR, SEEK_END};
 
 /* This is the information about all files in disk. */
@@ -27,6 +32,17 @@ static const file_info file_table[] __attribute__((used)) = {
 	{"word.dat", 5650, 28155717},
 };
 
+static Fstate file_state[] __attribute__((used)) = {
+	{false, 0}, {false, 0}, {false, 0}, {false, 0},
+	{false, 0}, {false, 0}, {false, 0}, {false, 0},
+	{false, 0}, {false, 0}, {false, 0}, {false, 0},
+	{false, 0}, {false, 0}, {false, 0}, {false, 0},
+	{false, 0}, {false, 0}, {false, 0}, {false, 0},
+	{false, 0}, {false, 0}, {false, 0}, {false, 0},
+	{false, 0},
+};
+
+
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
 int fs_ioctl(int fd, uint32_t request, void *p) {
@@ -40,10 +56,6 @@ void serial_printc(char);
 
 /* TODO: implement a simplified file system here. */
 
-typedef struct {
-	bool opened;
-	uint32_t offset;
-} Fstate;
 
 static Fstate files[NR_FILES+3];
 
