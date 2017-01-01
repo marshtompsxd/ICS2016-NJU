@@ -4,9 +4,13 @@
 
 make_helper(concat(call_i_, SUFFIX)){
   int len=concat(decode_i_,SUFFIX)(eip+1);
-  
+
   if(DATA_BYTE==2){
-      panic("call 2 DATA_BYTE");
+      //panic("call DATA_BYTE 2");
+      cpu.esp-=2;
+      MEM_W(cpu.esp,(eip+len+1)&0xffff,SR_SS);
+      cpu.eip=(cpu.eip+op_src->val)&0xffff;
+      cpu.eip++;
   }
   else{
       cpu.esp-=4;
@@ -21,7 +25,10 @@ make_helper(concat(call_rm_, SUFFIX)){
   int len=concat(decode_rm_,SUFFIX)(eip+1);
 
   if(DATA_BYTE==2){
-      panic("call 2 DATA_BYTE");
+      //panic("call DATA_BYTE 2");
+      cpu.esp-=2;
+      MEM_W(cpu.esp,(eip+len+1)&0xffff,SR_SS);
+      cpu.eip=(op_src->val)&0xffff;
   }
   else{
       cpu.esp-=4;

@@ -21,7 +21,9 @@ make_helper(concat(jmp_i_,SUFFIX)){
 
   int len=concat(decode_i_,SUFFIX)(eip+1);
   if(DATA_BYTE==2){
-    panic("jmp DATA_BYTE 2");
+    //panic("jmp DATA_BYTE 2");
+    cpu.eip+=op_src->val;
+	cpu.eip=cpu.eip&0xffff;
   }
   else if(DATA_BYTE==4){
     cpu.eip+=op_src->val;
@@ -37,7 +39,8 @@ make_helper(concat(jmp_rm_,SUFFIX)){
   concat(decode_rm_,SUFFIX)(eip+1);
 
   if(DATA_BYTE==2){
-    panic("jmp DATA_BYTE 2");
+    //panic("jmp DATA_BYTE 2");
+    cpu.eip=(op_src->val)&0xffff;
   }
   else if(DATA_BYTE==4){
     cpu.eip=op_src->val;
