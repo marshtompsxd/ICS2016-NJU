@@ -1,4 +1,4 @@
-testcase_CFLAGS_EXTRA := -m32 -fno-builtin -fno-stack-protector \
+testcase_CFLAGS_EXTRA := -m32 -march=i686 -fno-builtin -fno-stack-protector \
 						-Wno-format -I$(LIB_COMMON_DIR) -I$(LIBC_INC_DIR)
 
 $(eval $(call make_common_rules,testcase,$(testcase_CFLAGS_EXTRA)))
