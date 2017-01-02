@@ -124,7 +124,7 @@ static lnaddr_t seg_translate(swaddr_t addr,size_t len,uint8_t sreg){
 	else{
 		uint32_t limit=cpu.sregdesc[sreg].limit;
 		uint32_t base=cpu.sregdesc[sreg].base;
-		Assert(len-1<=limit-addr,"addr 0x%x with length %d exceeds the limit.",addr,len);
+		Assert(len-1<=limit-addr,"addr 0x%x with length %d exceeds the limit.",addr,(int)len);
 		return addr+base;
 	}
 }
