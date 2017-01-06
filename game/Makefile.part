@@ -22,5 +22,5 @@ $(game_BIN): $(game_ALL_OBJS)
 	$(call git_commit, "compile game")
 ifeq ($(GAME),nemu-pal)
 	dd if=/dev/null of=$@ seek=2048
-	cat `find $(game_SRC_DIR)/nemu-pal/data -type f | sort` >> $@
+	cat `find $(game_SRC_DIR)/nemu-pal/data -type f | sort -d` >> $@
 endif
