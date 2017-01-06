@@ -10,9 +10,9 @@ static void do_execute(){
 
 	if(minuend<subtrahend)
 		cpu.eflags.CF=1;
-	else 
+	else
 		cpu.eflags.CF=0;
-	
+
 	if(result==0)
 		cpu.eflags.ZF=1;
 	else
@@ -41,7 +41,7 @@ static void do_execute(){
 	else
 		cpu.eflags.SF=0;
 
-	
+
 
 	print_asm_template2();
 

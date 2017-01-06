@@ -141,8 +141,6 @@ void SDL_SoftStretch(SDL_Surface *src, SDL_Rect *srcrect,
 		/* The source rectangle and the destination rectangle
 		 * are of the same size. If that is the case, there
 		 * is no need to stretch, just copy. */
-		 Log("%d\n",w );
-		 Log("%d\n",dstrect->w );
 		SDL_Rect rect;
 		rect.x = x;
 		rect.y = y;

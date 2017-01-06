@@ -7,7 +7,7 @@ static void do_execute(){
 	DATA_TYPE minuend=op_dest->val;
 	DATA_TYPE result=minuend-subtrahend-cpu.eflags.CF;
 	OPERAND_W(op_dest,result);
-	
+
 	if(result==0)
 		cpu.eflags.ZF=1;
 	else
@@ -20,7 +20,7 @@ static void do_execute(){
 
 	if(minuend<subtrahend+cpu.eflags.CF)
 		cpu.eflags.CF=1;
-	else 
+	else
 		cpu.eflags.CF=0;
 
 	int i;
@@ -41,7 +41,7 @@ static void do_execute(){
 	else
 		cpu.eflags.SF=0;
 
-	
+
 
 	print_asm_template2();
 
