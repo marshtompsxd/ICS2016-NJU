@@ -46,26 +46,6 @@ make_helper(concat(decode_si_, SUFFIX)) {
 }
 #endif
 
-
-#if DATA_BYTE==2 || DATA_BYTE==4
-/* special decode method for control transfer instructions . */
-make_helper(concat(decode_cfsi_,SUFFIX)){
-	op_src->type=OP_TYPE_IMM;
-	op_src->simm=(DATA_TYPE_S)instr_fetch(eip,DATA_BYTE);
-	op_src->val=op_src->simm;
-
-#ifdef DEBUG
-	snprintf(op_src->str,OP_STR_SIZE,"$0x%x",op_src->val);
-#endif
-
-	if (DATA_BYTE==2)
-		return -2;	//1 for opcode , 1 for prefix
-	else if (DATA_BYTE==4)
-		return -1;	//1 for opcode
-}
-#endif
-
-
 /* eAX */
 static int concat(decode_a_, SUFFIX) (swaddr_t eip, Operand *op) {
 	op->type = OP_TYPE_REG;
@@ -207,21 +187,6 @@ void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
 	else if(op->type == OP_TYPE_MEM) { swaddr_write(op->addr, op->size, src, op->sreg); }
 	else { assert(0); }
 }
-
-
-#if DATA_BYTE==2 || DATA_BYTE==4
-/* special decode method for control transfer instructions . */
-make_helper(concat(decode_cfrm_,SUFFIX)){
-	decode_rm_internal(eip,op_src,op_src2);
-
-	if (DATA_BYTE==2)
-		return -2;	//1 for opcode , 1 for prefix
-	else if (DATA_BYTE==4)
-		return -1;	//1 for opcode
-}
-
-#endif
-
 
 #if DATA_BYTE==2 || DATA_BYTE==4
 /* special decode method for mov 8 byte src to 16 or 32 byte dest with sign extended. */
