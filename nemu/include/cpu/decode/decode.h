@@ -50,11 +50,6 @@ make_helper(decode_rm_imm_b);
 make_helper(decode_rm_imm_w);
 make_helper(decode_rm_imm_l);
 
-make_helper(decode_cfsi_w);
-make_helper(decode_cfrm_w);
-make_helper(decode_cfsi_l);
-make_helper(decode_cfrm_l);
-
 make_helper(decode_msbrm2r_w);
 make_helper(decode_msbrm2r_l);
 make_helper(decode_mzbrm2r_w);
