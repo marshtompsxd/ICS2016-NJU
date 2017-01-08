@@ -18,7 +18,7 @@ make_helper( concat(popa_,SUFFIX) ){
         cpu.ebp=swaddr_read(cpu.esp,4,SR_SS);
         cpu.esp=cpu.esp+4;
 
-        /* throwaway ← Pop (); (* Skip ESP *) */
+        /*  Skip ESP  */
         cpu.esp=cpu.esp+4;
 
         cpu.ebx=swaddr_read(cpu.esp,4,SR_SS);
